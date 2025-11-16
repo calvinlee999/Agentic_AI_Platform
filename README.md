@@ -20,6 +20,12 @@
 
 ---
 
+## 📚 Additional Guides
+
+- **[Agentic AI for Financial Services Industry (FSI)](AGENTIC_BANK_FSI.md)** - Detailed guide on implementing agentic AI in banking, capital markets, and insurance with key characteristics, use cases, and benefits
+
+---
+
 ## Executive Summary
 
 ### The New Paradigm: From AI Inference to AI Agency
