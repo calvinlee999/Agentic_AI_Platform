@@ -23,6 +23,7 @@
 ## 📚 Additional Guides
 
 - **[Agentic AI for Financial Services Industry (FSI)](AGENTIC_BANK_FSI.md)** - Detailed guide on implementing agentic AI in banking, capital markets, and insurance with key characteristics, use cases, and benefits
+- **[The Agentic Workflow in Practice: Design, Test, and Execution](AGENTIC_WORKFLOW_PRACTICE.md)** - Complete guide to design-first, spec-driven development with Figma MCP, automated test generation, and AI-powered code execution
 
 ---
 
