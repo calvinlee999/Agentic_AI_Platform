@@ -4685,6 +4685,843 @@ This is not science fiction - it's **available on AWS Marketplace today**.
 
 ---
 
+### C. The 'Observability for Agents' Problem
+
+The logical consequence of an **agent-driven SDLC** is that the **agents themselves become mission-critical infrastructure**.
+
+If an agent is responsible for:
+
+- Managing CI/CD pipelines
+- Performing autonomous incident response  
+- Deploying production code
+- Rolling back failed deployments
+
+Then **the failure of that agent is a new, high-severity production incident.**
+
+---
+
+#### The New Observability Gap
+
+As agentic applications **"quickly become complex, making it challenging to gain visibility into their inner workings,"** a new layer of observability is required.
+
+**The Paradigm Shift:**
+
+```text
+Traditional Observability:
+Monitor applications → Detect issues → Alert humans
+
+Agentic Observability:
+Monitor applications → Detect issues → Alert agents → Monitor agents → 
+Alert humans if agents fail
+
+The New Frontier:
+Not just monitoring applications, but monitoring the agents that 
+monitor the applications.
+```
+
+**The Problem:**
+
+When an agent is responsible for critical operations, we need to answer new questions:
+
+| Traditional Question | Agent Observability Question |
+|---------------------|------------------------------|
+| Why did the application fail? | Why did the agent fail to remediate the application? |
+| What caused the latency spike? | Why did the agent choose this remediation path? |
+| Which service is the bottleneck? | Which reasoning step in the agent caused the delay? |
+| How much does this cost? | How much are agent tokens costing per incident? |
+
+**Example Scenario:**
+
+```text
+17:23:00 - Application error rate spikes to 5%
+17:23:05 - Analysis Agent triggered
+17:23:45 - Analysis Agent completes (40 seconds)
+17:23:46 - Remediation Agent triggered
+17:24:30 - Remediation Agent fails with "Insufficient permissions"
+17:24:35 - Manual escalation to on-call engineer
+
+Question: Why did the Remediation Agent fail?
+
+Traditional logs show:
+[ERROR] Remediation failed: AccessDeniedException
+
+But we need to know:
+- What was the agent's reasoning process?
+- Which AWS API call failed?
+- What permissions were attempted?
+- Which tool in the agent's toolkit was invoked?
+- Why didn't the agent try an alternative approach?
+- How much did the failed remediation cost in tokens?
+
+THIS is the observability gap.
+```
+
+---
+
+#### Amazon CloudWatch: Generative AI Observability
+
+Amazon CloudWatch is being extended to provide **"Generative AI Observability"**, built on **three new pillars** specifically for agentic systems.
+
+---
+
+##### Pillar 1: Logs - Structured Agent Telemetry
+
+**Purpose:** Centralizing and correlating structured logs from all agentic components.
+
+**Components Logged:**
+
+- **Amazon Bedrock Agents** - Agent invocations, model calls, tool executions
+- **AWS Lambda** - Agent code execution, function invocations
+- **AWS Step Functions** - Agent workflow orchestration, state transitions
+- **Custom Agent Frameworks** - Application-level agent logic
+
+**Log Structure:**
+
+```json
+{
+  "timestamp": "2025-11-16T17:23:45.123Z",
+  "agentId": "analysis-agent-prod-v2",
+  "agentType": "BedrockAgent",
+  "invocationId": "inv-abc123def456",
+  "event": "AGENT_INVOCATION",
+  "input": {
+    "prompt": "Analyze CloudWatch alarm: API-HighErrorRate",
+    "context": {
+      "alarmName": "API-HighErrorRate",
+      "metricValue": 0.05,
+      "threshold": 0.01
+    }
+  },
+  "reasoning": {
+    "steps": [
+      {
+        "stepId": 1,
+        "type": "LOG_ANALYSIS",
+        "description": "Querying CloudWatch Logs for errors",
+        "toolInvoked": "cloudwatch_logs_insights",
+        "query": "fields @timestamp, @message | filter @message like /ERROR/ | stats count() by bin(5m)",
+        "result": "1,247 errors in last 15 minutes"
+      },
+      {
+        "stepId": 2,
+        "type": "CORRELATION",
+        "description": "Checking for related AWS Config changes",
+        "toolInvoked": "aws_config_get_changes",
+        "result": "Lambda timeout changed from 30s to 3s at 17:15 UTC"
+      },
+      {
+        "stepId": 3,
+        "type": "ROOT_CAUSE_ANALYSIS",
+        "description": "Determining root cause",
+        "modelInvoked": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+        "tokenUsage": {
+          "inputTokens": 4521,
+          "outputTokens": 892
+        },
+        "conclusion": "Lambda timeout misconfiguration in recent deployment"
+      }
+    ]
+  },
+  "output": {
+    "rootCause": "Lambda function timeout reduced from 30s to 3s",
+    "affectedResources": ["arn:aws:lambda:us-east-1:123456789012:function:payment-processor"],
+    "recommendedAction": "ROLLBACK_DEPLOYMENT",
+    "priority": "CRITICAL"
+  },
+  "duration": 40127,
+  "status": "SUCCESS",
+  "tokenCost": {
+    "inputTokens": 8942,
+    "outputTokens": 2103,
+    "estimatedCost": 0.0891
+  }
+}
+```
+
+**CloudWatch Log Groups:**
+
+```bash
+# Centralized agent logs
+/aws/bedrock/agents/analysis-agent
+/aws/bedrock/agents/remediation-agent
+/aws/lambda/agent-orchestrator
+/aws/stepfunctions/incident-response-workflow
+
+# Query example using CloudWatch Logs Insights
+fields @timestamp, agentId, event, reasoning.steps.0.toolInvoked, status, tokenCost.estimatedCost
+| filter event = "AGENT_INVOCATION" and status = "FAILURE"
+| sort @timestamp desc
+| limit 20
+```
+
+**Key Benefits:**
+
+✅ **Structured Data** - Every agent action is a queryable JSON log  
+✅ **Correlation IDs** - Track a single incident across multiple agents  
+✅ **Reasoning Transparency** - See every step the agent took  
+✅ **Cost Attribution** - Know the token cost of each agent invocation
+
+---
+
+##### Pillar 2: Metrics - AI-Specific KPIs
+
+**Purpose:** Tracking new, AI-specific Key Performance Indicators (KPIs).
+
+Amazon CloudWatch now provides **purpose-built dashboards** for agent metrics.
+
+**Key Metrics:**
+
+| Metric Category | Metrics | Purpose |
+|----------------|---------|---------|
+| **Token Economics** | • Input tokens consumed<br>• Output tokens generated<br>• Cost per invocation<br>• Cost per incident<br>• Token usage trends | Understand and optimize AI costs |
+| **Invocation Metrics** | • Agent invocation count<br>• Success rate<br>• Failure rate<br>• Timeout rate<br>• Retry attempts | Monitor agent reliability |
+| **Performance Metrics** | • Average reasoning time<br>• P50/P95/P99 latency<br>• Time to first tool call<br>• Tool execution time | Optimize agent speed |
+| **Effectiveness Metrics** | • Successful remediations<br>• Failed remediations<br>• Escalations to humans<br>• MTTR (agent vs. human) | Measure agent value |
+
+**CloudWatch Dashboard Example:**
+
+```yaml
+# CloudWatch Dashboard: Agent Observability
+
+Widgets:
+  - Title: "Token Economics (Last 7 Days)"
+    Type: LineChart
+    Metrics:
+      - Namespace: AWS/BedrockAgents
+        MetricName: InputTokens
+        Stat: Sum
+        Period: 3600
+      - Namespace: AWS/BedrockAgents
+        MetricName: OutputTokens
+        Stat: Sum
+        Period: 3600
+      - Namespace: AWS/BedrockAgents
+        MetricName: EstimatedCost
+        Stat: Sum
+        Period: 3600
+        
+  - Title: "Agent Success Rate"
+    Type: SingleValue
+    Metrics:
+      - Expression: "m1 / (m1 + m2) * 100"
+        Label: "Success Rate (%)"
+      - Id: m1
+        Metric:
+          Namespace: AWS/BedrockAgents
+          MetricName: SuccessfulInvocations
+      - Id: m2
+        Metric:
+          Namespace: AWS/BedrockAgents
+          MetricName: FailedInvocations
+          
+  - Title: "Cost per Incident Resolution"
+    Type: Number
+    Metrics:
+      - Expression: "cost / incidents"
+        Label: "Avg Cost per Incident"
+      - Id: cost
+        Metric:
+          Namespace: AWS/BedrockAgents
+          MetricName: TotalCost
+      - Id: incidents
+        Metric:
+          Namespace: CustomMetrics
+          MetricName: IncidentsResolved
+          
+  - Title: "Agent Response Time (P95)"
+    Type: LineChart
+    Metrics:
+      - Namespace: AWS/BedrockAgents
+        MetricName: ReasoningDuration
+        Stat: p95
+        Period: 300
+```
+
+**Token Economics Dashboard:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Token Economics Dashboard                                   │
+└─────────────────────────────────────────────────────────────┘
+
+Cost Trends (Last 7 Days)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+$12.47  ┤                                    ╭─
+$10.00  ┤                               ╭────╯
+$ 7.50  ┤                         ╭─────╯
+$ 5.00  ┤                  ╭──────╯
+$ 2.50  ┤          ╭───────╯
+$ 0.00  ┼──────────╯
+        └─────────────────────────────────────
+        Mon   Tue   Wed   Thu   Fri   Sat   Sun
+
+Cost Breakdown
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Analysis Agent:      $47.23  (62.1%)
+Remediation Agent:   $21.45  (28.2%)
+Orchestration:       $ 7.38  ( 9.7%)
+                    ────────
+Total:              $76.06
+
+Token Usage
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Input Tokens:     892,451  (Avg: 127,493/day)
+Output Tokens:    203,891  (Avg:  29,127/day)
+
+Cost per Incident
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total Incidents:         47
+Avg Cost/Incident:   $1.62
+Most Expensive:      $8.94  (Multi-region outage)
+Least Expensive:     $0.31  (Simple config revert)
+
+ROI Analysis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Agent Cost:              $76.06 / week
+Human SRE Time Saved:    23.5 hours / week
+SRE Hourly Rate:         $120 / hour
+Value of Time Saved:     $2,820 / week
+
+NET ROI:                 37x return
+```
+
+**Custom Metrics Example:**
+
+```typescript
+// Publishing custom agent metrics to CloudWatch
+
+import { CloudWatch } from '@aws-sdk/client-cloudwatch';
+
+class AgentMetrics {
+  private cloudwatch = new CloudWatch();
+  
+  async recordInvocation(agent: Agent, result: InvocationResult) {
+    await this.cloudwatch.putMetricData({
+      Namespace: 'AWS/BedrockAgents',
+      MetricData: [
+        // Token usage
+        {
+          MetricName: 'InputTokens',
+          Value: result.tokenUsage.input,
+          Unit: 'Count',
+          Dimensions: [
+            { Name: 'AgentId', Value: agent.id },
+            { Name: 'AgentType', Value: agent.type }
+          ]
+        },
+        {
+          MetricName: 'OutputTokens',
+          Value: result.tokenUsage.output,
+          Unit: 'Count',
+          Dimensions: [
+            { Name: 'AgentId', Value: agent.id }
+          ]
+        },
+        
+        // Cost
+        {
+          MetricName: 'EstimatedCost',
+          Value: this.calculateCost(result.tokenUsage),
+          Unit: 'None',  // Dollars
+          Dimensions: [
+            { Name: 'AgentId', Value: agent.id }
+          ]
+        },
+        
+        // Performance
+        {
+          MetricName: 'ReasoningDuration',
+          Value: result.duration,
+          Unit: 'Milliseconds',
+          Dimensions: [
+            { Name: 'AgentId', Value: agent.id }
+          ]
+        },
+        
+        // Success/Failure
+        {
+          MetricName: result.status === 'SUCCESS' ? 'SuccessfulInvocations' : 'FailedInvocations',
+          Value: 1,
+          Unit: 'Count',
+          Dimensions: [
+            { Name: 'AgentId', Value: agent.id },
+            { Name: 'FailureReason', Value: result.error?.type || 'N/A' }
+          ]
+        }
+      ]
+    });
+  }
+  
+  calculateCost(tokenUsage: TokenUsage): number {
+    // Claude 3.5 Sonnet pricing (as of Nov 2025)
+    const inputCostPer1K = 0.003;   // $3 per million input tokens
+    const outputCostPer1K = 0.015;  // $15 per million output tokens
+    
+    return (tokenUsage.input / 1000 * inputCostPer1K) + 
+           (tokenUsage.output / 1000 * outputCostPer1K);
+  }
+}
+```
+
+---
+
+##### Pillar 3: Traces - Complete Journey Tracking
+
+**Purpose:** Visualize every reasoning step an agent takes.
+
+This is the **most critical component** of agent observability. Using **AWS X-Ray** for **"complete journey tracking"**.
+
+**What X-Ray Provides:**
+
+```text
+Traditional X-Ray (Application Tracing):
+API Request → Lambda → DynamoDB → Response
+
+Agent X-Ray (Agent Tracing):
+Incident → Agent Invocation → Reasoning Step 1 → Model Call → 
+Tool Invocation → Reasoning Step 2 → Model Call → Action Plan → 
+Remediation → Validation → Response
+```
+
+**X-Ray Trace Structure:**
+
+```json
+{
+  "traceId": "1-6558d0a3-12345678901234567890abcd",
+  "segments": [
+    {
+      "id": "seg-root",
+      "name": "IncidentResponse",
+      "start_time": 1700158051.123,
+      "end_time": 1700158091.456,
+      "subsegments": [
+        {
+          "id": "seg-analysis",
+          "name": "AnalysisAgent",
+          "start_time": 1700158051.200,
+          "metadata": {
+            "agentId": "analysis-agent-v2",
+            "input": {
+              "alarm": "API-HighErrorRate",
+              "severity": "CRITICAL"
+            }
+          },
+          "subsegments": [
+            {
+              "id": "seg-reason-1",
+              "name": "ReasoningStep_LogAnalysis",
+              "start_time": 1700158051.500,
+              "metadata": {
+                "stepType": "LOG_ANALYSIS",
+                "tool": "cloudwatch_logs_insights",
+                "query": "fields @timestamp, @message | filter @message like /ERROR/"
+              },
+              "subsegments": [
+                {
+                  "id": "seg-tool-1",
+                  "name": "CloudWatchLogsInsights",
+                  "start_time": 1700158051.600,
+                  "end_time": 1700158055.200,
+                  "http": {
+                    "request": {
+                      "method": "POST",
+                      "url": "https://logs.us-east-1.amazonaws.com/",
+                      "user_agent": "BedrockAgent/2.0"
+                    },
+                    "response": {
+                      "status": 200,
+                      "content_length": 8421
+                    }
+                  },
+                  "metadata": {
+                    "resultsFound": 1247,
+                    "queryTime": 3.6
+                  }
+                }
+              ]
+            },
+            {
+              "id": "seg-reason-2",
+              "name": "ReasoningStep_ConfigCheck",
+              "start_time": 1700158055.300,
+              "metadata": {
+                "stepType": "CONFIGURATION_ANALYSIS",
+                "tool": "aws_config_get_changes"
+              },
+              "subsegments": [
+                {
+                  "id": "seg-tool-2",
+                  "name": "AWSConfig",
+                  "start_time": 1700158055.400,
+                  "end_time": 1700158056.100
+                }
+              ]
+            },
+            {
+              "id": "seg-model-1",
+              "name": "BedrockModelInvocation",
+              "start_time": 1700158056.200,
+              "end_time": 1700158070.800,
+              "metadata": {
+                "model": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+                "inputTokens": 4521,
+                "outputTokens": 892,
+                "reasoning": "Analyzing correlation between config change and error spike",
+                "conclusion": "Lambda timeout misconfiguration"
+              }
+            }
+          ],
+          "end_time": 1700158071.000
+        },
+        {
+          "id": "seg-remediation",
+          "name": "RemediationAgent",
+          "start_time": 1700158071.100,
+          "metadata": {
+            "agentId": "remediation-agent-v1",
+            "action": "ROLLBACK_DEPLOYMENT"
+          },
+          "subsegments": [
+            {
+              "id": "seg-remediate-1",
+              "name": "CodeDeployRollback",
+              "start_time": 1700158071.200,
+              "end_time": 1700158085.900,
+              "metadata": {
+                "deploymentId": "d-ABC123XYZ",
+                "targetVersion": "v2.3.0",
+                "status": "SUCCESS"
+              }
+            }
+          ],
+          "end_time": 1700158086.000
+        }
+      ]
+    }
+  ]
+}
+```
+
+**X-Ray Service Map:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  X-Ray Service Map: Incident Response Trace                 │
+└─────────────────────────────────────────────────────────────┘
+
+CloudWatch Alarm
+      │
+      ↓
+┌─────────────────┐
+│ Orchestrator    │  (200ms)
+│ Lambda          │
+└────────┬────────┘
+         │
+         ↓
+┌─────────────────┐
+│ Analysis Agent  │  (40s)
+│ (Bedrock)       │
+└────────┬────────┘
+         │
+         ├──→ [CloudWatch Logs]  (3.6s)
+         ├──→ [AWS Config]       (700ms)
+         ├──→ [GuardDuty]        (1.2s)
+         ├──→ [Security Hub]     (900ms)
+         └──→ [Bedrock Model]    (14.6s) ← Longest step
+                                    │
+                                    └─→ [Claude 3.5 Sonnet]
+         ↓
+┌─────────────────┐
+│ Remediation     │  (15s)
+│ Agent (Bedrock) │
+└────────┬────────┘
+         │
+         └──→ [CodeDeploy]       (14.8s)
+
+Total Trace Time: 55.2 seconds
+Bottleneck: Bedrock Model Invocation (14.6s)
+```
+
+**X-Ray Console View:**
+
+When an SRE opens this trace in the AWS X-Ray console, they see:
+
+1. **Timeline View** - Every segment on a timeline
+2. **Service Map** - Visual graph of all services called
+3. **Segment Details** - Metadata for each step
+4. **Annotations** - Key decisions the agent made
+5. **Errors** - Highlighted failures with context
+
+**Example Investigation:**
+
+```text
+SRE Question: "Why did the remediation agent take 15 seconds?"
+
+X-Ray Answer:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Segment: RemediationAgent
+Duration: 15.0 seconds
+
+Subsegments:
+├─ CodeDeployRollback: 14.8s (98.7% of time)
+│  ├─ CreateDeployment API: 200ms
+│  ├─ WaitForDeployment: 14.5s  ← BOTTLENECK
+│  └─ ValidateDeployment: 100ms
+└─ NotifyTeam: 200ms
+
+Root Cause: Waiting for CodeDeploy to complete rollback
+
+Recommendation: This is expected behavior. CodeDeploy rollback
+                cannot be accelerated. Consider parallel notification
+                to reduce perceived latency.
+```
+
+**Agent Decision Transparency:**
+
+The most powerful feature is seeing **why an agent made a decision**:
+
+```text
+Question: "Why did the agent choose rollback instead of config revert?"
+
+X-Ray Trace Metadata:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Segment: AnalysisAgent → ReasoningStep_ActionSelection
+
+Agent Reasoning:
+"I considered three options:
+1. Revert Lambda timeout config (estimated fix time: 30s)
+2. Rollback entire deployment (estimated fix time: 60s)
+3. Scale out Lambda concurrency (estimated fix time: 45s)
+
+I chose option 2 (Rollback) because:
+- Config change was part of a deployment that may contain other issues
+- Error pattern suggests code-level timeout, not just config
+- Rollback is safest option with least risk of cascading failures
+- Time difference (30s vs 60s) is acceptable given risk profile"
+
+Model: anthropic.claude-3-5-sonnet-20241022-v2:0
+Confidence: 0.87
+Alternative Considered: Revert config (confidence: 0.65)
+```
+
+This level of transparency is **unprecedented in production systems** - we can now **debug AI reasoning** the same way we debug application code.
+
+---
+
+#### Implementation: Instrumenting Agents for Observability
+
+**Complete Example:**
+
+```typescript
+// Agent with full observability instrumentation
+
+import { AWSXRay } from 'aws-xray-sdk-core';
+import { CloudWatch } from '@aws-sdk/client-cloudwatch';
+import { CloudWatchLogs } from '@aws-sdk/client-cloudwatch-logs';
+
+class ObservableAgent {
+  private cloudwatch = new CloudWatch();
+  private logs = new CloudWatchLogs();
+  private metrics = new AgentMetrics();
+  
+  async handleIncident(incident: Incident): Promise<Resolution> {
+    // Start X-Ray trace
+    const segment = AWSXRay.getSegment();
+    const subsegment = segment.addNewSubsegment('AnalysisAgent');
+    
+    subsegment.addAnnotation('agentId', this.id);
+    subsegment.addAnnotation('incidentId', incident.id);
+    subsegment.addMetadata('incident', incident);
+    
+    const startTime = Date.now();
+    
+    try {
+      // Log agent invocation
+      await this.logEvent({
+        event: 'AGENT_INVOCATION',
+        agentId: this.id,
+        invocationId: subsegment.id,
+        input: incident
+      });
+      
+      // Reasoning Step 1: Log Analysis
+      const logSubsegment = subsegment.addNewSubsegment('ReasoningStep_LogAnalysis');
+      const logAnalysis = await this.analyzeLogs(incident);
+      logSubsegment.addMetadata('result', logAnalysis);
+      logSubsegment.close();
+      
+      // Reasoning Step 2: Config Check
+      const configSubsegment = subsegment.addNewSubsegment('ReasoningStep_ConfigCheck');
+      const configChanges = await this.checkConfig(incident);
+      configSubsegment.addMetadata('result', configChanges);
+      configSubsegment.close();
+      
+      // Model Invocation
+      const modelSubsegment = subsegment.addNewSubsegment('BedrockModelInvocation');
+      const analysis = await this.invokeModel({
+        logs: logAnalysis,
+        config: configChanges
+      });
+      modelSubsegment.addMetadata('model', 'claude-3-5-sonnet');
+      modelSubsegment.addMetadata('tokenUsage', analysis.tokenUsage);
+      modelSubsegment.addMetadata('reasoning', analysis.reasoning);
+      modelSubsegment.close();
+      
+      const duration = Date.now() - startTime;
+      
+      // Publish metrics
+      await this.metrics.recordInvocation(this, {
+        status: 'SUCCESS',
+        duration: duration,
+        tokenUsage: analysis.tokenUsage
+      });
+      
+      // Log success
+      await this.logEvent({
+        event: 'AGENT_COMPLETION',
+        agentId: this.id,
+        invocationId: subsegment.id,
+        output: analysis.actionPlan,
+        duration: duration,
+        status: 'SUCCESS'
+      });
+      
+      subsegment.close();
+      
+      return analysis.actionPlan;
+      
+    } catch (error) {
+      // Log failure with full context
+      await this.logEvent({
+        event: 'AGENT_FAILURE',
+        agentId: this.id,
+        invocationId: subsegment.id,
+        error: {
+          type: error.name,
+          message: error.message,
+          stack: error.stack
+        },
+        duration: Date.now() - startTime,
+        status: 'FAILURE'
+      });
+      
+      // Publish failure metric
+      await this.metrics.recordInvocation(this, {
+        status: 'FAILURE',
+        duration: Date.now() - startTime,
+        error: error
+      });
+      
+      subsegment.addError(error);
+      subsegment.close();
+      
+      throw error;
+    }
+  }
+  
+  private async logEvent(event: AgentEvent) {
+    await this.logs.putLogEvents({
+      logGroupName: `/aws/bedrock/agents/${this.id}`,
+      logStreamName: new Date().toISOString().split('T')[0],
+      logEvents: [{
+        timestamp: Date.now(),
+        message: JSON.stringify(event)
+      }]
+    });
+  }
+}
+```
+
+---
+
+#### Observability Dashboard: Complete Agent Health
+
+**Unified Dashboard:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Agent Observability Dashboard                              │
+│  Last Updated: 2025-11-16 18:45:32 UTC                     │
+└─────────────────────────────────────────────────────────────┘
+
+🟢 System Status: HEALTHY
+
+Agent Health
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Analysis Agent:      🟢 HEALTHY    (Success Rate: 94.2%)
+Remediation Agent:   🟢 HEALTHY    (Success Rate: 91.7%)
+Orchestrator:        🟢 HEALTHY    (Success Rate: 99.1%)
+
+Recent Incidents (Last 1 Hour)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total:       7 incidents
+Resolved:    6 (85.7%)
+Escalated:   1 (14.3%)
+MTTR:        4.2 minutes (agent-resolved)
+
+Agent Performance (P95)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Analysis Time:       42.3s
+Remediation Time:    18.7s
+Total Resolution:    61.0s
+
+Token Economics (Today)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total Cost:          $47.23
+Input Tokens:        523,891
+Output Tokens:       118,234
+Avg Cost/Incident:   $1.89
+
+Active Alerts
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🟡 WARNING: Remediation Agent token usage +23% vs. baseline
+🟡 WARNING: Analysis Agent P95 latency: 58.2s (threshold: 60s)
+
+Recent Agent Failures (Last 24h)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+18:23 UTC - Remediation Agent - InsufficientPermissions (IAM)
+14:47 UTC - Analysis Agent - ModelTimeout (Bedrock throttling)
+09:15 UTC - Remediation Agent - ValidationFailed (rollback)
+
+Click any failure to view X-Ray trace →
+```
+
+---
+
+### Summary: Monitoring the Monitors
+
+The **three pillars of agent observability** create a complete picture of agentic systems:
+
+```text
+Traditional Monitoring Stack:
+Application → Logs + Metrics + Traces → Humans
+
+Agentic Monitoring Stack:
+Application → Logs + Metrics + Traces → Agents → 
+Agent Logs + Agent Metrics + Agent Traces → Humans
+```
+
+**Key Benefits for FSI Organizations:**
+
+✅ **Agent Transparency** - Understand every decision agents make  
+✅ **Cost Control** - Track and optimize token economics  
+✅ **Reliability** - Monitor agent health like any critical service  
+✅ **Debugging** - Trace agent reasoning step-by-step via X-Ray  
+✅ **Compliance** - Complete audit trail of autonomous actions  
+✅ **Optimization** - Identify bottlenecks in agent workflows
+
+**The Critical Insight:**
+
+> "When agents are your SRE team, you need an SRE team for your agents."
+
+Amazon CloudWatch's Generative AI Observability provides exactly that - making agents **as observable and debuggable as traditional applications**.
+
+This closes the observability loop, enabling **truly autonomous, production-grade agentic systems**.
+
+---
+
 ## Conclusion
 
 The **Design → Test → Execute** workflow represents the future of enterprise software development:
