@@ -1910,6 +1910,859 @@ Time:        2.847s
 
 ---
 
+### The Executors: A Comparative Analysis of Modern Developer Agents
+
+With a **specification (SDD)** and a **connection layer (MCP)** in place, the final component is the **"executor"**—the AI agent responsible for writing the code.
+
+**Key Insight:**  
+The market for these agents is **not monolithic**; it is rapidly segmenting into specialized **"personas,"** each with distinct strengths.
+
+This section provides a comprehensive comparative analysis of the leading developer agents, helping organizations understand which agent to deploy for which task.
+
+---
+
+#### A. GitHub Copilot (The 'In-Flow' Pair Programmer)
+
+##### Core Capability
+
+GitHub Copilot has evolved from a simple predictive, inline completion tool into a **sophisticated, multi-model platform**. Its primary interface remains **deeply integrated into the IDE**, excelling at **"in-the-flow" assistance** that boosts typing speed and reduces rote work.
+
+**Primary Use Case:**  
+Line-level coding, boilerplate generation, and "inner-loop" development tasks.
+
+---
+
+##### Model Integration & Tiers
+
+Copilot's strategy is to be a **"multi-model" platform**. The **Pro+ plan ($39/month)** provides access to an entire suite of models, including:
+
+- **Claude Opus 4.1** (Anthropic's most powerful model)
+- **Claude Sonnet 4/4.5**
+- **GPT-5** (OpenAI)
+- **Gemini 2.5 Pro** (Google)
+
+**Flexibility Advantage:**  
+Developers can switch between models based on the task, choosing the best model for each specific context.
+
+---
+
+##### Crucial Limitation: Model Mode Restrictions
+
+This access comes with **critical distinctions**:
+
+```
+⚠️ Claude Opus 4.1 Restriction:
+- Available ONLY in "Ask Mode" (chat-based interactions)
+- NOT available in "Agent Mode" (autonomous task execution)
+
+Agent Mode must use:
+- Claude Sonnet 4/4.5
+- Other models (GPT-5, Gemini 2.5 Pro)
+```
+
+**Implication:**  
+For autonomous, multi-step tasks, Copilot cannot leverage Anthropic's most powerful model.
+
+---
+
+##### The Context Engineering Advantage
+
+Some developers report that **Copilot's implementation of a model (e.g., Sonnet 4) can outperform a technically "better" model (e.g., Opus) used via a separate Claude Code subscription**, simply because Copilot's **"in-flow" context is superior**.
+
+**Why?**
+
+```
+Copilot's Context Advantage:
+✅ Deep IDE integration
+✅ Real-time access to:
+   - Currently open files
+   - Recent edits
+   - Cursor position
+   - Active debugging sessions
+   - Terminal output
+   - Git history
+✅ Understands developer's immediate intent
+
+Result: "Weaker" model with better context > "Stronger" model with less context
+```
+
+---
+
+##### Workflow Example
+
+```typescript
+// Developer working in VS Code
+
+// 1. Type function signature
+function calculateLoanAmortization(
+
+// 2. Copilot suggests inline (Ghost text appears)
+  principal: number,
+  annualRate: number,
+  years: number
+): MonthlyPayment[] {
+
+// 3. Developer accepts suggestion (Tab)
+// 4. Copilot continues with implementation
+
+// 5. Developer types comment
+// Calculate monthly payment using amortization formula
+
+// 6. Copilot generates complete function body
+  const monthlyRate = annualRate / 12;
+  const numPayments = years * 12;
+  
+  const monthlyPayment = principal * 
+    (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+    (Math.pow(1 + monthlyRate, numPayments) - 1);
+  
+  let balance = principal;
+  const schedule: MonthlyPayment[] = [];
+  
+  for (let i = 1; i <= numPayments; i++) {
+    const interestPayment = balance * monthlyRate;
+    const principalPayment = monthlyPayment - interestPayment;
+    balance -= principalPayment;
+    
+    schedule.push({
+      month: i,
+      payment: monthlyPayment,
+      principal: principalPayment,
+      interest: interestPayment,
+      balance: Math.max(0, balance)
+    });
+  }
+  
+  return schedule;
+}
+
+// Time saved: 5 minutes of typing → 30 seconds with Copilot
+```
+
+---
+
+##### Pricing & Positioning
+
+| Plan | Price | Target User | Key Features |
+|------|-------|-------------|--------------|
+| **Free** | $0/month | Students, open-source | Basic completions |
+| **Individual** | $10/month | Solo developers | Full completions, chat |
+| **Pro** | $10/month | Solo developers | Multi-file editing, CLI |
+| **Pro+** | $39/month | Power users | Multi-model access, priority |
+| **Business** | $19/user/month | Teams | Organization policies, IP protection |
+| **Enterprise** | Custom | Large orgs | SSO, audit logs, custom models |
+
+**Market Position:**  
+The **"clear winner" for solo developers** at $10/month. Priced for **mass adoption** and **ubiquitous usage**.
+
+---
+
+##### Best For
+
+✅ Line-by-line code completion  
+✅ Boilerplate generation  
+✅ Quick documentation writing  
+✅ "Inner-loop" development (write → test → refine)  
+✅ Developers who want minimal workflow disruption  
+✅ Teams standardizing on a single tool
+
+---
+
+#### B. Anthropic's Claude Code (The 'Deep-Context' Architect)
+
+##### Core Capability
+
+Claude Code is a **conversational, terminal-first agent** that provides a more **"fluid"** and **"autonomous"-feeling** experience.
+
+**Primary Use Case:**  
+Deep codebase understanding, complex refactoring, and "outer-loop" architectural tasks.
+
+---
+
+##### Superpower: Massive Context Window
+
+Its defining feature is its **"massive context window"**. Where Copilot is primarily focused on the current file and open tabs, Claude Code can **"ingest your entire project"**.
+
+**Context Comparison:**
+
+```
+GitHub Copilot Context:
+- Current file: ✅
+- Open tabs: ✅
+- Recent edits: ✅
+- Entire project: ❌ (limited)
+
+Claude Code Context:
+- Current file: ✅
+- Open tabs: ✅
+- Recent edits: ✅
+- Entire project: ✅ (full ingestion)
+- Can analyze 50,000+ lines of code simultaneously
+```
+
+**Enabled Use Cases:**
+
+1. **Deep Codebase Understanding**
+   ```
+   Developer: "Analyze our authentication system and identify all 
+               places where we validate JWT tokens"
+   
+   Claude Code: 
+   - Scans entire project
+   - Finds 17 locations across 8 files
+   - Identifies inconsistencies
+   - Suggests consolidation into shared utility
+   ```
+
+2. **Complex Multi-File Refactoring**
+   ```
+   Developer: "Refactor our API to use a consistent error handling 
+               pattern across all 200+ endpoints"
+   
+   Claude Code:
+   - Analyzes all API routes
+   - Identifies 5 different error patterns
+   - Proposes unified approach
+   - Generates refactoring plan for all affected files
+   - Executes changes across project
+   ```
+
+3. **Gnarly System-Wide Debugging**
+   ```
+   Developer: "We have a memory leak somewhere in the application. 
+               Help me find it."
+   
+   Claude Code:
+   - Analyzes entire codebase
+   - Identifies components with state management
+   - Finds unclosed event listeners in 3 components
+   - Explains the leak chain
+   - Proposes fixes with cleanup logic
+   ```
+
+---
+
+##### Agentic Features: Persistent Roles
+
+Users leverage its **"aggressive context management"** to create **persistent agentic roles**, such as:
+
+**Example: "TypeScript Police" Agent**
+
+```typescript
+// .claude/typescript-police.md
+You are the TypeScript Police. Your job is to enforce strict typing 
+standards across this project.
+
+Rules:
+1. No 'any' types (use 'unknown' if truly unknown)
+2. All functions must have explicit return types
+3. All function parameters must be typed
+4. No type assertions unless absolutely necessary
+5. Prefer interfaces over types for object shapes
+6. Use strict null checks
+
+On every code review:
+- Scan for violations
+- Explain why each violation is problematic
+- Suggest specific fixes
+- Fail the review if critical violations exist
+```
+
+**Usage:**
+
+```bash
+# Run TypeScript Police on entire project
+claude-code review --agent typescript-police
+
+# Output:
+Found 47 typing violations:
+
+src/utils/api.ts:15
+❌ Function 'fetchUser' has implicit 'any' return type
+Fix: async function fetchUser(id: string): Promise<User>
+
+src/components/Dashboard.tsx:82
+❌ Parameter 'data' has 'any' type
+Fix: function handleData(data: TransactionData): void
+
+... (45 more violations)
+
+💡 Suggestion: Run 'claude-code fix --agent typescript-police' to auto-fix 
+   non-breaking violations
+```
+
+---
+
+##### Pricing: Power-User Focus
+
+Claude Code operates in a **different price category**:
+
+| Plan | Price | Context Limits | Best For |
+|------|-------|----------------|----------|
+| **Free** | $0/month | Limited | Evaluation |
+| **Pro** | $20/month | Standard | Individual power users |
+| **Max** | $100-$200/month | Extended (Opus-level) | Complex projects, enterprises |
+
+**Market Position:**  
+Positioned as a **power-user or enterprise tool** for **high-complexity tasks**. Not for mass adoption like Copilot.
+
+**Key Insight:**  
+While the Copilot Pro plan ($10/month) is the "clear winner" for solo developers, **Claude Code's true power (Opus-level) is unlocked in its "Max" tiers**, making it a specialized tool for specific use cases.
+
+---
+
+##### Best For
+
+✅ Complex multi-file refactoring  
+✅ Analyzing legacy codebases  
+✅ Debugging gnarly, system-wide bugs  
+✅ Architectural planning and design  
+✅ Code quality enforcement (persistent agents)  
+✅ Senior/Staff engineers working on complex problems  
+✅ "Outer-loop" development (design → implement → refactor)
+
+---
+
+#### C. AWS Q Developer (The 'Enterprise SDLC' Agent)
+
+##### Core Capability
+
+Amazon Q Developer is **not just a code-writer**; it is an **end-to-end SDLC agent** designed to operate across the entire AWS ecosystem, including:
+
+- **IDE** (VS Code, JetBrains)
+- **CLI** (Terminal)
+- **AWS Management Console** (Web)
+
+**Primary Use Case:**  
+Enterprise software development lifecycle automation on AWS.
+
+---
+
+##### Key Agentic Commands
+
+Q's power is exposed through **high-level agentic commands** that manage the full software lifecycle:
+
+###### `/dev` - Feature Implementation
+
+Implements new features from a natural language prompt, including:
+- Creating API endpoints
+- Generating code
+- Optimizing database queries
+- Setting up infrastructure
+
+**Example:**
+
+```bash
+/dev Create a new REST API endpoint for transferring funds between accounts.
+     Include validation, transaction logging, and CloudWatch metrics.
+
+Q Developer:
+1. ✅ Created API Gateway endpoint: POST /transfer
+2. ✅ Generated Lambda function with validation logic
+3. ✅ Added DynamoDB transaction table
+4. ✅ Configured CloudWatch metrics: TransferCount, TransferValue
+5. ✅ Generated unit tests (Jest)
+6. ✅ Updated IAM policies
+7. ✅ Created CDK/CloudFormation template
+
+Files changed: 8
+Tests passing: 23/23
+Ready to deploy: Yes
+```
+
+---
+
+###### `/test` - Automated Test Generation
+
+Automatically generates unit tests for **Java and Python projects**.
+
+**Example:**
+
+```bash
+/test Generate comprehensive unit tests for the TransactionService class
+
+Q Developer:
+Generated 15 test cases for TransactionService:
+
+✅ testValidTransferBetweenAccounts()
+✅ testTransferWithInsufficientFunds()
+✅ testTransferWithInvalidAccountId()
+✅ testTransferExceedingDailyLimit()
+✅ testConcurrentTransferHandling()
+✅ testTransferRollbackOnFailure()
+✅ testTransferWithNegativeAmount()
+✅ testTransferToSameAccount()
+... (7 more)
+
+Coverage: 94.7%
+All tests passing ✅
+```
+
+---
+
+###### `/review` - Workspace-Wide Code & Security Review
+
+Performs workspace-wide code and security reviews. **Critically**, this scans **both application code (e.g., Python) and infrastructure-as-code (e.g., Terraform) simultaneously**, detecting:
+
+- Logical errors
+- Anti-patterns
+- Security vulnerabilities
+
+Then offers **remediation**.
+
+**Example:**
+
+```bash
+/review Perform a security audit of the entire application
+
+Q Developer Security Review:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔴 CRITICAL (3 issues)
+────────────────────────────────────────────
+1. SQL Injection Risk
+   File: src/api/users.py:45
+   Issue: User input directly interpolated in SQL query
+   Fix: Use parameterized queries
+   
+2. S3 Bucket Public Access
+   File: terraform/s3.tf:12
+   Issue: S3 bucket has public read access enabled
+   Fix: Add bucket_acl = "private" and require IAM auth
+
+3. Hardcoded Credentials
+   File: src/config/db.py:8
+   Issue: Database password in source code
+   Fix: Use AWS Secrets Manager
+
+🟡 MAJOR (7 issues)
+────────────────────────────────────────────
+4. Missing Error Handling
+   File: src/api/transactions.py:89
+   Issue: No try-catch around DynamoDB operation
+   Fix: Add error handling with exponential backoff
+
+... (6 more major issues)
+
+🟢 MINOR (12 issues)
+────────────────────────────────────────────
+...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Would you like me to automatically fix the minor issues? (y/n)
+```
+
+---
+
+##### AWS Ecosystem Moat: The 17-Year Advantage
+
+Q's differentiation is its **deep integration with the AWS platform**. It is **"trained on over 17 years of AWS experience"**.
+
+This allows it to perform **high-value, platform-specific tasks** that others cannot:
+
+###### 1. Legacy Application Upgrades
+
+```bash
+/upgrade Upgrade this Java 8 application to Java 17 with AWS best practices
+
+Q Developer:
+Analyzing application... Done.
+
+Migration Plan:
+1. Update Java version (8 → 17)
+2. Replace deprecated Java APIs
+3. Update AWS SDK (v1 → v2)
+4. Modernize Lambda runtime
+5. Update IAM policies for SDK v2
+6. Migrate log4j to AWS CloudWatch Logs SDK
+
+Estimated breaking changes: 47
+Automatic fixes available: 39
+Manual review required: 8
+
+Start migration? (y/n)
+```
+
+---
+
+###### 2. Database Transformation
+
+```bash
+/transform Convert embedded Oracle SQL to PostgreSQL with AWS Aurora compatibility
+
+Q Developer:
+Scanning codebase for Oracle SQL... Found 234 queries across 45 files.
+
+Transformation Plan:
+1. Convert Oracle-specific syntax (DECODE, NVL, ROWNUM)
+2. Replace Oracle functions with PostgreSQL equivalents
+3. Update connection strings for Aurora PostgreSQL
+4. Migrate Oracle packages to PostgreSQL functions
+5. Update transaction isolation levels
+6. Convert LOB handling to PostgreSQL bytea
+
+Would you like to see a detailed diff before proceeding? (y/n)
+```
+
+---
+
+###### 3. Agentic Root-Cause Analysis (Production)
+
+**The Ultimate SDLC Capability:**  
+Q can perform **agentic root-cause analysis of live production incidents** directly from **CloudWatch logs** in the **AWS console**.
+
+**Workflow:**
+
+```
+1. Production alert fires: "API latency spike"
+   
+2. Engineer opens CloudWatch dashboard
+   
+3. Engineer invokes Q Developer: "Analyze the latency spike at 14:30 UTC"
+   
+4. Q Developer:
+   - Queries CloudWatch Logs across all services
+   - Analyzes Lambda execution traces
+   - Checks DynamoDB throttling metrics
+   - Reviews API Gateway logs
+   - Examines X-Ray traces
+   
+5. Q Developer Response:
+   
+   Root Cause Analysis:
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   
+   Incident: API Latency Spike
+   Time: 2025-11-16 14:30:00 UTC
+   Duration: 8 minutes
+   
+   🔍 ROOT CAUSE:
+   DynamoDB "Transactions" table experienced write throttling.
+   
+   📊 EVIDENCE:
+   - ConsumedWriteCapacity exceeded provisioned capacity
+   - 1,247 ThrottledRequests between 14:30-14:38
+   - Lambda function retries caused cascading delays
+   
+   🎯 IMPACT:
+   - P95 latency increased from 120ms to 3,400ms
+   - 23 user-facing errors (timeout exceptions)
+   - Affected 156 unique users
+   
+   💡 IMMEDIATE FIX:
+   Temporarily increased DynamoDB write capacity from 100 to 500 WCU
+   
+   🔧 PERMANENT FIX:
+   Recommend switching to "On-Demand" capacity mode for this table
+   
+   📝 PREVENTION:
+   - Add CloudWatch alarm for ConsumedWriteCapacity > 80%
+   - Implement exponential backoff in Lambda retries
+   - Consider DynamoDB auto-scaling
+   
+   Would you like me to implement these fixes? (y/n)
+```
+
+**Key Insight:**  
+This is **not just code generation**—this is **operational intelligence**. Q acts as a **DevOps/SRE engineer** with complete context of your AWS environment.
+
+---
+
+##### Pricing & Positioning
+
+| Plan | Price | Target |
+|------|-------|--------|
+| **Free** | $0/month | Limited features, evaluation |
+| **Professional** | $19/user/month | Teams, full SDLC features |
+| **Enterprise** | Custom | Large organizations, advanced security |
+
+**Market Position:**  
+Priced competitively with GitHub Copilot Business, but focused on **AWS-native development workflows**.
+
+---
+
+##### Best For
+
+✅ AWS-native application development  
+✅ End-to-end SDLC automation (dev → test → review → deploy)  
+✅ Legacy application modernization (Java 8→17, Oracle→PostgreSQL)  
+✅ Infrastructure-as-Code review (Terraform, CloudFormation)  
+✅ Production incident RCA and remediation  
+✅ Teams heavily invested in AWS ecosystem  
+✅ DevOps/SRE teams managing AWS infrastructure
+
+---
+
+#### D. Microsoft Copilot Studio (The 'Custom Agent' Platform)
+
+While **GitHub Copilot** is the developer tool, **Microsoft Copilot Studio** is the **enterprise platform** for building and deploying bespoke agents.
+
+##### Core Capability
+
+It is an **end-to-end conversational AI platform** that empowers organizations to **create, test, and publish their own custom agents** using:
+- **Natural language** (no-code)
+- **Graphical interface** (low-code)
+- **Code** (pro-code with Azure SDK)
+
+**Primary Use Case:**  
+Building domain-specific, enterprise-grade AI agents with custom business logic.
+
+---
+
+##### Key Integration: Azure Conversational Language Understanding (CLU)
+
+Its primary strength is its integration with **Azure's Conversational Language Understanding (CLU) service**.
+
+**What This Enables:**  
+An enterprise can map its own **custom, domain-specific CLU intents and entities** directly to **Copilot agent triggers and dialog flows**.
+
+**Example: Banking Agent**
+
+```
+Custom CLU Model: "Banking Intent Recognition"
+
+Intents:
+- check_balance
+- transfer_funds
+- report_fraud
+- apply_for_loan
+- dispute_transaction
+
+Entities:
+- account_type: [checking, savings, credit]
+- amount: [currency value]
+- merchant_name: [text]
+- transaction_id: [alphanumeric]
+
+Copilot Studio Mapping:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Intent: check_balance
+Trigger: When CLU detects "check_balance" intent
+Action: 
+  1. Extract account_type entity
+  2. Call Azure Function: getAccountBalance(user_id, account_type)
+  3. Format response
+  4. Return to user
+
+Intent: transfer_funds
+Trigger: When CLU detects "transfer_funds" intent
+Action:
+  1. Extract from_account, to_account, amount entities
+  2. Validate sufficient balance
+  3. Call Azure Function: transferFunds(...)
+  4. Log transaction to Cosmos DB
+  5. Send confirmation notification
+  6. Return receipt to user
+
+... (custom logic for each intent)
+```
+
+---
+
+##### Ecosystem Play: MCP Support
+
+**Critically**, Copilot Studio has announced **support for Model Context Protocol (MCP)**.
+
+**What This Means:**  
+Copilot Studio becomes an **"MCP Host" application**, enabling agents built in the Studio to access the **"growing library of pre-built, MCP-enabled connectors available in the marketplace"**.
+
+**Impact:**
+
+```
+Before MCP:
+- Custom connectors required for each integration
+- Months of development for each new data source
+- Siloed agent capabilities
+
+After MCP:
+- Plug-and-play access to 100+ pre-built MCP servers
+- Connect to: Figma, GitHub, databases, CRMs, ERPs, etc.
+- Agents can access any MCP-enabled tool instantly
+
+Example:
+agent> Use the Figma MCP to fetch the latest dashboard design
+agent> Use the GitHub MCP to check recent commits
+agent> Use the Salesforce MCP to query customer data
+agent> Use the ServiceNow MCP to create incident ticket
+```
+
+**Strategic Significance:**  
+This positions Copilot Studio as a **universal agent orchestration platform** that can integrate with any MCP-compatible system.
+
+---
+
+##### Best For
+
+✅ Building custom enterprise agents  
+✅ No-code/low-code agent development  
+✅ Integrating with Azure ecosystem (CLU, Azure Functions, Cosmos DB)  
+✅ Organizations with domain-specific agent needs  
+✅ Citizen developers (business analysts, product managers)  
+✅ Enterprises requiring MCP integration flexibility  
+✅ Microsoft 365 and Azure shop customers
+
+---
+
+### Comparative Analysis Table: Agent "Personas"
+
+The data clearly shows that these agents are **not 1-to-1 competitors**. They are **specializing into distinct roles**, requiring a **multi-agent strategy**.
+
+| Agent | Primary Interface | Core Strength (Use Case) | Key Differentiator | Ecosystem | Pricing |
+|-------|------------------|-------------------------|-------------------|-----------|---------|
+| **GitHub Copilot** | IDE (VS Code, Visual Studio) | In-Flow Pair Programming (completions, boilerplate) | Deep IDE integration; multi-model access (Pro+) | Code-centric | $10-$39/mo |
+| **Claude Code** | Terminal / Chat | Deep-Context Refactoring & Analysis | Massive context window (ingests entire project); "autonomous" feel | Model-centric | $20-$200/mo |
+| **AWS Q Developer** | IDE & AWS Console | Enterprise SDLC Automation (build, test, review) | Trained on 17 years of AWS; deep ecosystem integration (CloudWatch, legacy transforms) | Platform-centric | $19/user/mo |
+| **Copilot Studio** | Web Platform (no-code/low-code) | Custom Enterprise Agent Building | Azure CLU integration; MCP Host support | Enterprise-centric | Custom |
+
+---
+
+### A Clear Market Segmentation of Agent "Personas"
+
+This comparative analysis reveals a **clear market segmentation**. These tools are **not interchangeable**; they represent the **first specialized roles in a new "AI development team."**
+
+**Key Insight:**  
+An enterprise should **not seek a single "winner"** but should **deploy a portfolio of agents**.
+
+---
+
+#### The Multi-Agent Development Team
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Your AI Development Team                                    │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────────────────┐
+│  GitHub Copilot      │  🎯 Role: Junior Developer
+│  ($10/month)         │  
+├──────────────────────┤  ✅ Line-level coding
+│  In-Flow Pair        │  ✅ Boilerplate generation  
+│  Programmer          │  ✅ "Inner-loop" tasks
+│                      │  ✅ Ubiquitous, mass adoption
+│  Handles:            │  
+│  - Code completion   │  📊 Usage: Every developer, all day
+│  - Documentation     │  
+│  - Quick fixes       │  🎓 Skill Level: Junior → Mid
+└──────────────────────┘
+
+┌──────────────────────┐
+│  Claude Code         │  🎯 Role: Senior/Staff Engineer
+│  ($100-$200/month)   │  
+├──────────────────────┤  ✅ Deep project-wide context
+│  Deep-Context        │  ✅ Complex refactoring
+│  Architect           │  ✅ Gnarly multi-file bugs
+│                      │  ✅ Architectural planning
+│  Handles:            │  
+│  - Refactoring       │  📊 Usage: 10-20% of developers
+│  - Legacy analysis   │  
+│  - System debugging  │  🎓 Skill Level: Senior → Staff → Principal
+└──────────────────────┘
+
+┌──────────────────────┐
+│  AWS Q Developer     │  🎯 Role: DevOps/SRE Engineer
+│  ($19/user/month)    │  
+├──────────────────────┤  ✅ Full SDLC automation
+│  Enterprise SDLC     │  ✅ Infrastructure review
+│  Agent               │  ✅ Production RCA
+│                      │  ✅ AWS platform operations
+│  Handles:            │  
+│  - Test generation   │  📊 Usage: DevOps, SRE, Platform teams
+│  - Security review   │  
+│  - Incident RCA      │  🎓 Skill Level: DevOps → SRE → Platform Eng
+│  - Legacy migration  │  
+└──────────────────────┘
+
+┌──────────────────────┐
+│  Copilot Studio      │  🎯 Role: Custom Agent Builder
+│  (Custom pricing)    │  
+├──────────────────────┤  ✅ Domain-specific agents
+│  Custom Agent        │  ✅ Business process automation
+│  Platform            │  ✅ No-code/low-code
+│                      │  ✅ MCP orchestration
+│  Handles:            │  
+│  - Custom agents     │  📊 Usage: Product, business analysts
+│  - Workflow automation│  
+│  - Integration hub   │  🎓 Skill Level: Citizen developers → Architects
+└──────────────────────┘
+```
+
+---
+
+#### Deployment Strategy for FSI Organizations
+
+**Recommended Portfolio Approach:**
+
+```
+Team Size: 50 developers
+
+Investment Breakdown:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GitHub Copilot Pro: 50 licenses × $10/month = $500/month
+├─ Every developer gets Copilot
+├─ Use for: Daily coding, boilerplate, quick tasks
+└─ ROI: 20-30% developer productivity increase
+
+Claude Code Max: 10 licenses × $150/month = $1,500/month
+├─ Senior engineers, architects, tech leads
+├─ Use for: Complex refactoring, legacy analysis, system design
+└─ ROI: Reduce major refactoring from weeks → days
+
+AWS Q Developer: 50 licenses × $19/month = $950/month
+├─ All developers + DevOps team
+├─ Use for: Test generation, security review, incident RCA
+└─ ROI: Automated testing, faster incident resolution
+
+Copilot Studio: Enterprise license = ~$5,000/month
+├─ Platform team, business analysts
+├─ Use for: Custom FSI agents (fraud detection, compliance, customer service)
+└─ ROI: Automate domain-specific workflows
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total Investment: ~$8,000/month for 50 developers
+Per-Developer Cost: $160/month
+
+Traditional Hiring Alternative:
+- 1 additional developer: $15,000+/month (salary + benefits)
+- ROI: 20-30% productivity gain across 50 developers 
+        = equivalent to 10-15 additional developers
+- Savings: $150,000 - $225,000/month vs. hiring
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NET ROI: ~20x return on investment
+```
+
+---
+
+### Summary: Deploy the Right Agent for the Right Task
+
+**The Future of Development is Multi-Agent:**
+
+```
+Not: "Which agent should we choose?"
+But: "Which agents should we deploy, and for what?"
+
+✅ GitHub Copilot = Everyday coding (100% of developers)
+✅ Claude Code = Complex problems (10-20% of developers)
+✅ AWS Q Developer = SDLC automation (DevOps + all devs)
+✅ Copilot Studio = Custom agents (Platform team)
+
+Result: A complete AI development team that amplifies human developers
+```
+
+**For FSI organizations, this multi-agent approach provides:**
+
+- ✅ **Comprehensive coverage** - From line-level coding to production operations
+- ✅ **Role-appropriate tools** - Junior tasks use junior tools, senior tasks use senior tools
+- ✅ **Cost efficiency** - Pay for power features only where needed
+- ✅ **Risk management** - Multiple vendors, no single point of failure
+- ✅ **Specialization** - Each agent optimized for its specific domain
+
+**This is not a tool choice—it's a team composition strategy.**
+
+---
+
 ## Complete Workflow Example
 
 ### Scenario: Building a Banking Transaction Dashboard
