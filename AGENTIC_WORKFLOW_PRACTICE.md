@@ -379,6 +379,240 @@ for the CTA."
 
 ## The Testing Phase: Automated Test Generation
 
+### The 'Testing MCP': A Framework for Agent-Driven Quality Assurance
+
+The SDD and MCP paradigms fundamentally reshape quality assurance. **Testing is no longer an after-the-fact validation step** but an **integrated, automated consequence of the specification itself**. This can be conceptualized as a **"Testing MCP"**—a standardized interface for agents to perform a comprehensive suite of QA tasks.
+
+**Key Paradigm Shift:**
+```
+Traditional: Spec → Code → Test (manual, often incomplete)
+Agentic: Spec → Auto-Generate Tests → Code to Pass Tests → Continuous Validation
+```
+
+This section explores how AI agents transform every aspect of quality assurance, from functional testing to chaos engineering.
+
+---
+
+### A. From Spec to Test: Generating the QA Contract
+
+In this new model, **SDD, BDD, and Test-Driven Development (TDD)** are part of a single, continuous workflow.
+
+#### SDD Precedes BDD/TDD
+
+**The Hierarchy:**
+
+```
+┌─────────────────────────────────────────┐
+│  SDD (Spec-Driven Development)          │
+│  The foundational "what" and "why"      │
+│  - requirements.md                      │
+│  - design.md (Figma)                    │
+│  - architecture.md                      │
+└─────────────┬───────────────────────────┘
+              │
+              ├─────────────────────────────┐
+              │                             │
+              ▼                             ▼
+┌─────────────────────────┐   ┌─────────────────────────┐
+│  BDD (Behavior-Driven)  │   │  TDD (Test-Driven)      │
+│  Natural language       │   │  Code-level unit tests  │
+│  Gherkin scenarios      │   │  Failing tests first    │
+│  Business requirements  │   │  Red-Green-Refactor     │
+└─────────────────────────┘   └─────────────────────────┘
+```
+
+**Key Insight:**  
+SDD is the foundational "what" and "why". BDD, which focuses on **describing behavior in natural language**, and TDD, which focuses on **code-level unit tests**, are **derivatives** of that initial spec.
+
+---
+
+#### The Automated Workflow
+
+The high-level specification becomes the **source for generating test contracts**. The workflow is:
+
+**Step 1:** Human/Agent defines `spec.md` and Figma design
+
+**Step 2:** Agent is prompted:  
+```
+"Based on get-user-profile.spec.md and the Figma MCP output, 
+generate the BDD Gherkin scenarios"
+```
+
+**Step 3:** Agent is prompted:  
+```
+"Based on the technical plan, generate the failing TDD unit tests"
+```
+
+**Step 4:** Agent implements code to pass all tests
+
+**Step 5:** Agent validates against original spec
+
+---
+
+#### The Gherkin Bridge
+
+**Gherkin's Given-When-Then syntax** is the ideal **"ubiquitous language"** for this process. It creates a **human-readable, machine-executable contract** that bridges the gap between high-level business requirements and executable test code.
+
+**Why Gherkin?**
+
+✅ **Human-Readable** - Non-technical stakeholders can understand  
+✅ **Machine-Executable** - Directly converts to test code  
+✅ **Version-Controlled** - Lives alongside code in git  
+✅ **Language-Agnostic** - Works with any programming language  
+✅ **Bridges Communication Gap** - Technical and non-technical collaboration
+
+**Impact:**  
+This bridges the communication gap that causes a high percentage of software project failures, allowing technical and non-technical stakeholders to collaborate on a **shared understanding of behavior**.
+
+---
+
+### B. The 'Browser MCP': Agent-Driven UI Execution
+
+The abstract concept of a "Testing MCP" is being made concrete through **"Browser MCP" servers**. These servers act as the bridge between an agent's natural language intent and the browser automation frameworks used for UI testing.
+
+#### Selenium MCP Server
+
+A prime example is the **Selenium MCP server**. This is a middleware component that acts as a **"bridge" or "translator"** between an AI agent (like Claude) and the Selenium WebDriver framework.
+
+**Traditional Approach:**
+```python
+# Complex test script written by QA engineer
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+driver = webdriver.Chrome()
+driver.get("https://example.com/login")
+wait = WebDriverWait(driver, 10)
+
+email_field = wait.until(EC.presence_of_element_located((By.ID, "email")))
+email_field.send_keys("user@example.com")
+
+password_field = driver.find_element(By.ID, "password")
+password_field.send_keys("password123")
+
+login_button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+login_button.click()
+
+# ... more complex code
+```
+
+**Agentic Approach with Selenium MCP:**
+```
+QA Engineer or Product Manager (in natural language):
+
+"Navigate to the login page, enter 'user@example.com' in the email field, 
+enter 'password123' in the password field, and click the login button"
+
+↓ Selenium MCP Server translates ↓
+
+Executable Selenium commands → Test execution
+```
+
+**Key Innovation:**  
+Instead of writing complex test scripts, a QA engineer or even a product manager can issue **natural language commands**. The Selenium MCP server translates these commands into executable Selenium actions.
+
+---
+
+#### Enabled QA Workflows
+
+This enables several powerful QA workflows:
+
+**1. AI-Powered Test Execution**
+
+Describe test steps in plain English and have the agent execute them:
+
+```
+Agent Prompt:
+"Test the checkout flow:
+1. Click the 'Add to Cart' button on the first product
+2. Click the cart icon in the header
+3. Click 'Proceed to Checkout'
+4. Fill out the shipping form with test data
+5. Select 'Credit Card' as payment method
+6. Verify the order summary shows correct totals
+7. Click 'Place Order'"
+
+Agent executes via Selenium MCP → Full test run with screenshots
+```
+
+---
+
+**2. Faster Debugging & Root Cause Analysis**
+
+The server provides direct access to logs and test execution data:
+
+```
+Test Failure:
+"Login test failed at step 3: Click login button"
+
+Agent with Selenium MCP access:
+- Retrieves browser console logs
+- Captures network requests
+- Takes screenshot at failure point
+- Analyzes DOM state
+- Provides RCA: "Login button was disabled due to email validation error"
+```
+
+---
+
+**3. AI-Assisted Test Case Generation**
+
+Agents can generate new test cases based on previous executions or specifications:
+
+```
+Agent Prompt:
+"Analyze the last 10 login test executions and generate 5 new edge case 
+test scenarios that weren't covered"
+
+Agent Output (via Selenium MCP analysis):
+1. Test login with email containing special characters (+, .)
+2. Test login with maximum password length (128 characters)
+3. Test login during session timeout
+4. Test login with caps lock warning
+5. Test login with autofill credentials
+```
+
+---
+
+#### Community Implementations
+
+A robust **open-source community** is building these servers, with notable implementations:
+
+- **angiejones** - Selenium MCP with Claude Desktop integration
+- **pshivapr** - Advanced Selenium MCP with visual debugging
+- **Jyothishkumarav** - Enterprise Selenium MCP with CI/CD integration
+
+---
+
+#### Playwright MCP: Modern Alternative
+
+**Playwright MCP** is emerging as a modern alternative, applying the same agentic principles to **Microsoft's Playwright framework**:
+
+```
+Advantages over Selenium:
+✅ Built-in auto-waiting (no explicit waits needed)
+✅ Better handling of modern web apps (SPAs, PWAs)
+✅ Network interception and mocking
+✅ Multiple browser contexts
+✅ Video recording and trace files
+✅ Better performance
+```
+
+**Example with Playwright MCP:**
+```typescript
+// Natural language → Playwright MCP → Executable test
+Agent: "Test the login flow with network offline simulation"
+
+Generated Playwright code:
+await page.context().setOffline(true);
+await page.goto('/login');
+await expect(page.locator('.offline-message')).toBeVisible();
+```
+
+---
+
 ### Figma MCP as the Origin Point of Spec-Driven Testable UI
 
 The Figma MCP server's **true architectural significance** is not just in code generation, but in its role as the **origin point for automated, design-first testing**.
@@ -595,6 +829,861 @@ For FSI organizations:
 
 Complete trail: Requirement → Design → Test → Code
 ```
+
+---
+
+### C. A Multi-Faceted Agentic QA Strategy
+
+This framework enables agents to automate a **multi-faceted UI testing strategy** that covers every aspect of quality assurance.
+
+---
+
+#### 1. Functional Verification
+
+##### Agentic TDD (Test-Driven Development)
+
+A developer can guide an agent, such as **Claude Code**, through the **"red-green-refactor" TDD loop**. This remains a **human-orchestrated process**, where the developer provides the **"critical architectural decisions and testing strategies"** and uses guardrails like pre-commit scripts to keep the agent on track.
+
+**The TDD Loop with AI Agents:**
+
+```
+Step 1: RED (Write Failing Test)
+──────────────────────────────────
+Developer: "Write a unit test for the calculateMonthlyPayment function 
+            that validates loan amortization calculations"
+
+Agent generates:
+describe('calculateMonthlyPayment', () => {
+  it('should calculate correct monthly payment for 30-year mortgage', () => {
+    const result = calculateMonthlyPayment({
+      principal: 300000,
+      annualRate: 0.04,
+      years: 30
+    });
+    expect(result).toBeCloseTo(1432.25, 2);
+  });
+});
+
+Run test → ❌ FAILS (function doesn't exist)
+
+Step 2: GREEN (Write Minimal Code to Pass)
+──────────────────────────────────────────
+Developer: "Implement the calculateMonthlyPayment function to pass the test"
+
+Agent implements:
+function calculateMonthlyPayment({ principal, annualRate, years }) {
+  const monthlyRate = annualRate / 12;
+  const numPayments = years * 12;
+  const payment = principal * 
+    (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+    (Math.pow(1 + monthlyRate, numPayments) - 1);
+  return payment;
+}
+
+Run test → ✅ PASSES
+
+Step 3: REFACTOR (Improve Code Quality)
+───────────────────────────────────────
+Developer: "Refactor for readability and add edge case handling"
+
+Agent refactors:
+function calculateMonthlyPayment({ 
+  principal, 
+  annualRate, 
+  years 
+}: LoanParameters): number {
+  if (principal <= 0) throw new Error('Principal must be positive');
+  if (annualRate < 0) throw new Error('Rate cannot be negative');
+  if (years <= 0) throw new Error('Years must be positive');
+  
+  const monthlyRate = annualRate / 12;
+  const numPayments = years * 12;
+  
+  // Handle zero interest rate edge case
+  if (annualRate === 0) {
+    return principal / numPayments;
+  }
+  
+  const payment = principal * 
+    (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+    (Math.pow(1 + monthlyRate, numPayments) - 1);
+    
+  return Math.round(payment * 100) / 100; // Round to 2 decimals
+}
+
+Run test → ✅ PASSES (with better code)
+```
+
+**Guardrails for Agentic TDD:**
+
+```bash
+# Pre-commit hook to ensure tests pass
+#!/bin/bash
+npm test
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed. Commit blocked."
+  exit 1
+fi
+
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "❌ Linting failed. Commit blocked."
+  exit 1
+fi
+
+echo "✅ All checks passed. Proceeding with commit."
+```
+
+---
+
+##### Agentic BDD (Behavior-Driven Development)
+
+To address the **"complexity of writing test cases,"** frameworks like **BDDTestAIGen** are emerging. These systems use LLMs and **"Agentic AI methods"** to automate the creation of BDD tests directly from high-level natural language requirements, **lowering the barrier to entry for all stakeholders**.
+
+**Traditional BDD Challenge:**
+```
+Problem: Writing comprehensive Gherkin scenarios requires:
+- Deep understanding of the application
+- Knowledge of edge cases
+- Consistent language and structure
+- Significant time investment
+
+Result: Incomplete test coverage, inconsistent scenarios
+```
+
+**BDDTestAIGen Solution:**
+
+```
+Input (Natural Language Requirement):
+"Users should be able to transfer funds between their checking and savings 
+accounts. The transfer should validate sufficient balance, apply daily 
+transfer limits, and send confirmation notifications."
+
+↓ BDDTestAIGen Agent ↓
+
+Output (Complete Gherkin Scenarios):
+Feature: Inter-Account Fund Transfer
+  As a banking customer
+  I want to transfer funds between my accounts
+  So that I can manage my finances efficiently
+
+  Background:
+    Given I am logged in to my account
+    And I have a checking account with balance $5000
+    And I have a savings account with balance $10000
+    And my daily transfer limit is $2000
+
+  Scenario: Successful transfer within limits
+    When I transfer $500 from checking to savings
+    Then the transfer should be completed
+    And my checking balance should be $4500
+    And my savings balance should be $10500
+    And I should receive a confirmation notification
+
+  Scenario: Transfer exceeds available balance
+    When I transfer $6000 from checking to savings
+    Then the transfer should be rejected
+    And I should see error "Insufficient funds"
+    And no account balances should change
+
+  Scenario: Transfer exceeds daily limit
+    Given I have already transferred $1800 today
+    When I transfer $500 from checking to savings
+    Then the transfer should be rejected
+    And I should see error "Daily transfer limit exceeded"
+    And I should see "Remaining limit: $200"
+
+  Scenario: Multiple transfers within limit
+    When I transfer $500 from checking to savings
+    And I transfer $300 from checking to savings
+    Then both transfers should be completed
+    And my checking balance should be $4200
+    And my savings balance should be $10800
+
+  Scenario: Transfer with zero amount
+    When I transfer $0 from checking to savings
+    Then the transfer should be rejected
+    And I should see error "Amount must be greater than zero"
+
+  Scenario: Transfer to same account
+    When I transfer $100 from checking to checking
+    Then the transfer should be rejected
+    And I should see error "Cannot transfer to the same account"
+```
+
+**Key Benefits:**
+
+✅ **Comprehensive Coverage** - Agent generates scenarios you might miss  
+✅ **Consistent Structure** - All scenarios follow the same pattern  
+✅ **Edge Case Discovery** - Agent thinks of boundary conditions  
+✅ **Fast Iteration** - Generate scenarios in seconds, not hours  
+✅ **Stakeholder Accessibility** - Non-technical team members can contribute requirements
+
+---
+
+#### 2. Visual Validation: Beyond Pixel-Perfect Testing
+
+This moves beyond traditional, **brittle pixel-to-pixel snapshot testing**. AI-native testing platforms like **Mabl** employ AI for **"visual validation"**. This allows the test to **understand the intent of the UI** and validate **component-level correctness** rather than just pixels, significantly **reducing false positives** from minor, non-breaking changes.
+
+**Traditional Visual Testing:**
+```
+❌ Problem: Pixel-perfect snapshot comparison
+
+Test fails if:
+- Font rendering differs slightly between OS
+- Browser renders 1px differently
+- Dynamic content changes (dates, user names)
+- Loading states differ in timing
+- Minor CSS tweaks (1px padding change)
+
+Result: 50%+ false positive rate → Developers ignore visual tests
+```
+
+**AI-Powered Visual Validation:**
+
+```
+✅ Solution: Semantic understanding of UI components
+
+Mabl AI validates:
+- Component structure (button is still a button)
+- Text content (ignoring minor formatting)
+- Layout relationships (button is still below input)
+- Visual hierarchy (headings are still prominent)
+- Functional elements (clickable areas intact)
+
+Ignores:
+- Minor pixel shifts
+- Font rendering differences
+- Dynamic content (timestamps, user-specific data)
+- Intentional design updates flagged as expected changes
+
+Result: <5% false positive rate → Tests are trusted
+```
+
+**Example:**
+
+```typescript
+// Traditional snapshot test (brittle)
+test('Login form matches snapshot', async ({ page }) => {
+  await page.goto('/login');
+  await expect(page).toHaveScreenshot('login.png');
+  // Fails if ANY pixel changes
+});
+
+// AI-powered visual validation (robust)
+test('Login form maintains structure and functionality', async ({ page }) => {
+  await page.goto('/login');
+  
+  await mabl.visualValidation(page, {
+    validateComponents: [
+      { type: 'input', label: 'Email', required: true },
+      { type: 'input', label: 'Password', required: true },
+      { type: 'button', text: 'Sign In', primary: true },
+      { type: 'link', text: 'Forgot password?' }
+    ],
+    validateLayout: {
+      emailAbovePassword: true,
+      buttonBelowInputs: true,
+      forgotPasswordRightAligned: true
+    },
+    ignoreContent: ['timestamp', 'username'],
+    tolerance: 'semantic' // Understands intent, not pixels
+  });
+  
+  // Passes even if:
+  // - Button color changes from #007bff to #0056b3
+  // - Padding changes by 2px
+  // - Font changes from Arial to Helvetica
+  // - Dynamic timestamp updates
+});
+```
+
+**FSI Use Case:**
+
+```
+Banking Dashboard Visual Validation:
+✅ Validates account cards display correct data structure
+✅ Confirms transaction list maintains chronological order
+✅ Ensures compliance disclaimers are visible
+✅ Validates responsive layout across devices
+
+Ignores:
+- Exact account balances (test data varies)
+- Transaction timestamps (dynamic)
+- Minor branding updates
+- A/B test variations
+```
+
+---
+
+#### 3. Accessibility Testing: Automated WCAG Compliance
+
+Accessibility is **no longer a separate, manual audit**. Modern AI test tools integrate **automated WCAG-based validation** directly into the test execution flow. An agent can be tasked to automatically check for accessibility compliance, including **color contrast, correct ARIA role implementation, and keyboard navigation**, without requiring developers to write or maintain a separate suite of accessibility rules.
+
+**The Problem with Traditional A11y Testing:**
+```
+❌ Manual audits (expensive, infrequent)
+❌ Separate test suites (out of sync with main tests)
+❌ Requires specialized expertise
+❌ Often tested at the end (too late to fix easily)
+❌ Incomplete coverage
+```
+
+**Agentic Accessibility Testing:**
+
+```
+✅ Automated, continuous validation
+✅ Integrated with functional tests
+✅ AI understands context (not just rule violations)
+✅ Tested throughout development
+✅ 100% coverage
+```
+
+**Implementation:**
+
+```typescript
+// Integrated A11y testing with Playwright + axe-core
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test.describe('Login Page Accessibility', () => {
+  test('should not have any automatically detectable WCAG violations', async ({ page }) => {
+    await page.goto('/login');
+    
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .analyze();
+    
+    expect(accessibilityScanResults.violations).toEqual([]);
+  });
+  
+  test('should support full keyboard navigation', async ({ page }) => {
+    await page.goto('/login');
+    
+    // Tab through all focusable elements
+    await page.keyboard.press('Tab'); // Email input
+    await expect(page.locator('[data-testid="email-input"]')).toBeFocused();
+    
+    await page.keyboard.press('Tab'); // Password input
+    await expect(page.locator('[data-testid="password-input"]')).toBeFocused();
+    
+    await page.keyboard.press('Tab'); // Remember me checkbox
+    await expect(page.locator('[data-testid="remember-me-checkbox"]')).toBeFocused();
+    
+    await page.keyboard.press('Tab'); // Sign in button
+    await expect(page.locator('[data-testid="sign-in-button"]')).toBeFocused();
+    
+    // Submit form with Enter key
+    await page.keyboard.press('Enter');
+  });
+  
+  test('should have proper ARIA labels and roles', async ({ page }) => {
+    await page.goto('/login');
+    
+    // Check for proper form labeling
+    const emailInput = page.locator('input[type="email"]');
+    await expect(emailInput).toHaveAttribute('aria-label', /email/i);
+    
+    const passwordInput = page.locator('input[type="password"]');
+    await expect(passwordInput).toHaveAttribute('aria-label', /password/i);
+    
+    // Check for error message association
+    await page.fill('[data-testid="email-input"]', 'invalid');
+    await page.click('[data-testid="sign-in-button"]');
+    
+    const errorMessage = page.locator('[data-testid="email-error"]');
+    const errorId = await errorMessage.getAttribute('id');
+    await expect(emailInput).toHaveAttribute('aria-describedby', errorId);
+  });
+  
+  test('should meet color contrast requirements', async ({ page }) => {
+    await page.goto('/login');
+    
+    const results = await new AxeBuilder({ page })
+      .withTags(['cat.color'])
+      .analyze();
+    
+    expect(results.violations.filter(v => v.id === 'color-contrast')).toEqual([]);
+  });
+});
+```
+
+**Agent-Driven A11y Testing:**
+
+```
+Developer: "Validate accessibility for the transaction dashboard"
+
+Agent (using Playwright + axe-core):
+1. Runs automated WCAG 2.1 AA scan
+2. Tests keyboard navigation paths
+3. Validates ARIA attributes
+4. Checks color contrast ratios
+5. Tests screen reader compatibility
+6. Validates focus management
+7. Tests with zoom (200%, 400%)
+
+Agent Report:
+"✅ All WCAG 2.1 AA criteria met
+ ✅ Full keyboard navigation supported
+ ✅ Proper ARIA attributes present
+ ⚠️  Warning: One link has ambiguous text ('Click here')
+    Recommendation: Change to 'View transaction details'"
+```
+
+**FSI Compliance Benefits:**
+
+```
+Banking Application A11y Requirements:
+- ADA compliance (Americans with Disabilities Act)
+- WCAG 2.1 AA minimum (often AAA for critical flows)
+- Section 508 compliance (government banking)
+
+Agentic Testing ensures:
+✅ Automated validation on every commit
+✅ Compliance evidence for audits
+✅ Reduced legal risk
+✅ Better user experience for all customers
+```
+
+---
+
+### D. Beyond the UI: Non-Functional and Chaos Testing
+
+A comprehensive agentic QA strategy must extend beyond UI functionality to encompass the **non-functional requirements** that define an application's **production-readiness**. An agent can be tasked, as part of the SDD plan, to generate and execute non-functional tests for:
+
+#### 1. Performance and Load Testing
+
+```gherkin
+Feature: Transaction API Performance
+  As a system architect
+  I want to ensure the transaction API meets performance SLAs
+  So that users experience fast, reliable service
+
+  Scenario: Handle baseline load
+    Given the system is in a healthy state
+    When 100 concurrent users request transaction history
+    Then 95th percentile response time should be under 200ms
+    And 99th percentile response time should be under 500ms
+    And error rate should be 0%
+
+  Scenario: Handle peak load
+    Given the system is in a healthy state
+    When 1000 concurrent users request transaction history for 5 minutes
+    Then 95th percentile response time should be under 1000ms
+    And error rate should be under 0.1%
+    And no requests should timeout
+
+  Scenario: Graceful degradation under extreme load
+    Given the system is in a healthy state
+    When 5000 concurrent users request transaction history
+    Then the system should return 429 (Too Many Requests) for excess traffic
+    And existing users should maintain sub-1s response times
+    And no data corruption should occur
+```
+
+**Agent Implementation:**
+
+```typescript
+// Agent generates k6 load test from Gherkin
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+import { Rate } from 'k6/metrics';
+
+const errorRate = new Rate('errors');
+
+export const options = {
+  stages: [
+    { duration: '2m', target: 100 },  // Baseline
+    { duration: '5m', target: 1000 }, // Peak
+    { duration: '2m', target: 5000 }, // Extreme
+    { duration: '2m', target: 0 },    // Ramp down
+  ],
+  thresholds: {
+    http_req_duration: ['p(95)<1000', 'p(99)<2000'],
+    errors: ['rate<0.001'],
+  },
+};
+
+export default function () {
+  const response = http.get('https://api.bank.com/transactions', {
+    headers: { 'Authorization': 'Bearer ${TOKEN}' },
+  });
+  
+  check(response, {
+    'status is 200': (r) => r.status === 200,
+    'response time < 1s': (r) => r.timings.duration < 1000,
+  }) || errorRate.add(1);
+  
+  sleep(1);
+}
+```
+
+---
+
+#### 2. Security and Vulnerability Testing
+
+```gherkin
+Feature: API Security
+  As a security engineer
+  I want to ensure the API is protected against common vulnerabilities
+  So that customer data remains secure
+
+  Scenario: Prevent SQL injection
+    When I send a request with SQL injection payload in the email parameter
+    Then the request should be rejected with 400 Bad Request
+    And no database queries should be executed
+    And the incident should be logged
+
+  Scenario: Enforce rate limiting
+    Given I have a valid API token
+    When I send 100 requests in 10 seconds
+    Then requests 51-100 should return 429 Too Many Requests
+    And a rate limit header should indicate reset time
+
+  Scenario: Validate JWT token expiration
+    Given I have an expired JWT token
+    When I send a request with the expired token
+    Then the request should return 401 Unauthorized
+    And the response should indicate "Token expired"
+```
+
+---
+
+#### 3. Scalability and Volume Testing
+
+```gherkin
+Feature: Database Scalability
+  As a database administrator
+  I want to ensure the database can handle growing data volumes
+  So that performance doesn't degrade over time
+
+  Scenario: Query performance with 10M transaction records
+    Given the transactions table contains 10 million records
+    When I query transactions for a user with 1000 transactions
+    Then the query should complete in under 100ms
+    And the query plan should use the account_id index
+
+  Scenario: Write performance under high volume
+    Given the system is processing 10,000 transactions per second
+    When I insert a new transaction
+    Then the write should complete in under 50ms
+    And no write conflicts should occur
+```
+
+---
+
+### E. Agentic Chaos Engineering: The Ultimate Testing MCP
+
+The most advanced application of this framework is **Agentic Chaos Engineering**. This moves chaos engineering from a **periodic, manual "gameday" event** into an **automated, continuous CI gate**.
+
+**Traditional Chaos Engineering:**
+```
+❌ Manual execution (quarterly "gamedays")
+❌ Requires dedicated team
+❌ Disruptive to development workflow
+❌ Limited coverage (only tests what humans think of)
+❌ Results hard to track over time
+```
+
+**Agentic Chaos Engineering:**
+```
+✅ Automated, continuous execution
+✅ Integrated into CI/CD pipeline
+✅ Non-disruptive (runs in isolated environments)
+✅ Comprehensive coverage (AI generates scenarios)
+✅ Tracked as code in version control
+```
+
+---
+
+#### BDD for Resilience Testing
+
+This is achieved by applying the **BDD workflow to resilience testing**. An agent in a CI/CD pipeline can be given a human-readable chaos experiment written in **Gherkin**:
+
+```gherkin
+Feature: EKS Pod Resilience
+  As a platform engineer
+  I want to ensure our application survives pod failures
+  So that we meet our 99.9% uptime SLA
+
+  Background:
+    Given the production environment is healthy
+    And all CloudWatch alarms are in OK state
+    And the application has at least 10 running pods
+
+  Scenario: Survive partial pod failure
+    When the agent executes an AWS Fault Injection Simulator (FIS) experiment 
+      to "terminate 10% of EKS pods"
+    Then the system availability should remain above 99.9%
+    And the CloudWatch "PodCountLow" alarm should fire within 1 minute
+    And Kubernetes should auto-heal by creating replacement pods within 2 minutes
+    And no customer-facing errors should be logged
+    And API response times should remain under 500ms
+
+  Scenario: Survive availability zone failure
+    When the agent executes an AWS FIS experiment 
+      to "make us-east-1a unavailable"
+    Then traffic should automatically route to us-east-1b and us-east-1c
+    And system availability should remain above 99.5%
+    And the CloudWatch "AZDown" alarm should fire within 30 seconds
+    And all active user sessions should be preserved
+
+  Scenario: Survive database primary failover
+    When the agent executes an AWS FIS experiment 
+      to "force RDS primary failover"
+    Then the application should detect the failover within 10 seconds
+    And reconnect to the new primary within 15 seconds
+    And in-flight transactions should be retried automatically
+    And no data loss should occur
+
+  Scenario: Survive network latency injection
+    When the agent injects 500ms latency on 50% of network calls
+    Then the application should implement circuit breakers
+    And fallback responses should be served within 200ms
+    And user-facing error rate should remain under 0.1%
+    And timeout configurations should prevent request queueing
+
+  Scenario: Survive memory pressure
+    When the agent injects a memory leak causing 80% memory usage
+    Then Kubernetes should detect the unhealthy pod
+    And replace the pod before it reaches 90% memory
+    And no cascading failures should occur
+    And active requests should drain gracefully
+```
+
+---
+
+#### Agent Implementation
+
+**The agent is no longer just testing a button; it is programmatically executing controlled fault injections and validating the system's architectural resilience against the specification.**
+
+```typescript
+// Agent-generated chaos test implementation
+import { test, expect } from '@playwright/test';
+import { FISClient, StartExperimentCommand } from '@aws-sdk/client-fis';
+import { CloudWatchClient, DescribeAlarmsCommand } from '@aws-sdk/client-cloudwatch';
+import { EKSClient, DescribeNodegroupCommand } from '@aws-sdk/client-eks';
+
+test.describe('EKS Pod Resilience', () => {
+  let fisClient: FISClient;
+  let cwClient: CloudWatchClient;
+  let eksClient: EKSClient;
+
+  test.beforeAll(() => {
+    fisClient = new FISClient({ region: 'us-east-1' });
+    cwClient = new CloudWatchClient({ region: 'us-east-1' });
+    eksClient = new EKSClient({ region: 'us-east-1' });
+  });
+
+  test('Survive partial pod failure', async () => {
+    // Verify baseline health
+    const baselineHealth = await checkSystemHealth();
+    expect(baselineHealth.availability).toBeGreaterThan(99.9);
+
+    // Execute chaos experiment
+    const experiment = await fisClient.send(new StartExperimentCommand({
+      experimentTemplateId: 'EXP-Pod-Termination-10pct',
+      tags: { 'Test': 'Automated', 'Agent': 'CI-CD' }
+    }));
+
+    // Monitor during experiment
+    const monitoring = monitorSystem(experiment.experiment.id, {
+      duration: 300, // 5 minutes
+      metrics: ['availability', 'error_rate', 'response_time', 'pod_count']
+    });
+
+    // Validate availability
+    const availabilityDuringChaos = await monitoring.getMetric('availability');
+    expect(availabilityDuringChaos.min).toBeGreaterThan(99.9);
+
+    // Validate alarm fired
+    const alarms = await cwClient.send(new DescribeAlarmsCommand({
+      AlarmNames: ['PodCountLow']
+    }));
+    const alarmHistory = alarms.MetricAlarms[0].StateUpdatedTimestamp;
+    expect(alarmHistory).toBeDefined();
+    expect(Date.now() - alarmHistory.getTime()).toBeLessThan(60000); // Within 1 min
+
+    // Validate auto-healing
+    const podsAfterChaos = await eksClient.send(new DescribeNodegroupCommand({
+      clusterName: 'production',
+      nodegroupName: 'app-nodes'
+    }));
+    expect(podsAfterChaos.nodegroup.scalingConfig.desiredSize)
+      .toBe(baselineHealth.podCount);
+
+    // Validate no customer impact
+    const errorLogs = await queryCloudWatchLogs({
+      logGroup: '/aws/application/errors',
+      timeRange: [experiment.startTime, experiment.endTime],
+      filter: 'level=ERROR AND customer_facing=true'
+    });
+    expect(errorLogs.length).toBe(0);
+
+    // Validate response times
+    const responseTime = await monitoring.getMetric('response_time');
+    expect(responseTime.p95).toBeLessThan(500);
+  });
+});
+```
+
+---
+
+#### CI/CD Integration
+
+```yaml
+# .github/workflows/chaos-testing.yml
+name: Continuous Chaos Engineering
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Daily at 2 AM
+  workflow_dispatch:
+
+jobs:
+  chaos-tests:
+    runs-on: ubuntu-latest
+    environment: staging
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Run Agentic Chaos Tests
+        run: npx playwright test chaos/*.spec.ts
+        env:
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ENVIRONMENT: staging
+      
+      - name: Upload Chaos Test Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: chaos-test-results
+          path: playwright-report/
+      
+      - name: Notify on Failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "🔥 Chaos test failed! System resilience below threshold."
+            }
+```
+
+---
+
+#### Benefits for FSI Organizations
+
+**Regulatory Compliance:**
+```
+Financial regulators require proof of:
+✅ Business continuity planning
+✅ Disaster recovery capabilities
+✅ Resilience testing
+
+Agentic Chaos Engineering provides:
+✅ Automated, documented resilience tests
+✅ Version-controlled chaos scenarios
+✅ Continuous validation of recovery procedures
+✅ Audit trail of all chaos experiments
+```
+
+**Operational Excellence:**
+```
+Traditional chaos gamedays:
+- Once per quarter
+- 2-hour disruption
+- Tests 5-10 scenarios
+- Manual documentation
+
+Agentic chaos testing:
+- Daily automated runs
+- Zero disruption (isolated environments)
+- Tests 50+ scenarios
+- Automatic documentation
+- Trend analysis over time
+```
+
+**Real Example:**
+
+```
+Major Bank Scenario:
+"Prove payment processing survives AWS region failure"
+
+Traditional Approach:
+- Schedule gameday (3 weeks planning)
+- Coordinate with 20+ teams
+- 4-hour event on Saturday
+- Manual failover execution
+- Document results in wiki
+
+Agentic Approach:
+- Write Gherkin scenario (30 minutes)
+- Agent generates test code
+- Runs nightly in staging
+- Automatic multi-region failover validation
+- Results tracked in git
+- Alerts on degradation
+
+Result: 100x more frequent testing, zero coordination overhead
+```
+
+---
+
+### Summary: The Complete Testing MCP
+
+This framework represents the **full realization of a "Testing MCP"** that validates the entire system:
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Spec (Figma + requirements.md)                     │
+└─────────────────┬───────────────────────────────────┘
+                  │
+    ┌─────────────┴─────────────┬──────────────────┬──────────────┐
+    │                           │                  │              │
+    ▼                           ▼                  ▼              ▼
+┌─────────┐              ┌───────────┐      ┌──────────┐   ┌──────────┐
+│   BDD   │              │    TDD    │      │ Visual   │   │   A11y   │
+│ Gherkin │              │ Unit Tests│      │ Testing  │   │  Testing │
+└─────────┘              └───────────┘      └──────────┘   └──────────┘
+    │                           │                  │              │
+    └─────────────┬─────────────┴──────────────────┴──────────────┘
+                  │
+                  ▼
+        ┌─────────────────────┐
+        │  Browser MCP        │
+        │  (Selenium/         │
+        │   Playwright)       │
+        └──────────┬──────────┘
+                   │
+     ┌─────────────┼─────────────┬──────────────────┐
+     │             │             │                  │
+     ▼             ▼             ▼                  ▼
+┌──────────┐  ┌──────────┐  ┌──────────┐     ┌──────────┐
+│Performance│  │ Security │  │Scalability│     │  Chaos   │
+│   Tests   │  │  Tests   │  │  Tests   │     │   Eng    │
+└──────────┘  └──────────┘  └──────────┘     └──────────┘
+     │             │             │                  │
+     └─────────────┴─────────────┴──────────────────┘
+                   │
+                   ▼
+          ┌────────────────┐
+          │  CI/CD Gate    │
+          │  All tests     │
+          │  must pass     │
+          └────────────────┘
+                   │
+                   ▼
+          ┌────────────────┐
+          │  Production    │
+          │  Deploy        │
+          └────────────────┘
+```
+
+**From UI behavior to architectural integrity, the Testing MCP ensures complete system quality through automated, agent-driven validation.**
 
 ---
 
