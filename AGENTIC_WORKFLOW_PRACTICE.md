@@ -1089,6 +1089,661 @@ The architecture of the autonomous enterprise starts now.
 
 ---
 
+### The New Foundation: Specification as the Source of Truth
+
+This section establishes the **methodological and architectural bedrock** required to manage and scale AI-driven development.
+
+---
+
+#### I. From 'Vibe Coding' to Verifiable Intent: The SDD Implementation Deep Dive
+
+**The Core Problem: 'Vibe Coding' vs. 'Verifiable Intent'**
+
+The core challenge in integrating AI agents into a production software development lifecycle (SDLC) is the **"specification problem"**.
+
+Unstructured prompting, often called **"vibe coding"**, fails at scale because it forces the AI agent—which is exceptional at pattern completion but not "mind reading"—to guess at thousands of unstated requirements. This leads to inconsistent, unscalable, and incorrect results.
+
+**Spec-Driven Development (SDD)** is the methodology that solves this. It elevates specifications from static documentation into **executable, first-class artifacts**. The spec becomes the **"source of truth"** that provides explicit, machine-understandable guardrails, ensuring a verifiable alignment between human intent and AI execution.
+
+While the philosophy is shared, its implementation varies significantly across the major agentic frameworks.
+
+---
+
+#### Implementation 1: The Kiro & AWS AI-DLC Approach
+
+**Kiro** is an agentic IDE built on the Code OSS platform (it is not an AWS service, though it integrates with AWS). It is purpose-built around a spec-driven methodology that centers on **three critical specification files** as the project's single source of truth:
+
+1. **requirements.md**: Captures **what** needs to be built
+   - Uses user stories and acceptance criteria in the **EARS (Easy Approach to Requirements Syntax)** format to ensure clarity
+   - Defines business requirements, user journeys, and expected outcomes
+   - Serves as the contract between business stakeholders and technical implementation
+
+2. **design.md**: Outlines the **technical architecture**
+   - Serves as the blueprint, defining components, data models, and interfaces
+   - Documents system design decisions and architectural patterns
+   - Provides the structural foundation for implementation
+
+3. **tasks.md**: Breaks the design into a **checklist of coding tasks**
+   - Provides a clear, step-by-step implementation plan for the agent
+   - Tracks progress and completion status
+   - Enables incremental development and validation
+
+**The Workflow:**
+
+In this workflow, the developer collaborates with Kiro to generate these **"living documentation"** files, which then act as the agent's **"long-term memory"** to guide implementation.
+
+**Agent Hooks:**
+
+Kiro can also use **"agent hooks"** to automate tasks on events like "file save," such as:
+
+- Automatically updating documentation
+- Running security scans
+- Validating compliance with specifications
+- Triggering CI/CD pipelines
+
+**AWS AI-Driven Development Life Cycle (AI-DLC):**
+
+This file-based approach is a practical implementation of the broader **AWS AI-Driven Development Life Cycle (AI-DLC)**. The AI-DLC methodology reframes the SDLC into **three phases** driven by AI-human collaboration:
+
+1. **Inception**: AI transforms business intent into detailed requirements (the `requirements.md`)
+2. **Construction**: AI proposes the architecture and code (the `design.md` and `tasks.md`)
+3. **Operations**: AI manages infrastructure and deployments
+
+Tools like **Kiro** and **Amazon Q Developer** (with its own project-level rules defined in `.amazonq/rules/`) are used to execute this AI-DLC.
+
+**Example Kiro Workflow:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Kiro Spec-Driven Workflow                                   │
+└─────────────────────────────────────────────────────────────┘
+
+Phase 1: Inception (Requirements)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Developer: "Build a payment processing system"
+Kiro Agent: Generates requirements.md
+
+requirements.md:
+- User Story: As a customer, I want to process credit card payments
+- Acceptance Criteria (EARS format):
+  * WHEN customer clicks "Pay", THEN payment form displays
+  * WHEN payment succeeds, THEN order confirmation email sent
+  * IF payment fails, THEN error message displayed
+
+Phase 2: Construction (Design → Tasks)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Kiro Agent: Generates design.md from requirements.md
+
+design.md:
+- Architecture: Microservices (API Gateway → Payment Service → Database)
+- Tech Stack: Node.js, Express, Stripe API, PostgreSQL
+- Data Models: Order, Payment, Customer
+- APIs: POST /api/payments, GET /api/payments/:id
+
+Kiro Agent: Generates tasks.md from design.md
+
+tasks.md:
+☐ Task 1: Set up Express server
+☐ Task 2: Integrate Stripe SDK
+☐ Task 3: Create Payment model
+☐ Task 4: Implement POST /api/payments endpoint
+☐ Task 5: Add error handling
+☐ Task 6: Write unit tests
+
+Phase 3: Implementation (Agent Execution)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Kiro Agent: Executes tasks.md, writes code
+Agent Hooks: Auto-update docs, run security scan on save
+```
+
+**Key Benefits:**
+
+- ✅ **Single Source of Truth** - All specs version-controlled in Git
+- ✅ **Agent Long-Term Memory** - Specs persist across sessions
+- ✅ **Automated Consistency** - Agent hooks keep docs synchronized
+- ✅ **EARS Format** - Structured requirements prevent ambiguity
+
+---
+
+#### Implementation 2: The GitHub Spec Kit Approach
+
+**GitHub Spec Kit** is an open-source toolkit (CLI, templates, and prompts) designed to formalize the SDD process for **any AI coding assistant**, including GitHub Copilot, Claude Code, and Gemini.
+
+It implements a structured, **five-phase workflow** managed via CLI commands in the IDE:
+
+**Phase 1: `/speckit.constitution`**
+
+- **Purpose**: Defines the project's **high-level governing principles**, development guidelines, and coding standards
+- **Output**: `constitution.md` file
+- **Content**:
+  - Team values and development philosophy
+  - Coding standards (formatting, naming conventions)
+  - Architecture principles (SOLID, DRY, KISS)
+  - Security and compliance requirements
+  - Technology choices and rationale
+
+**Phase 2: `/speckit.specify`**
+
+- **Purpose**: Defines the **what** and **why**
+- **Output**: `spec.md` file
+- **Content**:
+  - Business requirements
+  - User journeys
+  - Success criteria
+  - Non-functional requirements (performance, security, scalability)
+  - Open questions requiring human decision
+
+**Phase 3: `/speckit.plan`**
+
+- **Purpose**: Defines the **technical how**
+- **Output**: `plan.md` file
+- **Content**:
+  - System architecture
+  - Tech stack and dependencies
+  - Data models and schemas
+  - API contracts
+  - Integration points
+  - Risk assessment
+
+**Phase 4: `/speckit.tasks`**
+
+- **Purpose**: Breaks the approved plan into an **actionable checklist** of tasks
+- **Output**: `tasks.md` file
+- **Content**:
+  - Numbered task list
+  - Task dependencies
+  - Estimated effort
+  - Completion status
+
+**Phase 5: `/speckit.implement`**
+
+- **Purpose**: Instructs the agent to **execute the tasks** and build the feature
+- **Output**: Working code
+- **Process**:
+  - Agent reads spec.md, plan.md, and tasks.md
+  - Agent writes code following constitution.md
+  - Agent marks tasks complete as implemented
+
+**Optional Quality Assurance Commands:**
+
+- **`/speckit.analyze`**: Cross-artifact consistency validation
+  - Ensures plan.md aligns with spec.md
+  - Checks tasks.md covers all plan.md requirements
+  - Identifies gaps or conflicts
+
+- **`/speckit.checklist`**: Generates "unit tests for English"
+  - Validates requirements completeness
+  - Checks for ambiguous language
+  - Ensures testable acceptance criteria
+
+**Example GitHub Spec Kit Workflow:**
+
+```bash
+# Step 1: Establish project governance
+/speckit.constitution
+
+Output: constitution.md
+---
+# Project Constitution
+
+## Development Philosophy
+- Code must be readable and maintainable
+- Security is non-negotiable
+- Every feature must have tests
+
+## Coding Standards
+- TypeScript strict mode enabled
+- ESLint + Prettier for formatting
+- Functional programming preferred
+
+## Architecture Principles
+- SOLID principles mandatory
+- Microservices for scalability
+- Event-driven communication
+---
+
+# Step 2: Define what to build
+/speckit.specify
+
+Output: spec.md
+---
+# Feature Specification: User Authentication
+
+## Business Requirements
+- Users must be able to sign up with email/password
+- Users must be able to log in and log out
+- Passwords must be hashed (bcrypt)
+
+## User Journeys
+1. New user visits site → Clicks "Sign Up" → Fills form → Account created
+2. Existing user visits site → Clicks "Log In" → Enters credentials → Redirected to dashboard
+
+## Success Criteria
+- Sign-up completes in < 3 seconds
+- Password strength validation (8+ chars, 1 number, 1 symbol)
+- JWT token issued on successful login
+
+## Open Questions
+- Should we support OAuth (Google, GitHub)?
+- What is session timeout duration?
+---
+
+# Step 3: Plan the technical implementation
+/speckit.plan
+
+Output: plan.md
+---
+# Implementation Plan: User Authentication
+
+## Tech Stack
+- Backend: Node.js + Express
+- Database: PostgreSQL
+- Auth: bcrypt + jsonwebtoken (JWT)
+
+## Architecture
+POST /api/auth/signup → UserService.createUser() → Database
+POST /api/auth/login  → UserService.validateUser() → Generate JWT
+
+## Data Model
+User:
+  - id: UUID (primary key)
+  - email: string (unique)
+  - password_hash: string
+  - created_at: timestamp
+
+## Dependencies
+- bcrypt (password hashing)
+- jsonwebtoken (JWT generation)
+- pg (PostgreSQL client)
+
+## Risks
+- Password hashing is CPU-intensive (mitigate with async bcrypt)
+- JWT secret must be secure (use environment variable)
+---
+
+# Step 4: Break into tasks
+/speckit.tasks
+
+Output: tasks.md
+---
+# Tasks: User Authentication
+
+☐ 1. Set up PostgreSQL database
+☐ 2. Create User table migration
+☐ 3. Install dependencies (bcrypt, jsonwebtoken, pg)
+☐ 4. Implement POST /api/auth/signup endpoint
+☐ 5. Implement POST /api/auth/login endpoint
+☐ 6. Implement password hashing with bcrypt
+☐ 7. Implement JWT token generation
+☐ 8. Add password strength validation
+☐ 9. Write unit tests for signup
+☐ 10. Write unit tests for login
+☐ 11. Write integration tests
+---
+
+# Step 5: Execute implementation
+/speckit.implement
+
+Agent reads: constitution.md, spec.md, plan.md, tasks.md
+Agent writes: src/auth/signup.ts, src/auth/login.ts, tests/auth.test.ts
+Agent updates: tasks.md (marks tasks complete)
+
+# Optional: Validate consistency
+/speckit.analyze
+
+Output:
+✅ plan.md covers all spec.md requirements
+✅ tasks.md covers all plan.md components
+⚠️  Open question in spec.md not addressed in plan.md: "OAuth support?"
+
+# Optional: Validate requirements quality
+/speckit.checklist
+
+Output:
+✅ All requirements are testable
+✅ Success criteria are measurable
+⚠️  Ambiguous: "Password must be strong" (define strength criteria)
+```
+
+**Key Benefits:**
+
+- ✅ **AI-Agnostic** - Works with any AI coding assistant (Copilot, Claude, Gemini)
+- ✅ **Flexible** - CLI commands adapt to any workflow
+- ✅ **Quality Assurance** - Built-in validation commands
+- ✅ **Lightweight** - Markdown files in Git, no proprietary tooling
+
+**Ideal Use Case:**
+
+Teams adding structure to existing AI tools (Copilot, Claude Code) for small-to-medium projects.
+
+---
+
+#### Implementation 3: The Agent OS Approach
+
+**Agent OS** is a free, open-source **"operating system for spec-driven development"** that is also tool-agnostic. Its primary goal is to **train your AI agents to build your way** by providing structured context.
+
+**Key Innovation: 3-Layer Context System**
+
+Agent OS provides a **3-Layer Context** architecture that separates concerns:
+
+**Layer 1: Standards/** - **How** your team builds
+
+- **Purpose**: Captures your organization's specific coding standards, patterns, and best practices as **executable specifications**
+- **Content**:
+  - Coding style guides (naming conventions, formatting)
+  - Architecture patterns (microservices, event-driven)
+  - Security standards (authentication, authorization)
+  - Testing requirements (unit, integration, e2e)
+  - Deployment practices (CI/CD, infrastructure as code)
+
+**Layer 2: Product/** - **Why** you are building
+
+- **Purpose**: Provides the agent with the high-level product mission, vision, and feature roadmap
+- **Content**:
+  - Product vision and mission statement
+  - Target user personas
+  - Product roadmap (features, priorities)
+  - Business metrics and KPIs
+  - Competitive analysis
+
+**Layer 3: Specs/** - **What** you are building next
+
+- **Purpose**: Detailed, specific feature specifications
+- **Content**:
+  - Current feature requirements
+  - User stories and acceptance criteria
+  - Technical design
+  - Task breakdown
+  - Implementation status
+
+**The 6-Phase Workflow:**
+
+Agent OS provides a structured **six-phase workflow** for development:
+
+**Phase 1: `plan-product`**
+
+- Define product vision and roadmap
+- Identify feature priorities
+- Create Product/ layer content
+
+**Phase 2: `shape-spec`**
+
+- Rough out feature concept
+- Identify unknowns and risks
+- Create high-level specification
+
+**Phase 3: `write-spec`**
+
+- Detailed specification creation
+- User stories and acceptance criteria
+- Technical design decisions
+
+**Phase 4: `create-tasks`**
+
+- Break spec into actionable tasks
+- Define task dependencies
+- Estimate effort
+
+**Phase 5: `implement-tasks`**
+
+- Agent executes tasks
+- Writes code following Standards/
+- Updates task completion status
+
+**Phase 6: `orchestrate-tasks`**
+
+- Coordinate multi-agent collaboration
+- Manage task dependencies
+- Monitor progress and quality
+
+**Example Agent OS Workflow:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Agent OS 3-Layer Context System                             │
+└─────────────────────────────────────────────────────────────┘
+
+Layer 1: Standards/ (How We Build)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Standards/
+├── coding-style.md
+│   - TypeScript strict mode
+│   - ESLint + Prettier
+│   - Functional programming patterns
+├── architecture.md
+│   - Microservices architecture
+│   - Event-driven communication
+│   - RESTful API design
+├── security.md
+│   - OAuth 2.0 + JWT authentication
+│   - OWASP Top 10 compliance
+│   - Secret management (AWS Secrets Manager)
+└── testing.md
+    - 80% code coverage minimum
+    - Unit tests (Jest)
+    - Integration tests (Supertest)
+    - E2E tests (Playwright)
+
+Layer 2: Product/ (Why We Build)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Product/
+├── vision.md
+│   - Mission: "Simplify financial services for SMBs"
+│   - Target: Small business owners (1-50 employees)
+│   - Value Prop: "Bank-grade security, zero complexity"
+├── roadmap.md
+│   - Q1 2026: User authentication + payments
+│   - Q2 2026: Multi-currency support
+│   - Q3 2026: Accounting integrations
+└── metrics.md
+    - KPI: 10K active users by Q2 2026
+    - Success: < 5 min average signup time
+    - NPS: > 50
+
+Layer 3: Specs/ (What We Build Next)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Specs/
+└── user-authentication/
+    ├── spec.md
+    │   - Feature: User signup and login
+    │   - User Stories: "As a business owner, I want..."
+    │   - Acceptance Criteria: GIVEN/WHEN/THEN format
+    ├── design.md
+    │   - Architecture: POST /api/auth/signup
+    │   - Tech Stack: Node.js, PostgreSQL, bcrypt, JWT
+    │   - Data Models: User table schema
+    └── tasks.md
+        - ☑ Task 1: Set up database (COMPLETE)
+        - ☑ Task 2: Create User model (COMPLETE)
+        - ☐ Task 3: Implement signup endpoint (IN PROGRESS)
+        - ☐ Task 4: Implement login endpoint
+        - ☐ Task 5: Write tests
+
+Agent Execution with Full Context:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Agent reads:
+1. Standards/ → Knows HOW to build (TypeScript, microservices, 80% coverage)
+2. Product/ → Knows WHY building (SMB financial platform, 10K users goal)
+3. Specs/ → Knows WHAT to build (user auth, signup/login endpoints)
+
+Agent writes code that:
+✅ Follows Standards/coding-style.md (TypeScript strict mode)
+✅ Aligns with Product/vision.md (SMB-friendly, simple UX)
+✅ Implements Specs/user-authentication/spec.md (signup/login)
+✅ Meets Standards/testing.md (80% coverage, unit + integration tests)
+```
+
+**The 6-Phase Workflow in Action:**
+
+```bash
+# Phase 1: plan-product
+Command: agent-os plan-product
+
+Output: Product/vision.md, Product/roadmap.md, Product/metrics.md
+- Product vision: "Simplify financial services for SMBs"
+- Roadmap: Q1 2026 features (auth, payments)
+- Success metrics: 10K users, < 5 min signup
+
+# Phase 2: shape-spec
+Command: agent-os shape-spec --feature user-authentication
+
+Output: Specs/user-authentication/concept.md
+- High-level: "Users can sign up and log in"
+- Unknowns: "OAuth support? Session timeout duration?"
+- Risks: "Password hashing is CPU-intensive"
+
+# Phase 3: write-spec
+Command: agent-os write-spec --feature user-authentication
+
+Output: Specs/user-authentication/spec.md
+- User Stories: "As a business owner, I want to create an account..."
+- Acceptance Criteria: GIVEN/WHEN/THEN format
+- Non-functional: < 3 sec signup, 8+ char passwords
+
+Output: Specs/user-authentication/design.md
+- Architecture: POST /api/auth/signup → UserService → PostgreSQL
+- Tech Stack: Node.js, Express, bcrypt, JWT
+- Data Models: User table (id, email, password_hash)
+
+# Phase 4: create-tasks
+Command: agent-os create-tasks --feature user-authentication
+
+Output: Specs/user-authentication/tasks.md
+- ☐ 1. Set up PostgreSQL database
+- ☐ 2. Create User table migration
+- ☐ 3. Install bcrypt + jsonwebtoken
+- ☐ 4. Implement signup endpoint
+- ☐ 5. Implement login endpoint
+- ☐ 6. Write unit tests
+- ☐ 7. Write integration tests
+
+# Phase 5: implement-tasks
+Command: agent-os implement-tasks --feature user-authentication
+
+Agent reads: Standards/, Product/, Specs/user-authentication/
+Agent writes: src/auth/signup.ts, src/auth/login.ts, tests/auth.test.ts
+Agent follows: Standards/coding-style.md, Standards/testing.md
+Agent updates: tasks.md (marks tasks complete)
+
+# Phase 6: orchestrate-tasks
+Command: agent-os orchestrate-tasks --feature user-authentication
+
+Multi-agent orchestration:
+- Agent 1 (Backend): Implements API endpoints
+- Agent 2 (Database): Creates migrations and schemas
+- Agent 3 (Testing): Writes unit and integration tests
+- Orchestrator: Coordinates agents, resolves conflicts
+```
+
+**Key Benefits:**
+
+- ✅ **Tool-Agnostic** - Works with any AI agent (Copilot, Claude, Q Developer, custom agents)
+- ✅ **Enterprise-Grade** - Enforce existing custom standards and patterns
+- ✅ **Scalable** - 3-layer context scales to complex organizations
+- ✅ **Multi-Agent Ready** - Orchestrate multiple agents with shared context
+- ✅ **Living Standards** - Standards/ evolves with your organization
+
+**Ideal Use Case:**
+
+Mature enterprises needing to enforce existing custom standards and patterns on any AI agent.
+
+---
+
+#### Table 1: Comparative Analysis of SDD Implementation Frameworks
+
+| Framework | Core Philosophy | Key Artifacts | Workflow | Ideal Use Case |
+|-----------|-----------------|---------------|----------|----------------|
+| **Kiro** | Integrated Agentic IDE | `requirements.md` (EARS format), `design.md`, `tasks.md` | 3-phase spec generation (Reqs → Design → Tasks) within the IDE | Developers and teams seeking an all-in-one, highly structured agentic IDE |
+| **GitHub Spec Kit** | Flexible, AI-agnostic toolkit (CLI) | `constitution.md`, `spec.md`, `plan.md`, `tasks.md` | 5-step CLI commands (`/speckit.specify`, `/speckit.plan`, etc.) guiding any AI assistant | Teams adding structure to existing AI tools (Copilot, Claude Code) for small-to-medium projects |
+| **Agent OS** | Tool-agnostic "Operating System" | `Standards/`, `Product/`, `Specs/` (3-Layer Context) | 6-phase workflow (`plan-product`, `shape-spec`, `write-spec`, `create-tasks`, `implement-tasks`, `orchestrate-tasks`) | Mature enterprises needing to enforce existing custom standards and patterns on any AI agent |
+
+**Key Differences:**
+
+**Kiro**:
+- **Strength**: Integrated IDE experience, agent hooks for automation
+- **Limitation**: Requires specific IDE (Code OSS-based)
+- **Best For**: Teams wanting turnkey, highly opinionated solution
+
+**GitHub Spec Kit**:
+- **Strength**: Maximum flexibility, works with any AI assistant, lightweight (just markdown + CLI)
+- **Limitation**: Requires manual CLI command execution
+- **Best For**: Teams incrementally adopting SDD with existing tools
+
+**Agent OS**:
+- **Strength**: 3-layer context separation, enterprise-scale standards enforcement, multi-agent orchestration
+- **Limitation**: Requires more upfront setup (defining Standards/, Product/ layers)
+- **Best For**: Large organizations with complex, mature development standards
+
+**The Convergence:**
+
+All three frameworks share the same core insight: **The specification is the source of truth**. They differ in:
+
+1. **Granularity**: How specifications are structured (3 files vs. 4 files vs. 3 layers)
+2. **Tooling**: IDE-integrated vs. CLI-driven vs. OS-layer
+3. **Scope**: Feature-level specs vs. project-level specs vs. organization-level standards
+
+**Selection Criteria for FSI Organizations:**
+
+| Criterion | Kiro | GitHub Spec Kit | Agent OS |
+|-----------|------|-----------------|----------|
+| **Compliance Requirements** | ⭐⭐⭐ (EARS format built-in) | ⭐⭐ (Manual compliance checks) | ⭐⭐⭐⭐ (Standards/ for policies) |
+| **Agent Flexibility** | ⭐⭐ (IDE-specific) | ⭐⭐⭐⭐ (Any AI assistant) | ⭐⭐⭐⭐ (Any AI agent) |
+| **Enterprise Scale** | ⭐⭐ (Project-level) | ⭐⭐⭐ (Project-level) | ⭐⭐⭐⭐ (Org-level) |
+| **Ease of Adoption** | ⭐⭐⭐⭐ (Integrated IDE) | ⭐⭐⭐ (CLI learning curve) | ⭐⭐ (Requires setup) |
+| **Cost** | Free (open-source) | Free (open-source) | Free (open-source) |
+
+**FSI Recommendation:**
+
+For **financial services institutions**, the recommended approach is:
+
+1. **Start with GitHub Spec Kit** for rapid adoption and proof-of-concept (low barrier to entry)
+2. **Evaluate Kiro** for teams seeking integrated IDE experience
+3. **Graduate to Agent OS** for organization-wide standardization and multi-agent orchestration at scale
+
+**The Implementation Path:**
+
+```text
+Maturity Journey: SDD Adoption in FSI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Phase 1: Pilot (Months 1-3)
+├─ Tool: GitHub Spec Kit
+├─ Scope: 1-2 small projects (< 10K LOC)
+├─ Goal: Validate SDD reduces agentic drift
+└─ Success: 50% reduction in rework
+
+Phase 2: Expansion (Months 4-9)
+├─ Tool: GitHub Spec Kit + Kiro (for new teams)
+├─ Scope: 10-20 medium projects (10K-100K LOC)
+├─ Goal: Establish SDD as standard practice
+└─ Success: 80% of projects use spec.md
+
+Phase 3: Enterprise (Months 10-18)
+├─ Tool: Agent OS
+├─ Scope: Organization-wide (100+ projects)
+├─ Goal: Enforce corporate standards across all agents
+└─ Success: Standards/ defined, 100% adoption
+
+Phase 4: Optimization (Months 19+)
+├─ Tool: Agent OS + Multi-Agent Orchestration
+├─ Scope: Complex, cross-functional projects
+├─ Goal: Autonomous development with human oversight
+└─ Success: 90% reduction in manual coding
+```
+
+**Key Takeaway:**
+
+The transition from "vibe coding" to "verifiable intent" is **non-negotiable** for FSI organizations. SDD frameworks (Kiro, GitHub Spec Kit, Agent OS) provide the structured methodology to:
+
+- ✅ **Eliminate agentic drift** - Explicit specifications prevent AI hallucinations
+- ✅ **Enable compliance audits** - Version-controlled specs create audit trail
+- ✅ **Scale AI development** - Specifications are the coordination layer for multi-agent teams
+- ✅ **Preserve institutional knowledge** - Specs survive team turnover
+
+The specification **is** the source of truth. Choose your framework, but **mandate the practice**.
+
+---
+
 ## The Design Phase: Figma MCP
 
 ### Introduction: The 'Design MCP' as the Bridge
