@@ -5522,6 +5522,998 @@ This closes the observability loop, enabling **truly autonomous, production-grad
 
 ---
 
+## The Emerging Ecosystem: Interoperability and the Agent Marketplace
+
+The final component of the **agentic enterprise architecture** is the **external ecosystem** - a standardized, interoperable marketplace where agents from different vendors can discover, collaborate, and work together seamlessly.
+
+This ecosystem is being built on a **dual-protocol foundation** that solves the two fundamental interoperability problems:
+
+1. **How do agents connect to tools?** → MCP (Model Context Protocol)
+2. **How do agents connect to each other?** → A2A (Agent-to-Agent Protocol)
+
+---
+
+### The Two-Protocol Architecture
+
+Two distinct open standards are emerging to govern the **"Internet of Agents"**:
+
+---
+
+#### 1. MCP (Model Context Protocol) - The Agent-to-Tool Standard
+
+**Purpose:** Standardizes how agents connect to tools and data sources.
+
+As detailed throughout this document, MCP provides:
+
+- **Unified tool interface** - Single protocol for all external integrations
+- **Secure data access** - OAuth, API keys, credential management
+- **Resource discovery** - Agents can query available tools dynamically
+- **Context persistence** - Maintains state across multi-step workflows
+
+**Example MCP Connection:**
+
+```typescript
+// Agent uses MCP to connect to Stripe
+import { MCPClient } from '@modelcontextprotocol/sdk';
+
+const stripeClient = new MCPClient({
+  server: 'stripe-mcp-server',
+  transport: 'stdio'
+});
+
+// Discover available tools
+const tools = await stripeClient.listTools();
+// Returns: ['process_refund', 'get_transaction', 'update_payment_method', ...]
+
+// Execute tool
+const result = await stripeClient.callTool('process_refund', {
+  orderId: '1234',
+  amount: 99.99,
+  reason: 'customer_request'
+});
+```
+
+**MCP Ecosystem (as of Nov 2025):**
+
+- **Official MCP Servers:** 50+ (Figma, GitHub, Slack, Google Drive, PostgreSQL, etc.)
+- **Community Servers:** 200+ (Stripe, Shopify, Salesforce, HubSpot, etc.)
+- **Protocol Adopters:** Anthropic (Claude), OpenAI (GPT), Google (Gemini), Microsoft (Copilot)
+
+**The MCP Promise:**
+
+> "Write a tool integration once, use it with any AI agent."
+
+---
+
+#### 2. A2A (Agent-to-Agent) Protocol - The Agent Collaboration Standard
+
+**Purpose:** Enables seamless communication and collaboration between AI agents.
+
+A2A is a **separate open standard** that provides a **common language** allowing agents from different vendors, built on different frameworks (LangChain, AutoGen, CrewAI, Bedrock Agents), to:
+
+✅ **Discover each other's capabilities**  
+✅ **Delegate tasks to specialist agents**  
+✅ **Share context and state across agent boundaries**  
+✅ **Coordinate multi-agent workflows**
+
+**A2A Protocol Structure:**
+
+```json
+{
+  "protocol": "A2A",
+  "version": "1.0",
+  "message": {
+    "type": "TASK_DELEGATION",
+    "from": {
+      "agentId": "salesforce-orchestrator-v2",
+      "vendor": "Salesforce",
+      "capabilities": ["crm", "workflow_orchestration", "customer_management"]
+    },
+    "to": {
+      "agentId": "stripe-payment-agent-v1",
+      "vendor": "Stripe",
+      "capabilities": ["payment_processing", "refund_management", "subscription_billing"]
+    },
+    "task": {
+      "id": "task-abc123",
+      "type": "PROCESS_REFUND",
+      "priority": "HIGH",
+      "context": {
+        "orderId": "1234",
+        "customerId": "cust_xyz789",
+        "amount": 99.99,
+        "reason": "customer_request",
+        "originalTransaction": "ch_3NyBQR2eZvKYlo2C0x4nGHxI"
+      },
+      "deadline": "2025-11-16T18:00:00Z",
+      "callbackUrl": "https://salesforce-agent.example.com/task-callback"
+    },
+    "authentication": {
+      "type": "OAUTH2",
+      "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+  }
+}
+```
+
+**A2A Response:**
+
+```json
+{
+  "protocol": "A2A",
+  "version": "1.0",
+  "response": {
+    "taskId": "task-abc123",
+    "status": "COMPLETED",
+    "result": {
+      "refundId": "re_3NyBQR2eZvKYlo2C0x4nGHxI",
+      "amount": 99.99,
+      "status": "succeeded",
+      "processedAt": "2025-11-16T17:45:32Z",
+      "estimatedArrival": "2025-11-21T00:00:00Z"
+    },
+    "nextActions": [
+      {
+        "type": "NOTIFY_CUSTOMER",
+        "suggestedAgent": "salesforce-communication-agent",
+        "message": "Refund of $99.99 processed successfully. Funds will arrive in 5-7 business days."
+      }
+    ]
+  }
+}
+```
+
+**Key A2A Capabilities:**
+
+| Capability | Description | Example |
+|-----------|-------------|---------|
+| **Agent Discovery** | Find agents by capability, vendor, or domain | "Find payment processing agents" |
+| **Capability Negotiation** | Agents declare what they can do | Stripe agent: "I can process refunds up to $10K" |
+| **Task Delegation** | High-level agent delegates to specialist | Orchestrator → Stripe agent for payment |
+| **Context Sharing** | Pass state between agents | Customer context from Salesforce to Stripe |
+| **Result Callbacks** | Async task completion notifications | Stripe notifies Salesforce when refund completes |
+| **Error Handling** | Standardized error propagation | Payment failure → escalation to human |
+
+**The A2A Promise:**
+
+> "Agents from different vendors can unite and work together, regardless of their underlying framework."
+
+---
+
+### The Grand Synthesis: MCP + A2A
+
+These two protocols (MCP and A2A) work together to create the **complete, interoperable agentic ecosystem**.
+
+**Example: Multi-Agent Refund Workflow**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Enterprise Workflow: Customer Refund Processing            │
+└─────────────────────────────────────────────────────────────┘
+
+Step 1: High-Level Task Assignment
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Human: "Process refund for order #1234 and notify customer"
+  │
+  ↓
+Salesforce Orchestrator Agent (receives task)
+
+Step 2: Agent-to-Agent Delegation (A2A Protocol)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Salesforce Agent → [A2A Discovery]
+  ↓
+  "Find payment processing agent with 'refund' capability"
+  ↓
+Agent Directory Returns: Stripe Specialist Agent
+  ↓
+Salesforce Agent → [A2A Task Delegation] → Stripe Agent
+  Message: {
+    "task": "PROCESS_REFUND",
+    "orderId": "1234",
+    "amount": 99.99,
+    "reason": "customer_request"
+  }
+
+Step 3: Agent-to-Tool Connection (MCP Protocol)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Stripe Agent → [MCP Connection] → Stripe MCP Server
+  ↓
+  Calls tool: "process_refund"
+  Reads resource: "transaction_status"
+  ↓
+Stripe API executes refund
+  ↓
+Stripe Agent ← [MCP Response] ← Status: "Refund processed"
+
+Step 4: Result Propagation (A2A Protocol)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Stripe Agent → [A2A Result Callback] → Salesforce Agent
+  Response: {
+    "status": "COMPLETED",
+    "refundId": "re_xyz",
+    "amount": 99.99,
+    "nextAction": "NOTIFY_CUSTOMER"
+  }
+
+Step 5: Customer Notification (MCP Protocol)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Salesforce Agent → [MCP Connection] → SendGrid MCP Server
+  ↓
+  Calls tool: "send_email"
+  ↓
+Customer receives email: "Your refund of $99.99 has been processed."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total Workflow: < 30 seconds (fully autonomous)
+Human Involvement: 0 minutes (task assignment only)
+Agents Involved: 2 (Salesforce Orchestrator, Stripe Specialist)
+Protocols Used: A2A (agent coordination) + MCP (tool execution)
+```
+
+**Key Insight:**
+
+```text
+A2A Protocol = "Agent-to-Agent highway"
+MCP Protocol = "Agent-to-Tool on-ramps"
+
+Together: Complete interoperable ecosystem
+```
+
+---
+
+### The 'App Store for Agents'
+
+This dual-protocol architecture (MCP + A2A) is the **technical foundation** for the **"agent marketplace"** concept - a discoverable ecosystem of interoperable agents.
+
+This is **not a future concept**. It is **actively being deployed by every major enterprise cloud platform**.
+
+---
+
+#### Microsoft: Agent Apps in Microsoft Marketplace
+
+**Launch Date:** November 2024  
+**Status:** Live with 3,000+ applications
+
+**Details:**
+
+- Microsoft has launched a **"new AI apps and agents category"** in its Microsoft Marketplace
+- Over **3,000 applications** already listed (as of Nov 2025)
+- Supports both **MCP and A2A protocols** for interoperability
+- Integration with **Microsoft Copilot Studio** for custom agent creation
+
+**Categories:**
+
+- Sales & CRM Agents
+- Customer Service Agents
+- Finance & Accounting Agents
+- HR & Recruiting Agents
+- IT & DevOps Agents
+- Data Analysis Agents
+
+**Example Listing:**
+
+```yaml
+Agent Name: "Salesforce CRM Agent"
+Vendor: Salesforce
+Category: Sales & CRM
+Protocols:
+  - MCP (connects to Salesforce API)
+  - A2A (collaborates with other agents)
+Capabilities:
+  - Lead management
+  - Opportunity tracking
+  - Customer data enrichment
+  - Sales forecasting
+Pricing: $50/month per user
+Integration: One-click install via Microsoft Marketplace
+```
+
+**Microsoft's Vision:**
+
+> "Every organization will have a constellation of agents - some from Microsoft, some from partners, some built in-house - all working together seamlessly."
+
+---
+
+#### AWS: Agent & Tool Marketplace
+
+**Launch Date:** October 2024 (re:Invent)  
+**Status:** Live with 500+ agents and tools
+
+**Details:**
+
+- AWS Marketplace now has a **dedicated "AI Agents & Tools" category**
+- Advanced search filters: **"MCP Protocol Support"**, **"A2A Protocol Support"**
+- Integration with **Amazon Bedrock Agents** for one-click deployment
+- Pay-as-you-go pricing or subscription models
+
+**Search Filters:**
+
+```text
+AWS Marketplace → AI Agents & Tools
+
+Filters:
+☑ MCP Protocol Support
+☑ A2A Protocol Support
+☐ AWS Native Integration
+☐ SOC 2 Compliant
+☐ HIPAA Compliant
+☐ FinCEN Compliant (FSI)
+
+Categories:
+- Customer Service Agents
+- Data Processing Agents
+- Security & Compliance Agents
+- Financial Services Agents
+- Healthcare Agents
+- E-commerce Agents
+```
+
+**Example Listings:**
+
+1. **"Financial Document Analyzer" by Anthropic**
+   - MCP: ✅ Connects to S3, RDS
+   - A2A: ✅ Can delegate to OCR and NLP agents
+   - Use Case: Extract data from financial statements
+   - Pricing: $0.10 per document
+
+2. **"Fraud Detection Agent" by AWS Partner Network**
+   - MCP: ✅ Connects to Amazon SageMaker, GuardDuty
+   - A2A: ✅ Coordinates with Transaction Monitoring agents
+   - Use Case: Real-time fraud detection for FSI
+   - Pricing: $500/month + usage
+
+3. **"Supply Chain Optimizer" by IBM**
+   - MCP: ✅ Connects to ERP systems, inventory databases
+   - A2A: ✅ Collaborates with Forecasting and Procurement agents
+   - Use Case: Optimize inventory and reduce costs
+   - Pricing: Enterprise (contact sales)
+
+**AWS's Key Differentiator:**
+
+Advanced filters that let customers discover solutions based on **"MCP and A2A protocol support"**, ensuring seamless integration with existing agent ecosystems.
+
+---
+
+#### Salesforce: AgentExchange
+
+**Launch Date:** Announced September 2024, GA Q1 2025  
+**Status:** In beta with 30+ major partners committed
+
+**Details:**
+
+- **AgentExchange** is Salesforce's agent marketplace
+- Supports **both MCP and A2A protocols** for interoperability
+- Deep integration with **Salesforce Einstein and Agentforce**
+- Over **30 major partners** already committed
+
+**Confirmed Partners:**
+
+```text
+Cloud Providers:
+- AWS
+- Google Cloud
+- Microsoft Azure
+
+Collaboration:
+- Slack
+- Box
+- DocuSign
+
+Communication:
+- Twilio
+- SendGrid
+- Zoom
+
+Payments:
+- Stripe
+- PayPal
+- Square
+
+Productivity:
+- Notion
+- Asana
+- Monday.com
+
+AI/ML:
+- Anthropic
+- OpenAI
+- Hugging Face
+
+Plus 15+ more partners (IBM, SAP, Adobe, Workday, ServiceNow, etc.)
+```
+
+**How AgentExchange Works:**
+
+1. **Discovery:** Browse agents by capability (e.g., "payment processing")
+2. **Preview:** Test agent in sandbox environment with sample data
+3. **Configure:** Set up MCP connections to your data sources
+4. **Deploy:** One-click deployment into your Salesforce org
+5. **Orchestrate:** Use A2A protocol to coordinate with other agents
+
+**Example Workflow:**
+
+```text
+Salesforce AgentExchange → Search "payment processing"
+  ↓
+Results:
+1. Stripe Payment Agent (MCP ✅, A2A ✅) - $50/month
+2. PayPal Payment Agent (MCP ✅, A2A ✅) - $40/month
+3. Square Payment Agent (MCP ✅, A2A ✅) - $45/month
+  ↓
+Select: Stripe Payment Agent
+  ↓
+Configure MCP:
+- Connect to Stripe API (OAuth2)
+- Select permissions: [refunds, charges, customers]
+  ↓
+Configure A2A:
+- Register agent in Salesforce Agent Directory
+- Set delegation rules: "Handle all refund tasks > $10"
+  ↓
+Deploy → Stripe Agent now available in Salesforce Agentforce
+  ↓
+Result: Salesforce agents can now delegate payment tasks to Stripe agent
+```
+
+**Salesforce's Vision:**
+
+> "AgentExchange will be the central hub where enterprises discover, deploy, and orchestrate specialized agents from across the ecosystem."
+
+---
+
+### Summary: The Agent Marketplace Landscape (November 2025)
+
+| Platform | Status | Agent Count | Key Features |
+|----------|--------|-------------|--------------|
+| **Microsoft Marketplace** | Live | 3,000+ apps | MCP + A2A support, Copilot Studio integration |
+| **AWS Marketplace** | Live | 500+ agents | Advanced protocol filters, Bedrock integration |
+| **Salesforce AgentExchange** | Beta (GA Q1 2025) | 30+ partners | Deep CRM integration, A2A orchestration |
+| **Google Cloud Agent Hub** | Announced (GA 2025) | TBD | Vertex AI integration, MCP support |
+| **IBM watsonx Agents** | Live | 200+ agents | Enterprise focus, hybrid cloud support |
+
+**The Ecosystem Explosion:**
+
+```text
+2023: "Agents are experimental R&D projects"
+2024: "Major vendors launch agent frameworks"
+2025: "Agent marketplaces go live with thousands of listings"
+2026 (projected): "10,000+ interoperable agents across all platforms"
+```
+
+---
+
+### The Enterprise 'Agent OS' Layer
+
+This explosion of marketplace agents creates a **new architectural challenge**:
+
+> An enterprise may soon have **thousands of agents** from **hundreds of different vendors** operating within its environment.
+
+**The Problem:**
+
+```text
+Enterprise Agent Inventory (Typical Fortune 500, 2026 projection):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Microsoft Agents:         427
+AWS Agents:               312
+Salesforce Agents:        198
+Google Cloud Agents:      156
+IBM Agents:               89
+Open-Source Agents:       245
+In-House Custom Agents:   673
+                        ─────
+Total:                  2,100 agents
+
+Vendors:                  147
+Frameworks:               12 (LangChain, AutoGen, CrewAI, Bedrock, etc.)
+Protocols:                2 (MCP, A2A)
+Data Sources:             450+
+Compliance Policies:      50+
+```
+
+**This is the new fragmentation problem.**
+
+If every team deploys agents independently, the enterprise ends up with:
+- **Duplicate agents** performing the same tasks
+- **Conflicting agents** with incompatible policies
+- **Ungoverned agents** bypassing security controls
+- **Expensive agents** with overlapping costs
+- **Invisible agents** with no central monitoring
+
+---
+
+#### The Solution: Agent OS
+
+The solution emerging is the **"Agent OS" layer**. This is **not another agent**, but a **"unified orchestration framework"** and **"central nervous system"** for the enterprise.
+
+**Definition:**
+
+```text
+Agent OS = Operating System for Agents
+
+Just as:
+- Operating System manages applications on a computer
+- Kubernetes manages containers in a cluster
+
+Agent OS:
+- Manages agents across the enterprise
+- Provides centralized governance, discovery, orchestration
+```
+
+**Core Functions:**
+
+1. **Agent Registry & Discovery**
+   - Central directory of all enterprise agents
+   - Capability-based search
+   - Automatic agent discovery via A2A protocol
+
+2. **Unified Orchestration**
+   - Route tasks to the right agent
+   - Coordinate multi-agent workflows
+   - Handle agent-to-agent communication
+
+3. **Security & Governance**
+   - Centralized policy enforcement
+   - Access control and authentication
+   - Audit logging of all agent actions
+
+4. **Monitoring & Observability**
+   - Real-time agent health monitoring
+   - Token usage and cost tracking
+   - Performance analytics
+
+5. **Lifecycle Management**
+   - Agent deployment and versioning
+   - A/B testing of agent updates
+   - Rollback capabilities
+
+---
+
+#### Example: PwC's Agent OS
+
+**Platform:** PwC Agent OS  
+**Launch Date:** Announced October 2024  
+**Status:** Available to PwC clients
+
+**Architecture:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  PwC Agent OS - The Enterprise Control Plane                │
+└─────────────────────────────────────────────────────────────┘
+
+Layer 1: Agent Directory (Discovery)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Centralized agent registry
+- Capability-based indexing
+- A2A protocol compliance
+- Real-time agent availability
+
+Layer 2: Orchestration Engine (Coordination)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Task routing and delegation
+- Multi-agent workflow coordination
+- Load balancing across agents
+- Fallback and retry logic
+
+Layer 3: Security & Governance (Control)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Policy enforcement (RBAC, ABAC)
+- Data privacy controls
+- Compliance monitoring (SOC 2, HIPAA, GDPR)
+- Audit trail generation
+
+Layer 4: Observability (Monitoring)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Agent health metrics
+- Token usage and cost analytics
+- Performance dashboards
+- Incident detection and alerting
+
+Layer 5: Agent Lifecycle (Management)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Deployment automation
+- Version control and rollback
+- A/B testing framework
+- Agent retirement workflows
+```
+
+**PwC Agent OS Description:**
+
+As described by PwC, the Agent OS is designed to **"connect, govern, and orchestrate all these disparate agents"** (from Microsoft, Google, AWS, open-source, and in-house) into **"cohesive, modular, and secure enterprise workflows."**
+
+The platform acts as the **"central switchboard for all agentic activity,"** ensuring that:
+
+✅ Agents can **discover each other** via Agent Directory  
+✅ Tasks are **routed to the right specialist**  
+✅ Security policies are **uniformly enforced**  
+✅ Costs are **tracked and optimized**  
+✅ Workflows are **auditable and compliant**
+
+---
+
+#### The Open Agentic Schema Framework (OASF)
+
+To enable interoperability at the Agent OS layer, a new standard is emerging: **OASF (Open Agentic Schema Framework)**.
+
+**Purpose:** Provide a common metadata schema for agent capabilities, enabling any Agent OS to discover and orchestrate any agent.
+
+**OASF Agent Manifest Example:**
+
+```yaml
+# OASF v1.0 Agent Manifest
+agent:
+  id: stripe-payment-agent-v1
+  name: "Stripe Payment Processing Agent"
+  vendor: Stripe
+  version: 1.2.0
+  framework: LangChain
+  protocols:
+    - MCP
+    - A2A
+  
+capabilities:
+  - id: process_refund
+    type: payment
+    description: "Process refunds for charges"
+    inputSchema:
+      type: object
+      required: [chargeId, amount]
+      properties:
+        chargeId:
+          type: string
+          description: "Stripe charge ID"
+        amount:
+          type: number
+          description: "Refund amount in USD"
+        reason:
+          type: string
+          enum: [duplicate, fraudulent, customer_request]
+    outputSchema:
+      type: object
+      properties:
+        refundId:
+          type: string
+        status:
+          type: string
+          enum: [succeeded, pending, failed]
+        estimatedArrival:
+          type: string
+          format: date-time
+    cost:
+      inputTokens: 0
+      outputTokens: 0
+      apiCost: 0.01  # $0.01 per refund
+    latency:
+      p50: 1.2s
+      p95: 3.5s
+    reliability:
+      successRate: 99.7%
+      sla: 99.9%
+    
+  - id: get_customer_payment_methods
+    type: data_retrieval
+    description: "List customer payment methods"
+    # ... (similar schema)
+
+security:
+  authentication:
+    - type: OAUTH2
+      scopes: [read_customers, write_charges, write_refunds]
+    - type: API_KEY
+      required: true
+  dataClassification: PII
+  compliance:
+    - SOC2
+    - PCI-DSS
+    - GDPR
+
+mcp:
+  servers:
+    - name: stripe-mcp-server
+      transport: stdio
+      command: npx
+      args: [-y, @stripe/mcp-server]
+      env:
+        STRIPE_API_KEY: ${STRIPE_API_KEY}
+
+a2a:
+  discovery:
+    enabled: true
+    endpoint: https://agents.stripe.com/discovery
+  delegation:
+    acceptsTaskTypes:
+      - PROCESS_REFUND
+      - PROCESS_PAYMENT
+      - UPDATE_SUBSCRIPTION
+    maxConcurrentTasks: 100
+    
+observability:
+  metrics:
+    - name: refunds_processed
+      type: counter
+    - name: refund_latency
+      type: histogram
+  logs:
+    level: info
+    format: json
+  traces:
+    enabled: true
+    exportTo: AWS_XRAY
+```
+
+**How Agent OS Uses OASF:**
+
+```text
+1. Agent Discovery:
+   Agent OS reads OASF manifests from all registered agents
+   Indexes capabilities: "Which agents can process refunds?"
+   
+2. Task Routing:
+   User task: "Refund order #1234"
+   Agent OS queries capability index
+   Finds: Stripe Agent (capability: process_refund)
+   Routes task via A2A protocol
+   
+3. Monitoring:
+   Agent OS tracks metrics from OASF manifest
+   Alerts if: successRate < 99.9% OR p95Latency > 4s
+   
+4. Security:
+   Agent OS enforces security requirements
+   Validates: OAuth scopes, data classification, compliance
+   
+5. Cost Control:
+   Agent OS tracks apiCost from OASF
+   Calculates: Total agent spend across enterprise
+```
+
+---
+
+#### The Agent Directory Standard
+
+The **Agent Directory** is the discovery mechanism that enables Agent OS platforms to find and register agents.
+
+**How It Works:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Agent Directory Architecture                                │
+└─────────────────────────────────────────────────────────────┘
+
+Step 1: Agent Registration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Stripe Agent → [POST /agents/register]
+  Body: OASF Manifest (YAML/JSON)
+  ↓
+Agent Directory validates manifest
+  ↓
+Agent assigned unique ID: "agt_stripe_payment_001"
+  ↓
+Agent indexed by capabilities: [payment, refund, subscription]
+
+Step 2: Agent Discovery
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Salesforce Agent → [GET /agents/search?capability=refund]
+  ↓
+Agent Directory returns:
+[
+  {
+    "agentId": "agt_stripe_payment_001",
+    "name": "Stripe Payment Agent",
+    "capabilities": ["payment", "refund", "subscription"],
+    "protocols": ["MCP", "A2A"],
+    "reliability": 99.7%,
+    "avgLatency": "1.2s",
+    "cost": "$0.01 per refund"
+  },
+  {
+    "agentId": "agt_paypal_payment_002",
+    "name": "PayPal Payment Agent",
+    "capabilities": ["payment", "refund"],
+    "protocols": ["MCP", "A2A"],
+    "reliability": 98.9%,
+    "avgLatency": "2.1s",
+    "cost": "$0.015 per refund"
+  }
+]
+
+Step 3: Task Delegation
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Salesforce Agent selects: Stripe Agent (higher reliability)
+  ↓
+Salesforce Agent → [A2A Task Delegation] → Stripe Agent
+  ↓
+Stripe Agent executes refund
+  ↓
+Stripe Agent → [A2A Result] → Salesforce Agent
+
+Step 4: Continuous Monitoring
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+All agents report metrics to Agent Directory
+  ↓
+Agent Directory updates agent profiles in real-time
+  ↓
+If Stripe Agent reliability drops below 99%:
+  - Agent Directory marks as "DEGRADED"
+  - Future searches rank it lower
+  - Agent OS may route tasks to PayPal Agent instead
+```
+
+**Agent Directory API:**
+
+```typescript
+// Agent Directory Client SDK
+import { AgentDirectory } from '@agentos/directory';
+
+const directory = new AgentDirectory({
+  endpoint: 'https://agent-directory.enterprise.com',
+  auth: 'Bearer <token>'
+});
+
+// Search for agents by capability
+const paymentAgents = await directory.search({
+  capabilities: ['refund'],
+  protocols: ['A2A', 'MCP'],
+  minReliability: 99.5,
+  maxLatency: '2s',
+  compliance: ['PCI-DSS']
+});
+
+// Get best agent for task
+const bestAgent = paymentAgents.sort((a, b) => 
+  b.reliability - a.reliability
+)[0];
+
+// Delegate task via A2A
+const result = await bestAgent.delegateTask({
+  type: 'PROCESS_REFUND',
+  orderId: '1234',
+  amount: 99.99
+});
+```
+
+---
+
+### Summary: The Agent OS as the New Enterprise Platform
+
+The **Agent OS** is emerging as the **new enterprise platform architecture** - the critical layer that sits above all agents and provides centralized control, governance, and orchestration.
+
+**The Stack:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  The Complete Agentic Enterprise Stack (2025)               │
+└─────────────────────────────────────────────────────────────┘
+
+Layer 6: Business Applications
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CRM, ERP, ITSM, HRMS, Finance, etc.
+(Salesforce, SAP, ServiceNow, Workday, NetSuite)
+
+Layer 5: Agent OS (NEW - Orchestration & Governance)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Agent Directory (discovery via OASF)
+- Orchestration Engine (task routing)
+- Security & Governance (policy enforcement)
+- Observability (monitoring, cost tracking)
+- Lifecycle Management (deployment, versioning)
+
+Platforms: PwC Agent OS, Salesforce Agentforce, 
+          Microsoft Copilot Studio, AWS Bedrock Agents
+
+Layer 4: Agent Marketplace (Specialist Agents)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Microsoft Marketplace (3,000+ agents)
+- AWS Marketplace (500+ agents)
+- Salesforce AgentExchange (30+ partners)
+- Open-source agents (LangChain, CrewAI)
+
+Layer 3: A2A Protocol (Agent-to-Agent Communication)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Task delegation between agents
+- Capability discovery and negotiation
+- Context sharing and state management
+- Result callbacks and error handling
+
+Layer 2: Agent Frameworks
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LangChain, AutoGen, CrewAI, Amazon Bedrock Agents,
+Microsoft Copilot, Google Vertex AI Agents
+
+Layer 1: MCP Protocol (Agent-to-Tool Communication)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Standardized tool interface
+- 250+ MCP servers (Figma, GitHub, Slack, Stripe, etc.)
+- Secure data access and authentication
+- Resource discovery and context persistence
+
+Layer 0: Foundation Models
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Claude (Anthropic), GPT (OpenAI), Gemini (Google),
+Llama (Meta), Mistral, Amazon Titan
+```
+
+**Key Benefits of Agent OS:**
+
+✅ **Unified Control:** Single pane of glass for all enterprise agents  
+✅ **No Vendor Lock-In:** Works with agents from any vendor (Microsoft, AWS, Salesforce, open-source)  
+✅ **Intelligent Routing:** Routes tasks to the best agent based on capability, cost, and performance  
+✅ **Security & Compliance:** Centralized policy enforcement across all agents  
+✅ **Cost Optimization:** Tracks token usage and API costs across the enterprise  
+✅ **Observability:** Real-time monitoring of agent health and performance  
+✅ **Future-Proof:** Standards-based (MCP, A2A, OASF) for long-term interoperability
+
+**The Critical Insight:**
+
+> "The Agent OS is to agents what Kubernetes is to containers - the orchestration layer that makes massive-scale deployments manageable."
+
+---
+
+### FSI Use Case: Multi-Vendor Agent Orchestration
+
+**Scenario:** Large bank with agents from multiple vendors managing fraud detection, customer service, and loan processing.
+
+**Without Agent OS:**
+
+```text
+Problem: 2,100 agents from 147 vendors
+- Duplicate fraud detection agents (3 different vendors)
+- Inconsistent security policies
+- No visibility into token costs
+- Manual coordination between agents
+- Compliance audit nightmare
+```
+
+**With Agent OS:**
+
+```text
+Solution: Centralized orchestration via Agent OS
+
+Agent Inventory:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Microsoft Copilot: Customer service (247 agents)
+- AWS Bedrock: Fraud detection (156 agents)
+- Salesforce: CRM and sales (198 agents)
+- In-house: Loan processing (673 agents)
+Total: 1,274 agents (consolidated from 2,100)
+
+Agent OS Functions:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Discovery: Agent Directory indexes all agents by capability
+2. Routing: Fraud alert → routed to best fraud detection agent
+3. Security: All agents subject to centralized access control
+4. Monitoring: Real-time dashboard shows agent health and costs
+5. Compliance: Audit trail of all agent actions for regulators
+
+Result:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Reduced agent count by 39% (eliminated duplicates)
+✅ Unified security policy across all agents
+✅ Token costs reduced by 28% (intelligent routing)
+✅ 100% compliance audit coverage
+✅ MTTR reduced by 45% (faster incident response)
+✅ Developer productivity up 60% (easier agent discovery)
+```
+
+---
+
+### The Future: The Agentic Internet
+
+The combination of **MCP**, **A2A**, **Agent Marketplaces**, and **Agent OS** is creating the foundation for the **"Agentic Internet"** - a world where agents from different organizations can discover, negotiate, and collaborate seamlessly.
+
+**2025:** Internal enterprise agent ecosystems  
+**2026:** Cross-enterprise agent collaboration (e.g., bank agent delegates to airline agent for travel booking)  
+**2027:** Public agent marketplaces (consumer-facing agents)  
+**2028+:** Fully autonomous multi-organization workflows
+
+**The North Star:**
+
+> "A world where any agent can discover any other agent, negotiate capabilities, and work together - regardless of vendor, framework, or organization."
+
+This is the **Internet of Agents** - and the protocols (MCP, A2A), marketplaces (Microsoft, AWS, Salesforce), and platforms (Agent OS) are all being built **today**.
+
+---
+
 ## Conclusion
 
 The **Design → Test → Execute** workflow represents the future of enterprise software development:
