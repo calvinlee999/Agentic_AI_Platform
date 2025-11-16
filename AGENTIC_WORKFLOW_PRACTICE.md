@@ -3146,6 +3146,694 @@ Specs/     ← Auto-generated from Figma → BDD → implementation
 
 ---
 
+## The Agentic SDLC: CI/CD, Operations, and Autonomous Remediation
+
+The integration of SDD, MCP, and specialized agents transforms the CI/CD pipeline and site reliability operations from a series of **static, human-gated steps** into a **dynamic, autonomous, and self-healing workflow**.
+
+This section demonstrates how the agentic workflow extends beyond code generation into production operations, creating a complete end-to-end lifecycle.
+
+---
+
+### A. Spec-Driven CI/CD
+
+This new, agentic CI/CD process, sometimes called **"Spec-Coding,"** moves beyond "vibe coding" demos to create a **verifiable and maintainable flow for production systems**.
+
+---
+
+#### The "Spec-Coding" Flow
+
+The workflow is rooted in the **specification**:
+
+```
+Traditional CI/CD Flow:
+Developer writes code → Commit → CI runs tests → Deploy
+
+Spec-Driven CI/CD Flow:
+spec.md created → plan.md generated & approved → Agent implements code → 
+CI validates code → Deploy
+```
+
+**Key Characteristics:**
+
+1. **Specification-First**
+   - Every feature begins with a `spec.md` file
+   - Defines the "what" and "why" before any code
+   - Version-controlled alongside code
+
+2. **Plan Generation**
+   - Agent generates `plan.md` from spec
+   - Breaks down into discrete, verifiable tasks
+   - Human reviews and approves plan
+
+3. **Autonomous Implementation**
+   - Agent writes code to satisfy spec
+   - Generates tests based on spec requirements
+   - Self-validates against acceptance criteria
+
+4. **Standard Quality Gates**
+   - AI-generated code passes through **same CI gates** as human code
+   - Unit tests, integration tests, security scans
+   - No "special path" for agent-generated code
+
+**Example Workflow:**
+
+```yaml
+# .github/workflows/spec-driven-ci.yml
+
+name: Spec-Driven CI/CD
+
+on:
+  push:
+    paths:
+      - 'specs/**.md'
+      - 'src/**.ts'
+
+jobs:
+  validate-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Validate spec format
+        run: |
+          # Ensure spec.md follows required structure
+          npm run validate-spec
+      
+      - name: Check for plan.md
+        run: |
+          # Verify plan.md exists and is approved
+          npm run check-plan-approval
+
+  agent-implementation:
+    needs: validate-spec
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate code from spec
+        run: |
+          # Agent reads spec.md and plan.md
+          # Generates implementation code
+          agent-generate --spec specs/${{ github.event.head_commit.message }}/spec.md \
+                        --plan specs/${{ github.event.head_commit.message }}/plan.md \
+                        --output src/
+      
+      - name: Commit generated code
+        run: |
+          git config user.name "Agentic CI Bot"
+          git config user.email "ci-bot@company.com"
+          git add src/
+          git commit -m "feat: Implement ${{ github.event.head_commit.message }} [agent-generated]"
+          git push
+
+  quality-gates:
+    needs: agent-implementation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run unit tests
+        run: npm test
+      
+      - name: Run integration tests
+        run: npm run test:integration
+      
+      - name: Security scan
+        uses: snyk/actions/node@master
+      
+      - name: Code quality check
+        run: npm run lint
+      
+      - name: Verify against spec
+        run: |
+          # Custom validation: does code satisfy spec requirements?
+          npm run verify-spec-compliance
+
+  deploy:
+    needs: quality-gates
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to production
+        run: |
+          npm run deploy:prod
+```
+
+---
+
+#### Agentic IDEs: AWS Kiro
+
+AI-native IDEs like **AWS Kiro** (an AI IDE built on Code OSS) are purpose-built for the spec-coding flow.
+
+**What Makes Kiro Different:**
+
+```
+Traditional IDE:
+Developer writes code → IDE provides suggestions → Developer compiles/tests manually
+
+Agentic IDE (Kiro):
+Developer writes spec → Kiro generates requirements, design, tasks → 
+Kiro implements code → Kiro auto-validates on save
+```
+
+**Key Capabilities:**
+
+##### 1. Prompt-to-Specification Pipeline
+
+Kiro **"turns your prompt into clear requirements, system design, and discrete tasks."**
+
+**Example:**
+
+```
+Developer Input:
+"Build a payment processing module that supports credit cards, 
+debit cards, and ACH transfers with fraud detection."
+
+Kiro Output:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 REQUIREMENTS (spec.md generated):
+
+Functional Requirements:
+FR-1: System shall accept credit card payments (Visa, MC, Amex)
+FR-2: System shall accept debit card payments
+FR-3: System shall accept ACH transfers
+FR-4: System shall perform real-time fraud detection
+FR-5: System shall return transaction status within 3 seconds
+
+Non-Functional Requirements:
+NFR-1: PCI DSS Level 1 compliance required
+NFR-2: 99.95% uptime SLA
+NFR-3: Support 10,000 transactions per second
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🏗️ SYSTEM DESIGN (plan.md generated):
+
+Components:
+1. PaymentController - API endpoints
+2. PaymentProcessor - Business logic
+3. FraudDetectionService - ML-based fraud detection
+4. PaymentGatewayAdapter - Third-party gateway integration
+5. TransactionRepository - Data persistence
+
+Data Flow:
+Request → PaymentController → FraudDetectionService → 
+PaymentProcessor → PaymentGatewayAdapter → Gateway → 
+Response
+
+Security:
+- TLS 1.3 encryption
+- Tokenization for card data
+- No storage of CVV
+- Audit logging
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ DISCRETE TASKS:
+
+Task 1: Create PaymentController with REST endpoints
+Task 2: Implement PaymentProcessor with transaction logic
+Task 3: Integrate FraudDetectionService with ML model
+Task 4: Build PaymentGatewayAdapter for Stripe/Square
+Task 5: Design TransactionRepository schema
+Task 6: Write unit tests (target: 90% coverage)
+Task 7: Write integration tests for payment flows
+Task 8: Security testing (OWASP Top 10)
+Task 9: Load testing (10K TPS target)
+
+Ready to implement? (y/n)
+```
+
+---
+
+##### 2. Agent Hooks: Autonomous "Inner Loop" CI
+
+The most powerful feature of Kiro is its **"agent hooks"** that trigger autonomous actions on events like **"file save"**.
+
+**What This Enables:**
+
+```
+Traditional Workflow:
+Developer writes code → Saves file → Manually runs tests → 
+Manually runs linter → Manually checks security → Git commit
+
+Kiro Workflow:
+Developer writes code → Saves file → 
+[Agent Hook Triggers]
+  ├─ Auto-run relevant tests
+  ├─ Auto-run security scan (e.g., Bandit for Python)
+  ├─ Auto-update README.md with new API docs
+  ├─ Auto-check spec compliance
+  └─ Auto-fix linting issues
+→ Code is "CI-ready" before commit
+```
+
+**Configuration Example:**
+
+```yaml
+# .kiro/agent-hooks.yml
+
+hooks:
+  on_file_save:
+    - trigger: "**/*.py"
+      actions:
+        - name: "Run Security Scan"
+          command: "bandit -r {file_path}"
+          auto_fix: true
+          
+        - name: "Update API Documentation"
+          command: "python generate_docs.py {file_path}"
+          target: "README.md"
+          
+        - name: "Run Relevant Tests"
+          command: "pytest tests/test_{file_name}.py -v"
+          fail_on_error: true
+          
+        - name: "Check Spec Compliance"
+          command: "spec-checker --file {file_path} --spec specs/current.md"
+          
+    - trigger: "**/*.ts"
+      actions:
+        - name: "TypeScript Type Check"
+          command: "tsc --noEmit {file_path}"
+          
+        - name: "ESLint Auto-Fix"
+          command: "eslint {file_path} --fix"
+          
+        - name: "Generate Component Tests"
+          command: "agent-test-gen --file {file_path}"
+
+  on_git_commit:
+    actions:
+      - name: "Validate Spec Exists"
+        command: "check-spec-for-commit"
+        
+      - name: "Run Full Test Suite"
+        command: "npm test"
+        
+      - name: "Security Audit"
+        command: "npm audit --audit-level=moderate"
+```
+
+**Real-World Example:**
+
+```python
+# Developer writes new API endpoint in payments.py
+
+@app.route('/api/v1/transfer', methods=['POST'])
+def transfer_funds():
+    """Transfer funds between accounts."""
+    # TODO: Implement transfer logic
+    pass
+
+# Developer hits Cmd+S (Save)
+
+# Kiro Agent Hook triggers:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔒 Security Scan (Bandit)
+   ✅ No security issues detected
+
+📚 Documentation Update
+   ✅ README.md updated with new endpoint:
+      POST /api/v1/transfer - Transfer funds between accounts
+
+🧪 Test Generation
+   ✅ Generated tests/test_payments.py:
+      - test_transfer_funds_success()
+      - test_transfer_funds_insufficient_balance()
+      - test_transfer_funds_invalid_account()
+      - test_transfer_funds_unauthorized()
+
+📋 Spec Compliance Check
+   ⚠️  WARNING: Function 'transfer_funds' missing in spec.md
+   💡 Suggestion: Add to specs/payments-api.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+All checks complete. File ready for commit.
+```
+
+**Impact:**
+
+```
+Traditional "Inner Loop" Time:
+Write code (10 min) + Manual test (5 min) + Fix bugs (10 min) + 
+Manual security check (5 min) + Update docs (5 min) = 35 minutes
+
+Kiro "Inner Loop" Time:
+Write code (10 min) + [Agent hooks auto-run] (30 seconds) = 10.5 minutes
+
+Time Saved: 70% per coding iteration
+```
+
+This effectively **pulls CI gates directly into the developer's "inner loop"** before code is ever committed.
+
+---
+
+#### Agent-Managed Pipelines
+
+The agent's role extends beyond code generation to **managing the CI/CD pipeline itself**.
+
+##### CircleCI MCP Server
+
+The **CircleCI MCP server** is available in the AWS Marketplace, enabling agents to interact with CI/CD systems via **natural language**.
+
+**Key Capabilities:**
+
+```
+Traditional CI/CD Management:
+Build fails → Developer checks logs → Developer fixes → Re-run manually
+
+Agent-Managed CI/CD:
+Build fails → Agent analyzes logs → Agent identifies root cause → 
+Agent fixes code or config → Agent triggers re-run
+```
+
+**Example Integration:**
+
+```typescript
+// Agent using CircleCI MCP to debug pipeline failure
+
+import { CircleCIMCP } from '@circleci/mcp-server';
+
+const agent = new AutomationAgent({
+  mcpServers: [
+    new CircleCIMCP({
+      apiToken: process.env.CIRCLECI_TOKEN,
+      organization: 'my-company'
+    })
+  ]
+});
+
+// Agent receives alert: "Pipeline #1234 failed"
+
+agent.task(async (mcp) => {
+  // 1. Get pipeline status
+  const pipeline = await mcp.circleci.getPipeline('1234');
+  
+  // 2. Analyze failure
+  const failedJob = pipeline.workflows[0].jobs.find(j => j.status === 'failed');
+  const logs = await mcp.circleci.getJobLogs(failedJob.id);
+  
+  // 3. Agent reasoning
+  const analysis = await agent.analyze(`
+    Pipeline failed at job: ${failedJob.name}
+    Error logs:
+    ${logs}
+    
+    Identify root cause and suggest fix.
+  `);
+  
+  // Analysis result:
+  // "Test failure in test_transfer_funds: AssertionError on line 45
+  //  Root cause: Mock data missing 'currency' field
+  //  Fix: Update tests/fixtures/account.json"
+  
+  // 4. Agent applies fix
+  await agent.editFile('tests/fixtures/account.json', {
+    addField: { currency: 'USD' }
+  });
+  
+  // 5. Agent commits fix
+  await agent.gitCommit('[CI] Fix test fixture - add currency field');
+  
+  // 6. Agent triggers re-run
+  await mcp.circleci.rerunWorkflow(pipeline.workflowId);
+  
+  // 7. Agent monitors
+  const newPipeline = await mcp.circleci.waitForCompletion(pipeline.workflowId);
+  
+  if (newPipeline.status === 'success') {
+    await agent.notify('slack', {
+      message: `✅ Pipeline #1234 fixed and passing. Issue: Missing currency field in test fixture.`
+    });
+  }
+});
+```
+
+##### Agent Tasks for Pipeline Management
+
+An agent (like **AWS Q Developer**) can be tasked with:
+
+**1. Debug Build Failures**
+
+```
+Human: "Pipeline is failing on the deploy step. Fix it."
+
+AWS Q Agent:
+1. Retrieves pipeline logs from AWS CodePipeline
+2. Identifies error: "IAM permissions missing for S3 deployment"
+3. Checks current IAM policy
+4. Generates updated policy with required S3 permissions
+5. Updates IAM role via AWS CDK
+6. Commits infrastructure change
+7. Triggers pipeline re-run
+8. Confirms successful deployment
+9. Documents fix in incident log
+```
+
+**2. Identify Inconsistent Tests**
+
+```
+AWS Q Agent Analysis:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 Test Consistency Analysis (Last 30 days)
+
+Flaky Tests Detected:
+1. test_concurrent_transactions
+   - Pass rate: 78%
+   - Failure pattern: Race condition on shared state
+   - Recommendation: Add mutex lock in transaction handler
+
+2. test_api_timeout
+   - Pass rate: 65%
+   - Failure pattern: Network latency variance
+   - Recommendation: Increase timeout from 3s to 5s
+
+3. test_database_connection
+   - Pass rate: 82%
+   - Failure pattern: Connection pool exhaustion
+   - Recommendation: Increase pool size from 10 to 20
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Would you like me to apply these fixes? (y/n)
+```
+
+**3. Monitor Pipeline Health**
+
+```typescript
+// Autonomous pipeline health monitoring
+
+agent.schedule('daily', async (mcp) => {
+  const metrics = await mcp.circleci.getPipelineMetrics({
+    timeRange: 'last_7_days'
+  });
+  
+  const report = {
+    totalRuns: metrics.total,
+    successRate: metrics.success / metrics.total,
+    avgDuration: metrics.avgDurationMinutes,
+    failuresByType: metrics.failures,
+    trends: agent.analyzeTrends(metrics.history)
+  };
+  
+  // Alert on degradation
+  if (report.successRate < 0.85) {
+    await agent.notify('pagerduty', {
+      severity: 'warning',
+      message: `Pipeline success rate dropped to ${report.successRate * 100}%`,
+      details: report
+    });
+    
+    // Auto-investigate
+    const investigation = await agent.investigateFailures(metrics.failures);
+    
+    // Create Jira ticket
+    await mcp.jira.createTicket({
+      type: 'Bug',
+      priority: 'High',
+      title: 'CI/CD Pipeline Degradation',
+      description: investigation.summary,
+      labels: ['ci-cd', 'automated-detection']
+    });
+  }
+});
+```
+
+**4. Autonomous Rollbacks**
+
+```yaml
+# AWS CodePipeline with agent-managed rollback
+
+Resources:
+  DeploymentPipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Stages:
+        - Name: Deploy
+          Actions:
+            - Name: DeployToProduction
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: ECS
+                Version: '1'
+              Configuration:
+                ClusterName: production-cluster
+                ServiceName: api-service
+                
+        - Name: ValidateDeployment
+          Actions:
+            - Name: AgentValidation
+              ActionTypeId:
+                Category: Invoke
+                Owner: AWS
+                Provider: Lambda
+                Version: '1'
+              Configuration:
+                FunctionName: AgentDeploymentValidator
+                
+# AgentDeploymentValidator Lambda function
+
+export async function handler(event) {
+  const agent = new AWS_Q_Agent();
+  
+  // Monitor deployment for 10 minutes
+  const metrics = await agent.monitorDeployment({
+    duration: '10m',
+    metrics: ['ErrorRate', 'Latency', '5xxErrors']
+  });
+  
+  // Check against thresholds
+  if (metrics.errorRate > 0.01 || metrics.p99Latency > 1000) {
+    // Trigger rollback
+    await agent.triggerRollback({
+      pipeline: event.pipelineId,
+      reason: `Error rate: ${metrics.errorRate}, P99: ${metrics.p99Latency}ms`
+    });
+    
+    // Notify team
+    await agent.notify('slack', {
+      message: '🚨 Deployment rolled back automatically due to elevated errors'
+    });
+    
+    return { status: 'ROLLBACK_TRIGGERED' };
+  }
+  
+  return { status: 'DEPLOYMENT_VALIDATED' };
+}
+```
+
+##### Integration with AWS CodePipeline
+
+The agent interacts with **AWS CodePipeline** to automate the entire release process:
+
+```typescript
+// Complete agent-managed release workflow
+
+const releaseAgent = new AWS_Q_Agent({
+  mcpServers: [
+    'CircleCI',
+    'AWS CodePipeline',
+    'AWS CodeDeploy',
+    'AWS CloudWatch'
+  ]
+});
+
+releaseAgent.defineWorkflow('production-release', async (mcp) => {
+  // 1. Pre-release validation
+  const specValid = await mcp.github.checkFileExists('specs/current.md');
+  const testsPass = await mcp.circleci.getLastPipelineStatus();
+  const securityClear = await mcp.aws.checkSecurityHub();
+  
+  if (!specValid || testsPass !== 'success' || !securityClear) {
+    throw new Error('Pre-release validation failed');
+  }
+  
+  // 2. Create release branch
+  await mcp.github.createBranch('release/v1.2.0', 'main');
+  
+  // 3. Trigger AWS CodePipeline
+  const pipeline = await mcp.aws.codepipeline.startExecution({
+    name: 'production-release-pipeline'
+  });
+  
+  // 4. Monitor deployment
+  const result = await mcp.aws.codepipeline.waitForCompletion(pipeline.id, {
+    stages: ['Build', 'Test', 'Deploy-Staging', 'Deploy-Production'],
+    
+    onStageComplete: async (stage) => {
+      if (stage.name === 'Deploy-Staging') {
+        // Run smoke tests on staging
+        const smokeTests = await mcp.circleci.runJob('smoke-tests-staging');
+        if (smokeTests.status !== 'success') {
+          await mcp.aws.codepipeline.stopExecution(pipeline.id);
+          throw new Error('Staging smoke tests failed');
+        }
+      }
+    }
+  });
+  
+  // 5. Post-deployment validation
+  if (result.status === 'success') {
+    // Monitor for 15 minutes
+    const health = await mcp.aws.cloudwatch.monitorMetrics({
+      duration: '15m',
+      alarms: ['HighErrorRate', 'HighLatency', 'LowAvailability']
+    });
+    
+    if (health.alarmsTriggered.length > 0) {
+      // Auto-rollback
+      await mcp.aws.codedeploy.rollback('production-api');
+      await mcp.slack.notify(`🚨 Production rollback: ${health.alarmsTriggered.join(', ')}`);
+    } else {
+      // Success
+      await mcp.github.createRelease('v1.2.0', {
+        notes: await agent.generateReleaseNotes('v1.1.0', 'v1.2.0')
+      });
+      await mcp.slack.notify('✅ Production release v1.2.0 successful');
+    }
+  }
+});
+
+// Run the workflow
+releaseAgent.executeWorkflow('production-release');
+```
+
+---
+
+### Summary: The Autonomous CI/CD Pipeline
+
+The integration of **Spec-Driven Development**, **MCP**, and **Agent-Managed Pipelines** creates a fundamentally new CI/CD paradigm:
+
+```
+Traditional CI/CD:
+Manual spec → Manual code → Manual commit → Automated tests → Manual deploy
+
+Agentic CI/CD:
+spec.md (human) → plan.md (agent) → code (agent) → 
+inner-loop validation (agent hooks) → commit (agent) → 
+CI pipeline (agent-monitored) → deploy (agent-managed) → 
+validation (agent) → rollback if needed (agent)
+
+Human Role: Define specs, approve plans, review outcomes
+Agent Role: Everything else
+```
+
+**Key Benefits for FSI Organizations:**
+
+✅ **Verifiable Compliance** - Every change traces back to approved spec  
+✅ **Continuous Quality** - Agent hooks catch issues before commit  
+✅ **Autonomous Recovery** - Agent detects and fixes pipeline failures  
+✅ **Reduced Toil** - Developers focus on specs, not plumbing  
+✅ **Audit Trail** - Complete spec → plan → code → deploy lineage  
+✅ **24/7 Operations** - Agents monitor and remediate around the clock
+
+This is the foundation for the next level: **Autonomous Site Reliability Engineering**.
+
+---
+
 ## Conclusion
 
 The **Design → Test → Execute** workflow represents the future of enterprise software development:
