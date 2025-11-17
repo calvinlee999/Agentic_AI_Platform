@@ -1744,6 +1744,751 @@ The specification **is** the source of truth. Choose your framework, but **manda
 
 ---
 
+### Connecting the Spec to the System: The Model Context Protocol (MCP)
+
+#### The 'USB-C for AI'
+
+If SDD provides the **intent**, the **Model Context Protocol (MCP)** provides the **standardized connection to the world**.
+
+MCP is an open standard designed to solve the critical **"fragmentation"** and **"isolation"** of AI models. Historically, connecting an AI agent to five different tools (e.g., a database, a CRM, a code repository, a monitoring system, a deployment pipeline) required **five different custom, brittle, and expensive API integrations**. Each integration demanded:
+
+- Custom authentication logic
+- Bespoke error handling
+- Manual data transformation
+- Ongoing maintenance for API version changes
+- Vendor-specific implementation knowledge
+
+**MCP**, introduced by **Anthropic in late 2024**, provides a **universal standard for AI-tool communication**, effectively acting as the **"USB-C of AI integration"**. It allows any MCP-compatible AI application to **"plug-and-play"** with any MCP-compatible tool or data source, transforming what used to be **bespoke development projects** (weeks to months of custom coding) into **simple configuration exercises** (minutes to hours of setup).
+
+The analogy to USB-C is precise:
+
+- **Before USB-C**: Every device required a different cable (30-pin, micro-USB, Lightning, etc.)
+- **After USB-C**: One universal cable works with any device
+
+- **Before MCP**: Every AI-tool connection required custom API integration
+- **After MCP**: One universal protocol works with any tool
+
+---
+
+#### MCP vs. Orchestration: A Critical Architectural Distinction
+
+It is critical to distinguish **MCP** from **orchestration frameworks** like **LangChain**.
+
+**LangChain** (and its contemporaries like LangGraph, crewAI, AutoGen, etc.) acts as the **"brain organizer"**:
+
+- It is an **agent framework** that defines the workflow, reasoning, and logic chains
+- It is responsible for **deciding when to call a tool** and **for what purpose**
+- It handles the "intelligence layer" (planning, reasoning, decision-making)
+- Example: "Should I query the database first, or call the API? What's the optimal sequence?"
+
+**MCP** acts as the **"universal translator"** or **"adapter"**:
+
+- It is the **standardized integration layer** or **protocol**
+- It is **not an agent framework** and does **not define logic**
+- It simply handles the **connection, authentication, error handling, and data exchange** with the tool
+- Example: "Here's how to securely connect to the database. Here's the data format it expects."
+
+**The Relationship:**
+
+These two layers are **complementary, not competitive**. The orchestration framework (the **"brain"**) uses the MCP (the **"nervous system"**) to reliably communicate with any tool or data source.
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  The Agentic Architecture: Orchestration + MCP              │
+└─────────────────────────────────────────────────────────────┘
+
+Layer 3: Intelligence (Orchestration Framework)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LangChain, crewAI, AutoGen
+- Defines workflow and reasoning logic
+- Decides WHEN to call tools
+- Handles multi-step planning
+
+         ↕ (uses)
+
+Layer 2: Integration (Model Context Protocol)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MCP Servers (standardized adapters)
+- Handles HOW to call tools
+- Manages authentication and errors
+- Provides standardized data exchange
+
+         ↕ (connects to)
+
+Layer 1: Tools & Data Sources
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PostgreSQL, GitHub, Jira, Salesforce, Slack, AWS
+- The actual systems and data
+```
+
+**Example Workflow:**
+
+```text
+User Request: "Update the customer's email address in our CRM"
+
+Step 1: Orchestration Framework (LangChain)
+- Parses intent: "Update email in CRM"
+- Plans: "Need to call CRM update tool"
+- Decides: "Call update_customer tool with new email"
+
+Step 2: Model Context Protocol (MCP)
+- Receives tool call from orchestrator
+- Handles authentication to Salesforce CRM
+- Transforms data to CRM's expected format
+- Manages error handling (retries, timeouts)
+- Returns standardized response
+
+Step 3: Tool Execution (Salesforce CRM)
+- Updates customer record
+- Returns success confirmation
+
+Step 4: MCP
+- Translates CRM response to standard format
+- Returns to orchestrator
+
+Step 5: Orchestration Framework
+- Confirms task completion
+- Reports to user: "Email updated successfully"
+```
+
+**Key Insight:**
+
+- **Without orchestration**: MCP is just a dumb pipe (no intelligence)
+- **Without MCP**: Orchestration is blind (no standardized tool access)
+- **Together**: Intelligent agents with reliable, standardized tool connectivity
+
+---
+
+#### Core Architecture (Client-Server Model)
+
+The MCP architecture is a **standardized client-server model** optimized for AI interactions:
+
+**MCP Host:**
+
+- The **AI application** that the user interacts with
+- Examples: **Visual Studio Code** (with GitHub Copilot), **Claude Desktop**, **Microsoft Copilot Studio**, **Cursor**, **Windsurf**
+- Manages the user interface and user experience
+- Instantiates MCP clients to connect to tools
+
+**MCP Client:**
+
+- A **component instantiated by the Host**
+- Maintains a **dedicated, one-to-one connection** with a **single MCP server**
+- Handles the client-side protocol implementation
+- Manages connection lifecycle (connect, disconnect, reconnect)
+- Critical: **One client per server** (not a shared pool)
+
+**MCP Server:**
+
+- A **program that provides context** to the AI
+- Exposes its capabilities via **three main types**:
+  1. **Tools**: Functions the agent can call (e.g., `update_user()`, `query_database()`, `deploy_code()`)
+  2. **Resources**: Data sources the agent can read or query (e.g., `User_Database`, `Code_Repository`, `Log_Files`)
+  3. **Prompts**: Pre-defined templates the agent can use (e.g., "Code review checklist", "Security audit template")
+
+**Architecture Diagram:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  MCP Architecture: Client-Server Model                      │
+└─────────────────────────────────────────────────────────────┘
+
+User
+  ↕
+┌─────────────────────────────────────────────┐
+│  MCP Host (AI Application)                   │
+│  e.g., VS Code, Claude Desktop               │
+│                                              │
+│  ┌─────────────────────────────────────┐   │
+│  │  MCP Client 1                        │   │
+│  │  (Connected to PostgreSQL Server)    │   │──→ MCP Server: PostgreSQL
+│  └─────────────────────────────────────┘   │    - Tools: query_db(), update_db()
+│                                              │    - Resources: Users, Orders, Products
+│  ┌─────────────────────────────────────┐   │
+│  │  MCP Client 2                        │   │──→ MCP Server: GitHub
+│  │  (Connected to GitHub Server)        │   │    - Tools: create_pr(), merge_branch()
+│  └─────────────────────────────────────┘   │    - Resources: Repositories, Issues, PRs
+│                                              │
+│  ┌─────────────────────────────────────┐   │
+│  │  MCP Client 3                        │   │──→ MCP Server: Jira
+│  │  (Connected to Jira Server)          │   │    - Tools: create_issue(), update_status()
+│  └─────────────────────────────────────┘   │    - Resources: Projects, Issues, Sprints
+└─────────────────────────────────────────────┘
+```
+
+**Key Architectural Principles:**
+
+1. **One-to-One Connections**: Each MCP client maintains a dedicated connection to a single MCP server (not a shared pool)
+2. **Bidirectional Communication**: Client and server can both initiate requests (not just client → server)
+3. **Capability Discovery**: Clients can dynamically query servers to discover available tools, resources, and prompts
+4. **Stateful Sessions**: Connections maintain state across multiple interactions
+5. **Security Isolation**: Each server connection is isolated (credentials, permissions, data access)
+
+**Example: Real-World MCP Deployment**
+
+```text
+Enterprise AI Development Platform (FSI)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Host: Microsoft Copilot Studio
+├─ Client 1 → MCP Server: Azure SQL Database
+│              - Tools: execute_query(), update_records()
+│              - Resources: Customers, Transactions, Accounts
+├─ Client 2 → MCP Server: Azure DevOps
+│              - Tools: create_work_item(), trigger_pipeline()
+│              - Resources: Repositories, Pipelines, Work Items
+├─ Client 3 → MCP Server: Salesforce CRM
+│              - Tools: update_opportunity(), create_lead()
+│              - Resources: Leads, Opportunities, Contacts
+├─ Client 4 → MCP Server: Slack
+│              - Tools: send_message(), create_channel()
+│              - Resources: Channels, Users, Messages
+└─ Client 5 → MCP Server: CloudWatch (Observability)
+               - Tools: query_logs(), create_alarm()
+               - Resources: Metrics, Logs, Traces
+
+Agent Workflow:
+1. User: "Update customer email and notify sales team"
+2. Orchestrator (crewAI): Plans multi-step workflow
+3. MCP Client 1 → Azure SQL: Updates customer email
+4. MCP Client 3 → Salesforce: Updates CRM record
+5. MCP Client 4 → Slack: Sends notification to #sales
+6. MCP Client 5 → CloudWatch: Logs transaction
+```
+
+---
+
+#### Strategic Implications
+
+The adoption of MCP as an **open standard** has profound strategic implications for enterprise architecture:
+
+**1. Commoditization of Integration**
+
+MCP **commoditizes the integration layer**. The complex, custom code required for authentication, error handling, and data transformation is now **handled by the protocol**.
+
+**Before MCP:**
+
+```typescript
+// Custom integration code (100+ lines per tool)
+class CustomSalesforceIntegration {
+  private apiKey: string;
+  private baseUrl: string;
+  private retryConfig: RetryConfig;
+  
+  async authenticate() {
+    // Custom OAuth 2.0 flow
+    // 50+ lines of auth logic
+  }
+  
+  async updateRecord(id: string, data: any) {
+    // Custom API call with retries
+    // 30+ lines of error handling
+    // Manual data transformation
+  }
+  
+  // Repeated for every tool (GitHub, Jira, Slack, etc.)
+}
+```
+
+**After MCP:**
+
+```json
+// MCP configuration (5-10 lines per tool)
+{
+  "mcpServers": {
+    "salesforce": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-salesforce"],
+      "env": {
+        "SALESFORCE_API_KEY": "${SALESFORCE_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+**Impact:**
+
+- **Development Time**: Weeks → Minutes
+- **Maintenance Burden**: Ongoing custom code → Standardized protocol
+- **Error Surface**: 1000+ lines of custom logic → Protocol-level guarantees
+
+**2. Vendor-Agnostic Interoperability**
+
+MCP creates true **"plug-and-play" interoperability**. An enterprise can **swap AI models** (e.g., replace a GPT model with a Claude model, or vice versa) **without rebuilding a single tool integration**, as long as both are MCP-compatible.
+
+**Before MCP:**
+
+```text
+Vendor Lock-In Problem:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GPT-4 (Custom Integrations)
+├─ Custom GitHub connector
+├─ Custom Jira connector
+├─ Custom Salesforce connector
+└─ Custom PostgreSQL connector
+
+To switch to Claude:
+❌ Rebuild all 4 custom integrations
+❌ Re-test all authentication flows
+❌ Re-write all error handling
+❌ 3-6 months of migration work
+```
+
+**After MCP:**
+
+```text
+Vendor-Agnostic Architecture:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GPT-4 (MCP-Compatible)
+├─ MCP Server: GitHub
+├─ MCP Server: Jira
+├─ MCP Server: Salesforce
+└─ MCP Server: PostgreSQL
+
+To switch to Claude:
+✅ Update AI model endpoint (1 line of config)
+✅ All MCP integrations work unchanged
+✅ Zero re-testing required (standard protocol)
+✅ 1 hour of migration work
+```
+
+**Impact:**
+
+- **Vendor Flexibility**: Switch AI models without re-platforming
+- **Multi-Model Strategy**: Use GPT for coding, Claude for analysis, Gemini for search (all sharing same MCP integrations)
+- **Future-Proofing**: New AI models can leverage existing MCP infrastructure
+
+**3. Real-Time Adaptability**
+
+Unlike static API integrations, MCP supports **dynamic tool discovery**. Agents can **query a server to learn about new capabilities in real-time**, allowing systems to adapt to evolving environments.
+
+**Example: Dynamic Tool Discovery**
+
+```typescript
+// Agent discovers available tools at runtime
+const mcpClient = new MCPClient({ server: "salesforce" });
+
+// Query server capabilities
+const capabilities = await mcpClient.discoverCapabilities();
+
+console.log(capabilities);
+// Output:
+{
+  "tools": [
+    {
+      "name": "update_opportunity",
+      "description": "Update a Salesforce opportunity",
+      "parameters": {
+        "opportunity_id": "string",
+        "stage": "enum[Prospecting, Qualification, Closed Won]"
+      }
+    },
+    {
+      "name": "create_lead",
+      "description": "Create a new lead in Salesforce",
+      "parameters": {
+        "email": "string",
+        "company": "string"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "name": "opportunities",
+      "description": "Access to opportunity records",
+      "schema": "Opportunity[]"
+    }
+  ]
+}
+
+// Agent adapts to new capabilities
+if (capabilities.tools.includes("update_opportunity")) {
+  // Use the new tool
+  await mcpClient.callTool("update_opportunity", {
+    opportunity_id: "12345",
+    stage: "Closed Won"
+  });
+}
+```
+
+**Impact:**
+
+- **Zero-Downtime Upgrades**: New tools/resources can be added without code changes
+- **Self-Healing Systems**: Agents adapt when tools are added/removed
+- **Reduced Brittleness**: No hard-coded tool assumptions
+
+**4. Observability and Trust**
+
+The standardized protocol provides a **crucial layer of observability**. It allows for the **inspection of what context was passed, what decisions the model made, and how tools were used**, which is essential for **debugging, compliance, and establishing enterprise trust** in AI systems.
+
+**Example: MCP Audit Trail**
+
+```json
+{
+  "timestamp": "2025-11-16T14:32:01Z",
+  "session_id": "abc-123",
+  "host": "copilot-studio",
+  "events": [
+    {
+      "type": "tool_call",
+      "server": "salesforce",
+      "tool": "update_opportunity",
+      "input": {
+        "opportunity_id": "12345",
+        "stage": "Closed Won",
+        "amount": 50000
+      },
+      "output": {
+        "status": "success",
+        "updated_at": "2025-11-16T14:32:05Z"
+      },
+      "latency_ms": 450
+    },
+    {
+      "type": "resource_read",
+      "server": "postgresql",
+      "resource": "customers",
+      "query": "SELECT * FROM customers WHERE id = '67890'",
+      "rows_returned": 1,
+      "latency_ms": 120
+    }
+  ]
+}
+```
+
+**Observability Benefits:**
+
+- **Audit Trail**: Every tool call is logged (who, what, when, why)
+- **Compliance**: Prove that agents followed security policies
+- **Debugging**: Trace exactly what the agent did and why it failed
+- **Performance Monitoring**: Track latency, error rates, and usage patterns
+- **Trust**: Transparency into agent behavior builds enterprise confidence
+
+**Strategic Summary:**
+
+| Capability | Before MCP | After MCP | Business Impact |
+|------------|-----------|-----------|-----------------|
+| **Integration Effort** | Weeks per tool | Minutes per tool | 100x faster integration |
+| **Vendor Lock-In** | High (custom code) | Zero (standard protocol) | Multi-model flexibility |
+| **Adaptability** | Static (hard-coded) | Dynamic (runtime discovery) | Self-healing systems |
+| **Observability** | Custom logging | Standard audit trail | Compliance + trust |
+| **Maintenance** | Ongoing custom code | Protocol updates | 90% reduction in maintenance |
+
+---
+
+#### MCP as the Physical Layer for the Logical SDD Contract
+
+The synergy between **SDD** and **MCP** forms the core of the new agentic architecture.
+
+**The Logical Layer: SDD**
+
+The SDD process (Part I) creates the **logical contract**—the `spec.md`—that defines **what** the agent is supposed to do.
+
+Example `spec.md`:
+
+```markdown
+# Feature: User Profile Update
+
+## Requirements
+- User must be able to update email address
+- System must validate email format
+- CRM must be synchronized with updated email
+- Sales team must be notified of change
+
+## Acceptance Criteria
+GIVEN a user with ID "67890"
+WHEN the user updates email to "newemail@example.com"
+THEN:
+  1. User record in database is updated
+  2. Salesforce CRM record is updated
+  3. Slack notification sent to #sales channel
+  4. Audit log entry created
+```
+
+**The Physical Layer: MCP**
+
+However, agents are often **"blind"** to the external data, legacy systems, and proprietary databases required to execute that contract.
+
+**MCP provides the standardized physical architecture** to bridge this **context gap**. It is the **"secure, two-way connection"** that makes the logical spec actionable.
+
+**Example: SDD + MCP Integration**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  SDD + MCP: Logical Spec → Physical Execution               │
+└─────────────────────────────────────────────────────────────┘
+
+Logical Layer (SDD):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+spec.md: "Update user profile email"
+
+Acceptance Criteria:
+1. Update database record
+2. Sync to CRM
+3. Notify sales team
+4. Create audit log
+
+         ↕ (requires access to)
+
+Physical Layer (MCP):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MCP Server 1: PostgreSQL
+- Resource: User_Database
+- Tool: update_user(id, email)
+
+MCP Server 2: Salesforce
+- Resource: CRM_Records
+- Tool: update_customer(id, email)
+
+MCP Server 3: Slack
+- Resource: Channels
+- Tool: send_message(channel, message)
+
+MCP Server 4: CloudWatch
+- Resource: Audit_Logs
+- Tool: create_log_entry(event)
+
+Agent Execution:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Agent reads spec.md (logical contract)
+2. Agent calls MCP Server 1: update_user("67890", "newemail@example.com")
+3. Agent calls MCP Server 2: update_customer("67890", "newemail@example.com")
+4. Agent calls MCP Server 3: send_message("#sales", "User 67890 updated email")
+5. Agent calls MCP Server 4: create_log_entry({action: "email_update", user: "67890"})
+6. Agent verifies all acceptance criteria met ✅
+```
+
+**Key Insight:**
+
+- **SDD** is the **intent** (e.g., "update the user profile")
+- **MCP** is the **interface** that gives the agent standardized access to the **state** (e.g., the `User_Database` resource or the `update_user()` tool) required to fulfill that intent
+
+**Without MCP:**
+
+```text
+❌ Agent has spec.md but no access to systems
+❌ Developer must write custom integration code
+❌ Agent cannot execute spec (blocked by missing context)
+```
+
+**With MCP:**
+
+```text
+✅ Agent has spec.md AND standardized access via MCP
+✅ No custom integration code required
+✅ Agent executes spec autonomously
+```
+
+**This is the architectural foundation of autonomous development:**
+
+```text
+SDD + MCP = Autonomous Execution
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SDD (Logical Contract)
+  +
+MCP (Physical Interface)
+  =
+Agent can autonomously execute intent without human intervention
+```
+
+---
+
+#### The MCP-Enabled 'Marketplace' Ecosystem
+
+This standardization of the integration layer is the **technical foundation** for a new, interoperable **"Internet of Agents"**.
+
+The long-term strategic implication is a **fundamental shift in the SaaS economy**. The new **"API"** is the **MCP server**. A company's **"product"** will increasingly be an **MCP server listed on a major "Agent Marketplace"**.
+
+**The Paradigm Shift:**
+
+```text
+Old SaaS Economy (2010-2024):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Product = Web UI + REST API
+Distribution = Human users access via browser
+Integration = Custom code per customer
+
+New Agentic Economy (2025+):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Product = MCP Server
+Distribution = AI agents access via marketplace
+Integration = Zero-code plug-and-play
+```
+
+**Example: Traditional vs. Agentic Product Strategy**
+
+**Traditional SaaS (Salesforce):**
+
+```text
+Salesforce CRM (Old Model)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Distribution:
+- Human users log in via browser
+- Sales reps manually enter data
+- Admins configure workflows via UI
+
+Integration:
+- Customers write custom API code
+- Requires OAuth 2.0 setup
+- Bespoke error handling per customer
+```
+
+**Agentic SaaS (Salesforce with MCP):**
+
+```text
+Salesforce CRM (New Model)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Distribution:
+- AI agents discover via AWS Marketplace
+- Agents autonomously interact with CRM
+- Zero human data entry required
+
+Integration:
+- Customers add 5-line MCP config
+- Protocol handles auth automatically
+- Standard error handling (no custom code)
+```
+
+**The Marketplace Ecosystem:**
+
+Major platforms are already building this ecosystem. **AWS, Microsoft, and Salesforce** are creating **marketplaces** where partners can list their MCP-enabled services.
+
+**AWS Marketplace for AI Agents:**
+
+```text
+AWS Marketplace (MCP Servers)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Featured MCP Servers:
+├─ Box (File Storage & Collaboration)
+├─ Cisco (Network Management)
+├─ IBM Watson (AI Services)
+├─ Notion (Knowledge Management)
+├─ PayPal (Payment Processing)
+├─ Stripe (Payment Infrastructure)
+├─ Datadog (Monitoring & Observability)
+└─ Slack (Team Communication)
+
+Discovery Flow:
+1. Enterprise agent queries AWS Marketplace
+2. Agent discovers "PayPal MCP Server"
+3. Agent reads capabilities: charge_payment(), refund_transaction()
+4. Enterprise approves connection (one-time)
+5. Agent autonomously uses PayPal for all future payments
+```
+
+**Industry Adoption:**
+
+Over **30 industry leaders** have already committed to listing MCP servers, including:
+
+- **Cloud Providers**: AWS, Google Cloud, Microsoft Azure
+- **File Storage**: Box, Dropbox
+- **Networking**: Cisco
+- **AI/ML**: IBM Watson, Google Gemini
+- **Collaboration**: Notion, Slack, Atlassian
+- **Finance**: PayPal, Stripe, Plaid
+- **CRM**: Salesforce, HubSpot
+- **Observability**: Datadog, New Relic
+
+**The Network Effect:**
+
+This creates an ecosystem where an enterprise's AI agents can **dynamically discover** and **"plug-and-play"** with a **vast library of third-party tools**, all **without writing a single line of custom integration code**.
+
+**Example: Agent Discovers and Uses PayPal (Zero Custom Code)**
+
+```typescript
+// Agent runtime discovery (no pre-configuration required)
+const marketplace = new AgentMarketplace({ provider: "AWS" });
+
+// Agent searches for payment processing capability
+const paymentServers = await marketplace.search({
+  capability: "payment_processing"
+});
+
+console.log(paymentServers);
+// Output:
+[
+  { name: "PayPal", rating: 4.8, price: "$0.02/transaction" },
+  { name: "Stripe", rating: 4.9, price: "$0.025/transaction" },
+  { name: "Square", rating: 4.7, price: "$0.03/transaction" }
+]
+
+// Agent selects best option (highest rating, lowest price)
+const selectedServer = paymentServers[0]; // PayPal
+
+// Agent requests connection approval (one-time, human oversight)
+await marketplace.requestApproval(selectedServer);
+// Enterprise admin approves via UI ✅
+
+// Agent connects to PayPal MCP Server (zero custom code)
+const mcpClient = await marketplace.connect(selectedServer);
+
+// Agent uses PayPal autonomously
+const result = await mcpClient.callTool("charge_payment", {
+  amount: 100.00,
+  currency: "USD",
+  customer_id: "cust_12345"
+});
+
+console.log(result);
+// Output:
+{ 
+  "status": "success",
+  "transaction_id": "txn_67890",
+  "charged_at": "2025-11-16T14:45:00Z"
+}
+```
+
+**Strategic Implications for FSI:**
+
+1. **Accelerated Integration**: New vendor integrations go from months → minutes
+2. **Dynamic Vendor Selection**: Agents can compare and switch vendors based on real-time pricing/performance
+3. **Reduced Vendor Lock-In**: MCP standardization eliminates switching costs
+4. **Agent-Native Products**: FSI firms should build MCP servers as first-class products
+5. **Marketplace Positioning**: List internal services on agent marketplaces to enable inter-departmental agent collaboration
+
+**The Future: Internet of Agents**
+
+```text
+The Internet of Agents (2025-2030)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Layer 4: Agent Marketplaces
+- AWS Marketplace
+- Microsoft AppSource
+- Salesforce AppExchange
+- 10,000+ MCP servers listed
+
+Layer 3: Enterprise Agents
+- Development Agent (builds features)
+- Sales Agent (manages CRM)
+- Finance Agent (processes payments)
+- Operations Agent (monitors infrastructure)
+
+Layer 2: MCP Protocol
+- Standardized discovery
+- Plug-and-play integration
+- Universal authentication
+
+Layer 1: Tools & Data
+- GitHub, Jira, Slack, Salesforce, AWS, PayPal, Stripe, etc.
+- All accessible via MCP
+
+Result:
+Agents autonomously discover, evaluate, and integrate tools
+Zero custom integration code required
+Enterprise IT shifts from "integration factory" to "agent governance"
+```
+
+**Key Takeaway:**
+
+**MCP** is not just a protocol—it is the **architectural foundation** for the next generation of enterprise software. The combination of **SDD (logical contract)** + **MCP (physical interface)** + **Agent Marketplaces (distribution)** creates a **self-assembling, self-healing, self-optimizing** software ecosystem.
+
+The enterprise that masters this architecture will achieve **autonomous development at scale**.
+
+---
+
 ## The Design Phase: Figma MCP
 
 ### Introduction: The 'Design MCP' as the Bridge
