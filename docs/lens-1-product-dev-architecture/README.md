@@ -4,6 +4,17 @@
 
 The Product Development & Architecture lens provides a comprehensive framework for building enterprise applications using AI-driven development methodologies powered by **Visual Studio Code + GitHub Copilot Agent Mode + Claude Sonnet 4.5**. This module covers the complete journey from design specifications to production code, leveraging the power of Spec-Driven Development (SDD), Model Context Protocol (MCP), and modern agent orchestration.
 
+**⚠️ PREREQUISITE: Complete [Lens 0: Assessment & Foundation](../lens-0-assessment-foundation/) before starting transformation.**
+
+Before applying AI-driven development tools, AI agents must first **learn about your existing application**:
+- Read and understand existing code
+- Extract business rules and compliance requirements  
+- Map dependencies and architecture
+- Build foundation knowledge for transformation
+- Identify safe boundaries for incremental modernization using the **Strangler Pattern**
+
+📖 See [Lens 0](../lens-0-assessment-foundation/) for complete assessment methodology.
+
 ## Core Technology Stack
 
 | Technology | Purpose | Application |

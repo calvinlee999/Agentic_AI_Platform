@@ -75,10 +75,33 @@ AWS Cloud, Kubernetes, Data Lakehouse, Observability
 
 Enterprises cannot transform overnight from traditional to fully agentic development. This platform provides a **risk-mitigated, incremental approach** with clear success criteria and evaluation gates at each phase.
 
-### **From Traditional to Agentic: 3-Phase Roadmap**
+### **From Traditional to Agentic: 4-Phase Roadmap**
+
+**IMPORTANT: Phase 0 (Assessment) is a mandatory prerequisite before transformation begins.**
 
 ```text
-Phase 0: Baseline (Traditional Development)
+Phase 0: Assessment & Foundation (MANDATORY FIRST STEP)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Understand Before Transform: AI agents learn existing applications
+    ↓              ↓                ↓              ↓
+AI Agents      AI Agents        AI Agents      AI Agents
+(Claude)       (Copilot)        (Q Dev)        (LangChain)
+
+Activities:
+- Code assessment (existing Java, .NET, Python)
+- Requirements extraction from documentation
+- Architecture diagram analysis (vision API)
+- Database schema understanding
+- Business rules and compliance mapping
+- Dependency graph construction
+- Knowledge capture (vector DBs, knowledge graphs)
+- Strangler pattern candidate identification
+
+Timeline: 2-12 weeks (depends on codebase size)
+Output: Assessment foundation saved for transformation
+📖 See Lens 0 for complete assessment methodology
+
+Phase 1: Baseline (Traditional Development)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Requirements → Design → Architect → Code → Test → Deploy
     ↓          ↓          ↓         ↓       ↓        ↓
@@ -88,7 +111,7 @@ Requirements → Design → Architect → Code → Test → Deploy
 Timeline: 4-6 weeks per feature
 Baseline: 40-60% test coverage, 15-25% defect escape, 4-8 hour deployments
 
-Phase 1: AI-Augmented Testing (Low Risk → High Impact)
+Phase 2: AI-Augmented Testing (Low Risk → High Impact)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Requirements → Design → Architect → Code → Test → Deploy
     ↓          ↓          ↓         ↓       ↓        ↓
@@ -98,9 +121,9 @@ Requirements → Design → Architect → Code → Test → Deploy
 
 Target: +30% test coverage, -50% test time, -40% defect escape
 Timeline: 2-4 weeks per feature (25% reduction)
-Success Criteria: ≥5 of 6 metrics pass → Proceed to Phase 2
+Success Criteria: ≥5 of 6 metrics pass → Proceed to Phase 3
 
-Phase 2: AI-Augmented Deployment (Medium Risk → High Value)
+Phase 3: AI-Augmented Deployment (Medium Risk → High Value)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Requirements → Design → Architect → Code → Test → Deploy
     ↓          ↓          ↓         ↓       ↓        ↓
@@ -110,9 +133,9 @@ Requirements → Design → Architect → Code → Test → Deploy
 
 Target: -80% deployment time, +500% deployment frequency, -60% failure rate
 Timeline: 1.5-3 weeks per feature (50% reduction)
-Success Criteria: ≥5 of 6 metrics pass → Proceed to Phase 3
+Success Criteria: ≥5 of 6 metrics pass → Proceed to Phase 4
 
-Phase 3: Full Agentic Development (Maximum ROI)
+Phase 4: Full Agentic Development (Maximum ROI)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Requirements → Design → Architect → Code → Deploy
     ↓          ↓          ↓         ↓        ↓
@@ -125,6 +148,27 @@ Target: -80% time to production (5x velocity), 95%+ test coverage
 Timeline: 3-5 days per feature (80% reduction)
 Success Criteria: ≥5 of 6 metrics for sustained transformation
 ```
+
+### **Why Phase 0 (Assessment) is Non-Negotiable**
+
+❌ **Without Assessment:**
+- AI agents transform code blindly without understanding business rules
+- Compliance requirements are missed or broken
+- Technical debt compounds instead of being addressed
+- No clear boundaries for safe, incremental modernization
+
+✅ **With Assessment:**
+- AI agents learn from existing code before transforming
+- Business rules and compliance are preserved
+- Technical debt is documented and prioritized
+- Strangler pattern enables low-risk, incremental migration
+- Foundation knowledge enables better transformation decisions
+
+**The Strangler Pattern** (Phase 0 output) provides the roadmap for incremental modernization:
+- Identify components with clear boundaries
+- Route traffic between old and new implementations
+- Progressive rollout (5% → 25% → 50% → 100%)
+- Rollback capability at every step
 
 ### **Evaluation Framework: Every Phase Must Earn Its Advance**
 
@@ -179,7 +223,53 @@ Each phase includes a 4-week evaluation cycle:
 
 ---
 
-## �📚 Platform Modules
+## � Platform Modules
+
+### **🔍 [Lens 0: Assessment & Foundation Phase](docs/lens-0-assessment-foundation/README.md)**
+
+**Focus:** Understanding Before Transforming - The Critical First Step
+
+**Technologies:**
+
+- **Claude Sonnet 4.5** - Deep code analysis and pattern recognition
+- **GitHub Copilot Agent Mode** - Multi-file navigation and dependency identification
+- **Amazon Q Developer** - AWS infrastructure analysis
+- **Claude Agentic SDK** - Coordinate multiple analysis agents
+- **LangChain** - Multi-agent workflows for parallel analysis
+- **MCP Servers** - GitHub MCP, File System MCP, Database MCP
+
+**Key Topics:**
+
+- Code assessment strategies (Java, .NET, Python, database schemas)
+- Requirements and design analysis (documentation, architecture diagrams)
+- Architecture discovery (dependency graphs, call chains)
+- Knowledge capture and foundation building (vector DBs, knowledge graphs)
+- **The Strangler Pattern** - Incremental modernization methodology
+- AI agent learning workflows
+- Integration with transformation phases
+
+**Why Assessment First?**
+
+Before applying AI-driven development tools, AI agents **must first learn** about your existing application:
+
+- Read and understand existing code
+- Extract business rules and compliance requirements
+- Map dependencies and architecture
+- Save foundation knowledge for transformation
+- Identify safe boundaries for incremental modernization
+
+**The Strangler Pattern:**
+
+A method for **incrementally modernizing legacy systems** by gradually replacing functionality with new services:
+
+- ✅ **Low Risk** - Rollback capability at every step
+- ✅ **Zero Downtime** - Old and new systems run in parallel
+- ✅ **Progressive Rollout** - 5% → 25% → 50% → 100%
+- ✅ **Compliance Continuity** - Maintain regulatory controls during migration
+
+[→ Explore Lens 0: Assessment & Foundation](docs/lens-0-assessment-foundation/README.md)
+
+---
 
 ### **🎨 [Product Management](docs/product-management/README.md)**
 
