@@ -2,12 +2,14 @@
 
 ## Overview
 
-The Product Development & Architecture lens provides a comprehensive framework for building enterprise applications using AI-driven development methodologies. This module covers the complete journey from design specifications to production code, leveraging the power of Spec-Driven Development (SDD), Model Context Protocol (MCP), and modern agent orchestration.
+The Product Development & Architecture lens provides a comprehensive framework for building enterprise applications using AI-driven development methodologies powered by **Visual Studio Code + GitHub Copilot Agent Mode + Claude Sonnet 4.5**. This module covers the complete journey from design specifications to production code, leveraging the power of Spec-Driven Development (SDD), Model Context Protocol (MCP), and modern agent orchestration.
 
 ## Core Technology Stack
 
 | Technology | Purpose | Application |
 |-----------|---------|-------------|
+| **VS Code + Copilot Agent Mode** | Primary development environment | Multi-file editing, autonomous task execution |
+| **Claude Sonnet 4.5** | Foundation model | Enhanced reasoning, coding, context understanding |
 | **Figma MCP** | Design-to-development bridge | Visual specs, design system access |
 | **Amazon Q Developer** | AWS-native agent | Cloud development assistance |
 | **SDD (Spec-Driven Development)** | Methodology | Requirements as executable artifacts |
@@ -41,7 +43,7 @@ The integration of AI agents into software development represents a fundamental 
 
 ### The New Development Stack
 
-Traditional development workflows relied on human developers manually translating requirements into code. The agentic development stack introduces AI agents as first-class team members:
+Traditional development workflows relied on human developers manually translating requirements into code. The agentic development stack introduces AI agents as first-class team members, with **VS Code + GitHub Copilot Agent Mode + Claude Sonnet 4.5** as the primary development environment:
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -54,15 +56,15 @@ Requirements → Design → Code → Test → Deploy
   (PM/BA)  (Designer)  (Dev)   (QA)   (DevOps)
 
 ┌─────────────────────────────────────────────────────────────┐
-│  Agentic Development Stack                                   │
+│  Agentic Development Stack (VS Code + Copilot + Claude 4.5) │
 └─────────────────────────────────────────────────────────────┘
 
-Spec (SDD) → Design (Figma MCP) → Code (Agents) → Test (Auto) → Deploy (Auto)
-     ↓            ↓                   ↓              ↓              ↓
-   Human        Human            AI Agents      AI Agents      AI Agents
-  (PM/BA)    (Designer)         (Copilot,       (Q Dev,        (Q Dev,
-                                 Claude,         Selenium)      AWS)
-                                 Q Dev)
+Spec (SDD) → Design (Figma MCP) → Code (VS Code + Agents) → Test (Auto) → Deploy (Auto)
+     ↓            ↓                       ↓                     ↓              ↓
+   Human        Human                AI Agents             AI Agents      AI Agents
+  (PM/BA)    (Designer)              (Copilot Agent,       (Q Dev,        (Q Dev,
+                                     Claude 4.5,           Selenium)      AWS)
+                                     Q Dev)
 ```
 
 ---
@@ -308,9 +310,9 @@ PostgreSQL, GitHub, Jira, Salesforce, Slack, AWS
 
 ### Core MCP Architecture
 
-The MCP architecture is a standardized client-server model:
+The MCP architecture is a standardized client-server model, with **VS Code + GitHub Copilot Agent Mode** as the primary enterprise MCP host:
 
-**MCP Host**: The AI application (VS Code, Claude Desktop, Cursor, Windsurf)
+**MCP Host**: The AI application (VS Code with Copilot, Claude Desktop, Cursor, Windsurf)
 **MCP Client**: Component instantiated by the Host, one-to-one with MCP server
 **MCP Server**: Program that provides context via:
 
@@ -323,7 +325,7 @@ User
   ↕
 ┌─────────────────────────────────────────────┐
 │  MCP Host (AI Application)                   │
-│  e.g., VS Code, Claude Desktop               │
+│  VS Code + GitHub Copilot Agent Mode        │
 │                                              │
 │  ┌─────────────────────────────────────┐   │
 │  │  MCP Client 1                        │   │──→ MCP Server: PostgreSQL
@@ -727,24 +729,36 @@ The agent's job: **Write code that passes all tests**.
 
 These agents are not interchangeable—they represent specialized roles:
 
-#### GitHub Copilot: The 'In-Flow' Pair Programmer
+#### GitHub Copilot: The 'In-Flow' Pair Programmer with Agent Mode
 
-**Core Capability:** Deeply integrated IDE assistance for in-the-flow coding
+**Core Capability:** Deeply integrated IDE assistance for in-the-flow coding, now with autonomous Agent Mode
 
 **Strengths:**
 
-- Line-level code completion
-- Boilerplate generation
-- Multi-model access (Pro+ plan: Claude Opus, GPT-5, Gemini 2.5 Pro)
-- Superior context engineering from IDE integration
+- **Agent Mode (NEW)**: Multi-file editing, autonomous task execution across workspace
+- Line-level code completion with Claude Sonnet 4.5 integration
+- Boilerplate generation with enhanced context awareness
+- Multi-model access (Pro+ plan: Claude Sonnet 4.5, Opus, GPT-5, Gemini 2.5 Pro)
+- Superior context engineering from VS Code IDE integration
+- Direct MCP server integration for enterprise tools
+
+**Agent Mode Capabilities:**
+
+```text
+✓ Multi-file editing across entire workspace
+✓ Autonomous test generation and execution
+✓ Complex refactoring with file dependency tracking
+✓ Direct integration with Figma MCP, AWS MCP, GitHub MCP
+✓ Persistent context across editing sessions
+```
 
 **Limitations:**
 
-- Claude Opus only available in "Ask Mode", not "Agent Mode"
-- Best for line-level tasks, not complex multi-file operations
+- Best for VS Code environment (primary platform)
+- Agent Mode requires Copilot Pro or Enterprise
 
 **Pricing:** $10-$39/month
-**Best For:** Daily coding, every developer, inner-loop development
+**Best For:** Daily coding, every developer, inner-loop development, multi-file operations
 
 #### Claude Code: The 'Deep-Context' Architect
 
@@ -809,7 +823,7 @@ Result: Root cause identified, fixes proposed, implementation offered
 
 | Agent | Primary Interface | Core Strength | Key Differentiator | Pricing |
 |-------|------------------|---------------|-------------------|---------|
-| **GitHub Copilot** | IDE | In-Flow Pair Programming | Deep IDE integration, multi-model | $10-$39/mo |
+| **GitHub Copilot + Agent Mode** | VS Code IDE | In-Flow + Multi-File Autonomy | Deep IDE integration, Agent Mode, Claude 4.5 | $10-$39/mo |
 | **Claude Code** | Terminal/Chat | Deep-Context Refactoring | Massive context window (entire project) | $20-$200/mo |
 | **AWS Q Developer** | IDE & AWS Console | Enterprise SDLC Automation | 17 years AWS training, CloudWatch RCA | $19/user/mo |
 
@@ -821,11 +835,14 @@ Result: Root cause identified, fixes proposed, implementation offered
 Investment Breakdown:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-GitHub Copilot Pro: 50 × $10/month = $500/month
-├─ Every developer
-├─ Daily coding, boilerplate, quick tasks
-└─ ROI: 20-30% productivity increase
+🎯 PRIMARY ENVIRONMENT:
+GitHub Copilot Pro + Agent Mode: 50 × $10/month = $500/month
+├─ Every developer (VS Code + Claude Sonnet 4.5)
+├─ Daily coding, multi-file editing, autonomous tasks
+├─ MCP integration (Figma, AWS, GitHub)
+└─ ROI: 30-40% productivity increase with Agent Mode
 
+🏗️ SPECIALIZED WORKFLOWS:
 Claude Code Max: 10 × $150/month = $1,500/month
 ├─ Senior engineers, architects
 ├─ Complex refactoring, system design
@@ -840,10 +857,10 @@ AWS Q Developer: 50 × $19/month = $950/month
 Total: ~$3,000/month for 50 developers
 Per-Developer: $60/month
 
-ROI: 20-30% productivity = 10-15 additional developers
-Traditional hiring: $150,000-$225,000/month
+ROI: 30-40% productivity = 15-20 additional developers
+Traditional hiring: $225,000-$300,000/month
 
-NET ROI: ~50x return on investment
+NET ROI: ~75x return on investment
 ```
 
 ---

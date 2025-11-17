@@ -2,12 +2,13 @@
 
 ## Overview
 
-The AI, Inference & Agentic Automation lens explores the cutting edge of AI-powered development: model selection, inference optimization, agent orchestration, and autonomous workflows. This module covers the full spectrum from foundation models to production deployment.
+The AI, Inference & Agentic Automation lens explores the cutting edge of AI-powered development: model selection, inference optimization, agent orchestration, and autonomous workflows. This module focuses on **Claude Sonnet 4.5** as the primary foundation model, with comprehensive coverage from model selection to production deployment.
 
 ## Core Technology Stack
 
 | Technology | Purpose | Application |
 |-----------|---------|-------------|
+| **Claude Sonnet 4.5** | Primary foundation model | Enhanced reasoning, coding, context understanding |
 | **Claude 3.5 Sonnet** | Foundation model | Code generation, reasoning |
 | **GPT-4/GPT-5** | Foundation model | Multi-modal AI capabilities |
 | **Amazon Q Developer** | AWS-native agent | Cloud development assistance |
@@ -42,10 +43,11 @@ This module is currently under development. Full content migration is planned fo
 
 #### Foundation Models
 
+- **Claude Sonnet 4.5: Enhanced reasoning, coding, and context understanding**
 - Claude 3.5 Sonnet capabilities and use cases
 - GPT-4 vs Claude: When to use which model
 - Amazon Q Developer for AWS development
-- Multi-model strategies
+- Multi-model strategies with VS Code + Copilot Agent Mode
 
 #### Claude Agentic SDK
 

@@ -14,6 +14,14 @@ The framework leverages cutting-edge technologies to enable **autonomous softwar
 
 ## 🏗️ Core Technology Stack
 
+### **Development Environment**
+
+| Technology | Purpose | Role in Platform |
+|-----------|---------|------------------|
+| **Visual Studio Code** | Primary IDE | Enterprise-grade code editor with rich extension ecosystem |
+| **GitHub Copilot Agent Mode** | AI coding assistant | Multi-file editing, autonomous task execution, and intelligent code generation |
+| **Claude Sonnet 4.5** | Foundation model | Latest Claude model with enhanced reasoning, coding, and context understanding |
+
 ### **Foundation Technologies**
 
 | Technology | Purpose | Role in Platform |
@@ -30,6 +38,11 @@ The framework leverages cutting-edge technologies to enable **autonomous softwar
 ┌─────────────────────────────────────────────────────────────┐
 │  Enterprise Agentic AI Platform Architecture                │
 └─────────────────────────────────────────────────────────────┘
+
+Layer 6: Development Environment
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VS Code + GitHub Copilot Agent Mode + Claude Sonnet 4.5
+Primary development interface for agentic workflows
 
 Layer 5: Product & Governance
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -187,6 +200,7 @@ AWS Cloud, Kubernetes, Data Lakehouse, Observability
 
 **Technologies:**
 
+- **Claude Sonnet 4.5** - Latest model with enhanced reasoning, coding, and context understanding
 - **Claude 3.5 Sonnet** - Advanced reasoning and coding
 - **GPT-4** - General-purpose AI
 - **Amazon Q Developer** - AWS-specific assistance
@@ -333,9 +347,16 @@ This platform is continuously evolving as the agentic AI ecosystem matures. Cont
 
 ## 📚 Additional Resources
 
+### **Primary Development Tools**
+
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [GitHub Copilot](https://github.com/features/copilot)
+- [GitHub Copilot Agent Mode Documentation](https://docs.github.com/en/copilot/using-github-copilot/using-extensions-to-integrate-external-tools-with-copilot-chat)
+
 ### **Official Documentation**
 
 - [Anthropic Claude API](https://docs.anthropic.com/)
+- [Claude Sonnet 4.5 Release Notes](https://www.anthropic.com/news/claude-sonnet-4-5)
 - [LangChain Documentation](https://python.langchain.com/)
 - [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
 - [AWS MCP Servers](https://github.com/aws/mcp-servers)
