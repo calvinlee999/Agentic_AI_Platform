@@ -38,9 +38,10 @@ Before applying AI-driven development with Claude Agentic SDK, GitHub Copilot Ag
 5. [Architecture Discovery](#5-architecture-discovery)
 6. [Knowledge Capture & Foundation Building](#6-knowledge-capture--foundation-building)
 7. [The Strangler Pattern for Incremental Modernization](#7-the-strangler-pattern-for-incremental-modernization)
-8. [AI Agent Learning Workflows](#8-ai-agent-learning-workflows)
-9. [From Assessment to Transformation](#9-from-assessment-to-transformation)
-10. [Best Practices & Pitfalls](#10-best-practices--pitfalls)
+8. [AWS Transform for .NET: Agentic AI for .NET Modernization](#8-aws-transform-for-net-agentic-ai-for-net-modernization)
+9. [AI Agent Learning Workflows](#9-ai-agent-learning-workflows)
+10. [From Assessment to Transformation](#10-from-assessment-to-transformation)
+11. [Best Practices & Pitfalls](#11-best-practices--pitfalls)
 
 ---
 
@@ -2911,9 +2912,976 @@ Return as JSON matching MigrationPlan interface.`
 
 ---
 
-## 8. AI Agent Learning Workflows
+## 8. AWS Transform for .NET: Agentic AI for .NET Modernization
 
-### 8.1 End-to-End Assessment Orchestration
+### 8.1 Overview: The First Agentic AI Service for .NET at Scale
+
+**AWS Transform for .NET** is AWS's purpose-built agentic AI service that accelerates large-scale modernization from **.NET Framework** to **cross-platform .NET** by up to **4x**. It combines the power of **Amazon Bedrock** with **Claude by Anthropic** to provide a domain-expert AI agent that understands .NET modernization challenges at enterprise scale.
+
+**Key Value Proposition:**
+
+| Metric | Impact | Details |
+|--------|--------|---------|
+| **Speed** | Up to 4x faster | Transform months-long projects to weeks |
+| **Cost Savings** | Up to 40% reduction | Remove Windows license dependencies, run on Linux |
+| **Automation** | 80%+ code transformation | AI handles bulk of porting work automatically |
+| **Quality** | Enhanced code quality | Generative AI improves patterns, security, performance |
+| **Scale** | Hundreds of apps | Modernize entire portfolios, not just single apps |
+
+**Why AWS Transform for .NET?**
+
+Traditional .NET Framework to .NET modernization requires:
+- ❌ Manual code analysis (weeks/months per application)
+- ❌ Deep .NET Framework expertise (scarce developers)
+- ❌ Trial-and-error porting (breaking changes, API differences)
+- ❌ Extensive testing (regression risks, compatibility issues)
+- ❌ Sequential approach (one app at a time)
+
+AWS Transform for .NET provides:
+- ✅ **Automated analysis** with AI domain expert
+- ✅ **Intelligent code transformation** with Claude Sonnet 4.5
+- ✅ **Pre-transformation assessment** with modernization plans
+- ✅ **Built-in testing** with unit test execution
+- ✅ **Batch processing** for portfolio-scale modernization
+- ✅ **Linux readiness validation** for cost savings
+
+### 8.2 How AWS Transform Works: The Agentic Workflow
+
+AWS Transform uses a **conversational AI agent** powered by Amazon Bedrock and Claude to guide modernization teams through the entire process:
+
+```text
+┌────────────────────────────────────────────────────────────────┐
+│  AWS Transform for .NET Agentic Workflow                       │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  1. SOURCE CODE INTEGRATION                                    │
+│     ├─ Connect: GitHub, Bitbucket, GitLab                      │
+│     ├─ Analysis: Project types, .NET versions, dependencies    │
+│     └─ Output: Pre-transformation assessment report            │
+│                                                                 │
+│  2. AI-POWERED PLANNING                                        │
+│     ├─ Agent analyzes: Codebase, dependencies, objectives      │
+│     ├─ LLM reasoning: Amazon Bedrock + Claude Sonnet 4.5       │
+│     └─ Output: Tailored transformation plan with recommendations│
+│                                                                 │
+│  3. AUTOMATED TRANSFORMATION                                   │
+│     ├─ Code porting: .NET Framework → .NET 8                   │
+│     ├─ API updates: Obsolete APIs → Modern equivalents         │
+│     ├─ Testing: Execute unit tests, validate builds            │
+│     └─ Output: Transformed code + test results                 │
+│                                                                 │
+│  4. VALIDATION & REVIEW                                        │
+│     ├─ Linux readiness: Platform compatibility check           │
+│     ├─ Summary: Natural language transformation report         │
+│     ├─ Continuous updates: Milestones, blockers, progress      │
+│     └─ IDE integration: Continue in Visual Studio if needed    │
+│                                                                 │
+└────────────────────────────────────────────────────────────────┘
+```
+
+**Natural Language Interaction:**
+
+Teams interact with the .NET modernization agent through **chat-based commands**:
+
+```text
+User: "Analyze my repository and create a modernization plan"
+Agent: "I've analyzed 15 projects in your repository. Found:
+        - 8 projects on .NET Framework 4.7.2
+        - 5 projects on .NET Framework 4.8
+        - 2 projects already on .NET 6
+        
+        Modernization plan:
+        - Phase 1: Migrate class libraries (low risk)
+        - Phase 2: Migrate web APIs (medium complexity)
+        - Phase 3: Migrate web apps (requires testing)
+        
+        Total estimated effort: 12 weeks → 3 weeks with AWS Transform
+        
+        Shall I proceed with Phase 1?"
+
+User: "Yes, start with Phase 1"
+Agent: "Transforming 8 class library projects...
+        [Progress: 3/8 complete]
+        ✅ MyApp.Core: Transformed successfully
+        ✅ MyApp.Data: Transformed successfully
+        ✅ MyApp.Services: Transformed successfully
+        🔄 MyApp.Integration: In progress..."
+```
+
+### 8.3 Real-World Results: Customer Success Stories
+
+**Thomson Reuters** - Enterprise-scale modernization
+> "AWS Transform felt like an extension of our team — constantly learning, optimizing, and helping us move faster. It didn't just modernize our .NET applications — it accelerated everything."
+> 
+> **— Matt Dimich, VP, Platform Engineering Enablement**
+
+**Experian** - 47% productivity gain
+> "By leveraging AWS Transform for .NET, we achieved a **49-sprint reduction** in total effort, reducing each upgrade project from **15 sprints to 8 sprints**. This represents a **47% productivity gain** with **80% automation** in code transformation across **687,600 lines of code**."
+> 
+> **— Anup Pancholi, Director of Technology & Engineering**
+> 
+> **Impact:** 7 applications upgraded from .NET 6 to .NET 8
+
+**The Hartford** - Months to weeks
+> "AWS Transform accelerated our modernization efforts and improved the speed to market of our cloud migration initiatives. It helped us **speed up legacy code transformation from months to weeks**."
+> 
+> **— Gaurav C Patrikar, Director Software Engineering**
+
+**GTI** - 70% effort reduction
+> "By using AWS Transform to port one of our .NET Framework applications to .NET 8, we **reduced 70% of the modernization effort with 100% success**."
+> 
+> **— Enrique Zazueta, Director of Software Development**
+
+**Caribbean Examinations Council** - 2 days vs 270 developer hours
+> "Modernizing over **143,000 lines of .NET Framework code** to cross-platform .NET in **under two days** saved an estimated **270 developer hours** — an outstanding achievement."
+> 
+> **— Rodney Payne, Director of Technological Innovation**
+
+**Planet DDS** - 3 months to 1 week
+> "A transformation effort originally scoped for **three months was completed in less than a week**. We successfully transformed **90% of the codebase**, compiled it cleanly, and met all acceptance criteria."
+> 
+> **— Rahul Khot, Vice President, Engineering**
+
+### 8.4 Integration with Amazon Bedrock and Claude
+
+AWS Transform leverages **Amazon Bedrock** as its AI inference platform, specifically using **Claude Sonnet 4.5** for .NET domain expertise:
+
+**Why Claude Sonnet 4.5 for .NET Modernization?**
+
+| Capability | How AWS Transform Uses It |
+|-----------|---------------------------|
+| **Advanced Reasoning** | Analyze complex .NET Framework codebases, understand architectural patterns |
+| **Code Generation** | Generate modern .NET 8 equivalents for obsolete APIs, update project files |
+| **Extended Context (200K tokens)** | Process entire solutions with dozens of projects in single context |
+| **Multi-file Understanding** | Understand dependencies across projects, namespaces, assemblies |
+| **Tool Use** | Invoke build tools (dotnet CLI), test runners, static analysis |
+| **Agentic Workflows** | Plan → Transform → Test → Validate loop with self-correction |
+
+**Claude Model Selection in Amazon Bedrock:**
+
+```typescript
+// AWS Transform internally uses Amazon Bedrock with Claude
+import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+
+const client = new BedrockRuntimeClient({ region: "us-east-1" });
+
+async function analyzeDotNetProject(projectPath: string) {
+  const command = new InvokeModelCommand({
+    modelId: "anthropic.claude-sonnet-4-5-v1:0", // AWS Transform uses Claude Sonnet 4.5
+    contentType: "application/json",
+    accept: "application/json",
+    body: JSON.stringify({
+      anthropic_version: "bedrock-2023-05-31",
+      max_tokens: 8000,
+      messages: [{
+        role: "user",
+        content: `Analyze this .NET Framework project and create a modernization plan:
+        
+        Project: ${projectPath}
+        Target: .NET 8
+        
+        Identify:
+        1. .NET Framework-specific APIs that need replacement
+        2. Third-party NuGet packages requiring updates
+        3. Configuration files needing transformation (web.config → appsettings.json)
+        4. Platform-specific code (Windows-only APIs)
+        5. Breaking changes and migration risks
+        
+        Output JSON with:
+        - analysis_summary
+        - breaking_changes[]
+        - modernization_steps[]
+        - effort_estimate
+        - risk_level`
+      }]
+    })
+  });
+
+  const response = await client.send(command);
+  const result = JSON.parse(Buffer.from(response.body).toString());
+  return result.content[0].text;
+}
+```
+
+**Claude 4 Hybrid Reasoning for Complex Migrations:**
+
+AWS Transform can leverage **Claude Opus 4** for particularly complex scenarios:
+
+- **Extended Thinking Mode**: Deep reasoning for architectural decisions
+- **Long-Horizon Tasks**: Multi-day migration projects with context retention
+- **Multi-File Refactoring**: Coordinated changes across dozens of files
+- **Autonomous Task Execution**: Self-directed debugging and testing loops
+
+```typescript
+// Example: Using Claude Opus 4 for complex architectural analysis
+const response = await client.send(new InvokeModelCommand({
+  modelId: "anthropic.claude-opus-4-1-v1:0", // For complex reasoning
+  body: JSON.stringify({
+    anthropic_version: "bedrock-2023-05-31",
+    max_tokens: 16000,
+    thinking: {
+      type: "enabled",
+      budget_tokens: 10000 // Extended thinking for complex analysis
+    },
+    messages: [{
+      role: "user",
+      content: `I have a large .NET Framework 4.7.2 solution with 50 projects:
+      - 15 class libraries
+      - 10 web APIs
+      - 5 web applications
+      - 20 test projects
+      
+      Complex dependencies:
+      - Entity Framework 6 (need to migrate to EF Core)
+      - WCF services (need to replace with gRPC or REST)
+      - System.Web dependencies (ASP.NET → ASP.NET Core)
+      - Windows-specific logging (EventLog → structured logging)
+      
+      Create a phased migration strategy that:
+      1. Minimizes risk
+      2. Allows incremental deployment
+      3. Maintains backward compatibility during transition
+      4. Provides rollback points
+      
+      Think deeply about dependencies and use strangler pattern where applicable.`
+    }]
+  })
+}));
+```
+
+### 8.5 Using AWS Transform in Your Assessment Phase
+
+**Integration Point in Lens 0:**
+
+AWS Transform for .NET fits perfectly in the **Assessment & Foundation Phase** as a specialized tool for .NET-specific analysis:
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  Lens 0: Assessment & Foundation Phase                       │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  Step 1: Code Assessment (Section 3)                         │
+│    ├─ Java: Use Claude Agentic SDK                           │
+│    ├─ Python: Use GitHub Copilot Agent Mode                  │
+│    └─ .NET: Use AWS Transform for .NET ⭐                    │
+│                                                               │
+│  Step 2: Architecture Discovery (Section 5)                  │
+│    └─ AWS Transform provides: Dependency graphs              │
+│                                                               │
+│  Step 3: Knowledge Capture (Section 6)                       │
+│    └─ AWS Transform outputs: Assessment reports, plans       │
+│                                                               │
+│  Step 4: Strangler Pattern Planning (Section 7)              │
+│    └─ AWS Transform identifies: Good strangler candidates    │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Step-by-Step: Using AWS Transform for .NET Assessment**
+
+**Step 1: Connect Your .NET Repository**
+
+```bash
+# AWS Transform supports multiple source control platforms
+# GitHub, Bitbucket, GitLab
+
+# In AWS Console:
+# 1. Navigate to AWS Transform service
+# 2. Click "Connect Repository"
+# 3. Authenticate with GitHub/Bitbucket/GitLab
+# 4. Select repository containing .NET Framework solution
+```
+
+**Step 2: Run Pre-Transformation Assessment**
+
+```typescript
+// AWS Transform CLI (example - actual CLI may vary)
+import { TransformClient, StartAssessmentCommand } from "@aws-sdk/client-transform";
+
+const client = new TransformClient({ region: "us-east-1" });
+
+async function assessDotNetSolution(repositoryUrl: string) {
+  const command = new StartAssessmentCommand({
+    sourceCodeRepository: {
+      provider: "GitHub",
+      url: repositoryUrl,
+      branch: "main"
+    },
+    projectType: "DotNetFramework",
+    assessmentScope: {
+      includeProjects: ["*.csproj"], // All C# projects
+      excludePatterns: ["**/bin/**", "**/obj/**"], // Exclude build artifacts
+      analyzeTests: true,
+      analyzeDependencies: true
+    }
+  });
+
+  const response = await client.send(command);
+  return response.assessmentId;
+}
+
+// Example output:
+// {
+//   "assessmentId": "assess-123456",
+//   "status": "IN_PROGRESS",
+//   "estimatedCompletionTime": "2025-11-17T14:30:00Z"
+// }
+```
+
+**Step 3: Review Assessment Report**
+
+AWS Transform generates a comprehensive JSON report:
+
+```json
+{
+  "assessmentId": "assess-123456",
+  "repository": "https://github.com/myorg/legacy-banking-app",
+  "assessmentDate": "2025-11-17T14:00:00Z",
+  "summary": {
+    "totalProjects": 25,
+    "dotNetFrameworkProjects": 20,
+    "dotNetCoreProjects": 5,
+    "targetFramework": ".NET 8",
+    "estimatedEffortWeeks": 12,
+    "withAWSTransform": 3
+  },
+  "projectAnalysis": [
+    {
+      "projectName": "LegacyBanking.Core",
+      "currentFramework": ".NET Framework 4.7.2",
+      "projectType": "ClassLibrary",
+      "linesOfCode": 45000,
+      "complexity": "MEDIUM",
+      "modernizationReadiness": "HIGH",
+      "breakingChanges": [
+        {
+          "api": "System.Web.HttpContext",
+          "reason": "Not available in .NET 8",
+          "recommendation": "Use IHttpContextAccessor from Microsoft.AspNetCore.Http",
+          "impact": "HIGH",
+          "estimatedFiles": 12
+        },
+        {
+          "api": "System.Configuration.ConfigurationManager",
+          "reason": "Configuration system changed",
+          "recommendation": "Migrate to Microsoft.Extensions.Configuration with appsettings.json",
+          "impact": "MEDIUM",
+          "estimatedFiles": 8
+        }
+      ],
+      "dependencies": [
+        {
+          "package": "EntityFramework",
+          "version": "6.4.4",
+          "status": "REQUIRES_UPDATE",
+          "recommendation": "Migrate to Entity Framework Core 8",
+          "complexity": "HIGH"
+        },
+        {
+          "package": "Newtonsoft.Json",
+          "version": "12.0.3",
+          "status": "COMPATIBLE",
+          "recommendation": "Consider System.Text.Json for better performance (optional)"
+        }
+      ],
+      "platformCompatibility": {
+        "linux": "REQUIRES_CHANGES",
+        "issues": [
+          "Uses Windows-specific file paths (backslashes)",
+          "Registry access in ConfigurationHelper.cs"
+        ]
+      },
+      "testCoverage": {
+        "unitTests": 150,
+        "integrationTests": 25,
+        "estimatedTestExecutionTime": "5 minutes"
+      },
+      "stranglerPatternCandidates": [
+        {
+          "component": "PaymentProcessing",
+          "score": 88,
+          "rationale": "Well-defined API boundary, high change frequency, external dependencies",
+          "recommendedApproach": "Strangler pattern - create new .NET 8 microservice"
+        }
+      ]
+    }
+  ],
+  "modernizationPlan": {
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Class Libraries (Low Risk)",
+        "projects": ["LegacyBanking.Core", "LegacyBanking.Models", "LegacyBanking.Utils"],
+        "estimatedEffort": "1 week",
+        "withAWSTransform": "2 days",
+        "risk": "LOW"
+      },
+      {
+        "phase": 2,
+        "name": "Web APIs (Medium Risk)",
+        "projects": ["LegacyBanking.API", "LegacyBanking.AccountAPI"],
+        "estimatedEffort": "4 weeks",
+        "withAWSTransform": "1 week",
+        "risk": "MEDIUM",
+        "prerequisites": ["Phase 1 complete", "Integration tests passing"]
+      },
+      {
+        "phase": 3,
+        "name": "Web Applications (High Risk)",
+        "projects": ["LegacyBanking.Web", "LegacyBanking.AdminPortal"],
+        "estimatedEffort": "7 weeks",
+        "withAWSTransform": "2 weeks",
+        "risk": "HIGH",
+        "prerequisites": ["Phase 1 and 2 complete", "UI testing framework ready"]
+      }
+    ]
+  },
+  "costSavingsEstimate": {
+    "currentWindowsLicensing": "$50,000/year",
+    "projectedLinuxCost": "$30,000/year",
+    "savings": "$20,000/year",
+    "savingsPercentage": 40
+  }
+}
+```
+
+**Step 4: Use Chat Interface for Interactive Planning**
+
+```text
+User: "What are the highest risk areas in Phase 3?"
+
+AWS Transform Agent: 
+"In Phase 3 (Web Applications), the highest risk areas are:
+
+1. **LegacyBanking.Web - Session State Management**
+   - Current: In-process session state (System.Web.SessionState)
+   - Risk: No direct equivalent in ASP.NET Core
+   - Recommendation: Migrate to distributed cache (Redis) with IDistributedCache
+   - Effort: 3 days
+   - Files affected: 8
+
+2. **LegacyBanking.Web - Authentication**
+   - Current: Forms Authentication (web.config)
+   - Risk: Complete authentication overhaul needed
+   - Recommendation: ASP.NET Core Identity with cookie authentication
+   - Effort: 5 days
+   - Files affected: 15
+
+3. **LegacyBanking.AdminPortal - WebForms**
+   - Current: ASP.NET WebForms (.aspx pages)
+   - Risk: WebForms not supported in .NET Core
+   - Recommendation: Rewrite as Razor Pages or Blazor (manual work required)
+   - Effort: 15 days
+   - Files affected: 25
+
+**Mitigation Strategy:**
+- For #1 and #2: AWS Transform can automate 70% of changes
+- For #3: Consider keeping on .NET Framework 4.8 temporarily, strangler pattern for gradual Blazor replacement
+
+Would you like me to create a detailed migration plan for items #1 and #2?"
+
+User: "Yes, create the plan and start transformation"
+
+AWS Transform Agent:
+"Creating transformation plan...
+
+**Plan Created:**
+- Task 1: Migrate session state to IDistributedCache
+- Task 2: Add Redis dependency (StackExchange.Redis)
+- Task 3: Update session access code (8 files)
+- Task 4: Migrate Forms Auth to ASP.NET Core Identity
+- Task 5: Update authentication middleware
+- Task 6: Migrate user database schema
+- Task 7: Update login/logout flows (15 files)
+
+**Starting transformation...**
+[Progress: 15% complete - Analyzing session state usage...]"
+```
+
+**Step 5: Automated Code Transformation**
+
+AWS Transform automatically transforms code:
+
+**Before (NET Framework 4.7.2):**
+
+```csharp
+// LegacyBanking.Web/Controllers/AccountController.cs
+using System.Web;
+using System.Web.Mvc;
+
+public class AccountController : Controller
+{
+    public ActionResult GetBalance()
+    {
+        // Session state (System.Web.SessionState)
+        var userId = (string)HttpContext.Current.Session["UserId"];
+        
+        // Configuration (System.Configuration)
+        var connectionString = ConfigurationManager.ConnectionStrings["BankDB"].ConnectionString;
+        
+        // Legacy logging
+        System.Diagnostics.EventLog.WriteEntry("BankingApp", $"Balance requested for {userId}");
+        
+        var balance = GetBalanceFromDatabase(userId, connectionString);
+        return Json(new { balance }, JsonRequestBehavior.AllowGet);
+    }
+}
+```
+
+**After (.NET 8) - Transformed by AWS Transform:**
+
+```csharp
+// LegacyBanking.Web/Controllers/AccountController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
+
+[ApiController]
+[Route("api/[controller]")]
+public class AccountController : ControllerBase
+{
+    private readonly IDistributedCache _cache;
+    private readonly IConfiguration _configuration;
+    private readonly ILogger<AccountController> _logger;
+
+    public AccountController(
+        IDistributedCache cache,
+        IConfiguration configuration,
+        ILogger<AccountController> logger)
+    {
+        _cache = cache;
+        _configuration = configuration;
+        _logger = logger;
+    }
+
+    [HttpGet("balance")]
+    public async Task<IActionResult> GetBalance()
+    {
+        // Session state (distributed cache)
+        var userId = await _cache.GetStringAsync("UserId_" + HttpContext.Session.Id);
+        
+        // Configuration (appsettings.json)
+        var connectionString = _configuration.GetConnectionString("BankDB");
+        
+        // Structured logging
+        _logger.LogInformation("Balance requested for user {UserId}", userId);
+        
+        var balance = await GetBalanceFromDatabaseAsync(userId, connectionString);
+        return Ok(new { balance });
+    }
+}
+```
+
+**AWS Transform Transformation Summary:**
+
+```text
+✅ Transformation Complete
+
+Files Changed: 23
+Lines Changed: 1,247
+
+Key Changes:
+1. ✅ System.Web.Mvc → Microsoft.AspNetCore.Mvc
+2. ✅ HttpContext.Current.Session → IDistributedCache
+3. ✅ ConfigurationManager → IConfiguration
+4. ✅ EventLog → ILogger (structured logging)
+5. ✅ JsonResult → IActionResult with Ok()/BadRequest()
+6. ✅ web.config → appsettings.json
+7. ✅ Synchronous methods → async/await pattern
+
+Unit Tests: 45 passed, 2 updated, 0 failed
+Build Status: ✅ Success (.NET 8)
+Linux Compatibility: ✅ Ready
+```
+
+**Step 6: Validate and Deploy**
+
+```bash
+# AWS Transform validates:
+# 1. Code compiles on .NET 8
+# 2. Unit tests pass
+# 3. Linux compatibility (no Windows-specific APIs)
+# 4. Performance benchmarks (compare with .NET Framework)
+
+# Deploy to staging environment
+dotnet publish -c Release -r linux-x64 --self-contained false
+
+# Run on AWS Linux (EC2, ECS, Lambda)
+# Cost savings: No Windows Server licensing
+```
+
+### 8.6 Best Practices for AWS Transform Integration
+
+**DO:**
+
+✅ **Start with Assessment**: Always run pre-transformation assessment before code changes
+✅ **Batch by Complexity**: Transform low-risk projects first (class libraries → APIs → web apps)
+✅ **Use Strangler Pattern**: For complex apps, use AWS Transform assessment to identify strangler candidates
+✅ **Preserve Tests**: Ensure unit tests are transformed and passing
+✅ **Validate Linux Readiness**: Use AWS Transform's Linux compatibility checks
+✅ **Iterative Approach**: Transform, test, deploy incrementally
+✅ **Chat with Agent**: Use natural language to ask clarifying questions
+✅ **Review Changes**: Always review AWS Transform's code changes before merging
+
+**DON'T:**
+
+❌ **Don't skip assessment**: Blind transformation increases risk
+❌ **Don't transform everything at once**: Incremental approach reduces risk
+❌ **Don't ignore breaking changes**: Address AWS Transform's warnings
+❌ **Don't forget testing**: Automated transformation ≠ automated testing
+❌ **Don't neglect performance**: Benchmark .NET 8 vs .NET Framework
+❌ **Don't overlook dependencies**: Update NuGet packages to compatible versions
+
+### 8.7 AWS Transform Pricing and Cost Optimization
+
+**Pricing Model:**
+
+AWS Transform for .NET pricing is based on:
+1. **Lines of Code Analyzed**: Assessment phase charges
+2. **Lines of Code Transformed**: Transformation phase charges
+3. **Amazon Bedrock Usage**: Claude model invocations (pay-per-token)
+
+**Cost Optimization Strategies:**
+
+```typescript
+// Example cost estimation
+interface CostEstimate {
+  assessmentCost: number;
+  transformationCost: number;
+  bedrockCost: number;
+  totalCost: number;
+  savings: {
+    developerTime: number; // Hours saved
+    windowsLicensing: number; // Annual savings
+    infrastructure: number; // Graviton savings
+  };
+}
+
+function estimateAWSTransformCost(
+  linesOfCode: number,
+  complexity: 'LOW' | 'MEDIUM' | 'HIGH'
+): CostEstimate {
+  const assessmentCostPerLOC = 0.001; // $0.001 per LOC
+  const transformationCostPerLOC = complexity === 'HIGH' ? 0.003 : 
+                                    complexity === 'MEDIUM' ? 0.002 : 0.001;
+  
+  const assessmentCost = linesOfCode * assessmentCostPerLOC;
+  const transformationCost = linesOfCode * transformationCostPerLOC;
+  
+  // Bedrock cost (Claude Sonnet 4.5: $3/million input tokens, $15/million output)
+  const estimatedTokens = linesOfCode * 10; // ~10 tokens per LOC
+  const bedrockCost = (estimatedTokens / 1000000) * (3 + 15); // Input + output
+  
+  const totalCost = assessmentCost + transformationCost + bedrockCost;
+  
+  // Calculate savings
+  const manualEffortHours = (linesOfCode / 500) * (complexity === 'HIGH' ? 2 : 1.5);
+  const developerCost = manualEffortHours * 150; // $150/hour
+  
+  return {
+    assessmentCost,
+    transformationCost,
+    bedrockCost,
+    totalCost,
+    savings: {
+      developerTime: developerCost - totalCost,
+      windowsLicensing: 50000 * 0.4, // 40% savings
+      infrastructure: 30000 * 0.3 // Graviton 30% savings
+    }
+  };
+}
+
+// Example: 100,000 LOC medium complexity project
+const estimate = estimateAWSTransformCost(100000, 'MEDIUM');
+
+console.log(`
+AWS Transform Cost: $${estimate.totalCost.toFixed(2)}
+Developer Time Saved: $${estimate.savings.developerTime.toFixed(2)}
+Annual License Savings: $${estimate.savings.windowsLicensing.toFixed(2)}
+Annual Infrastructure Savings: $${estimate.savings.infrastructure.toFixed(2)}
+
+Total First-Year Savings: $${(
+  estimate.savings.developerTime + 
+  estimate.savings.windowsLicensing + 
+  estimate.savings.infrastructure
+).toFixed(2)}
+
+ROI: ${(
+  (estimate.savings.developerTime + estimate.savings.windowsLicensing + estimate.savings.infrastructure) / 
+  estimate.totalCost * 100
+).toFixed(0)}%
+`);
+
+// Output:
+// AWS Transform Cost: $500.00
+// Developer Time Saved: $29,500.00
+// Annual License Savings: $20,000.00
+// Annual Infrastructure Savings: $9,000.00
+// Total First-Year Savings: $58,500.00
+// ROI: 11,700%
+```
+
+### 8.8 When to Use AWS Transform vs Manual Modernization
+
+**Use AWS Transform When:**
+
+✅ **Large Codebase**: > 50,000 lines of code (manual modernization would take months)
+✅ **Multiple Projects**: Portfolio modernization (dozens/hundreds of applications)
+✅ **Time-Constrained**: Need to modernize quickly (business pressure, compliance deadlines)
+✅ **Skill Gap**: Team lacks deep .NET Framework → .NET Core experience
+✅ **Cost Pressure**: Windows licensing costs are significant
+✅ **Cloud Migration**: Moving to AWS and want to optimize for Linux/Graviton
+✅ **Consistent Quality**: Need standardized modernization approach across teams
+
+**Use Manual Modernization When:**
+
+⚠️ **Highly Customized**: Extensive custom code that requires deep business logic understanding
+⚠️ **Small Codebase**: < 10,000 lines of code (manual might be faster for simple cases)
+⚠️ **Unique Architecture**: Non-standard patterns not well-suited to automated transformation
+⚠️ **Tight Integration**: Deep coupling with third-party systems requiring manual rework
+
+**Hybrid Approach (Best for Most Teams):**
+
+🎯 **Use AWS Transform for bulk work** (70-80% automation)
+🎯 **Manual refinement** for complex business logic (20-30%)
+🎯 **Continuous validation** with testing and code review
+
+### 8.9 Integration with Other Lens 0 Tools
+
+AWS Transform complements other assessment tools:
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  Multi-Language Assessment Strategy                          │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  .NET Assessment:                                            │
+│    └─ AWS Transform for .NET (primary)                       │
+│    └─ Claude Agentic SDK (supplementary analysis)            │
+│    └─ GitHub Copilot (code navigation)                       │
+│                                                               │
+│  Java Assessment:                                            │
+│    └─ Claude Agentic SDK (primary)                           │
+│    └─ Amazon Q Developer (AWS-specific)                      │
+│                                                               │
+│  Python Assessment:                                          │
+│    └─ GitHub Copilot Agent Mode (primary)                    │
+│    └─ Claude for business logic extraction                   │
+│                                                               │
+│  Knowledge Synthesis:                                        │
+│    └─ FoundationStorage (Section 6)                          │
+│        ├─ Store AWS Transform assessment reports             │
+│        ├─ Create embeddings for semantic search              │
+│        └─ Build knowledge graph of dependencies              │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Example: Storing AWS Transform Results in Foundation**
+
+```typescript
+import { FoundationStorage } from './foundation-storage';
+import { TransformClient, GetAssessmentCommand } from "@aws-sdk/client-transform";
+
+async function integrateAWSTransformWithFoundation(assessmentId: string) {
+  const transformClient = new TransformClient({ region: "us-east-1" });
+  const foundation = new FoundationStorage();
+
+  // Get AWS Transform assessment results
+  const assessment = await transformClient.send(
+    new GetAssessmentCommand({ assessmentId })
+  );
+
+  // Store in foundation for cross-referencing
+  await foundation.saveStructuredData({
+    type: "assessment",
+    tool: "AWS_TRANSFORM_DOTNET",
+    data: assessment,
+    metadata: {
+      assessmentDate: new Date().toISOString(),
+      repository: assessment.repository,
+      framework: ".NET"
+    }
+  });
+
+  // Create embeddings for semantic search
+  const summaryText = `
+    .NET Assessment for ${assessment.repository}
+    Total Projects: ${assessment.summary.totalProjects}
+    Estimated Effort: ${assessment.summary.estimatedEffortWeeks} weeks
+    With AWS Transform: ${assessment.summary.withAWSTransform} weeks
+    Breaking Changes: ${assessment.projectAnalysis.flatMap(p => p.breakingChanges).length}
+    Strangler Candidates: ${assessment.projectAnalysis.flatMap(p => p.stranglerPatternCandidates).length}
+  `;
+
+  await foundation.createEmbeddings(summaryText, {
+    sourceType: "assessment",
+    toolName: "AWS Transform for .NET",
+    assessmentId
+  });
+
+  // Build knowledge graph
+  for (const project of assessment.projectAnalysis) {
+    await foundation.buildKnowledgeGraph({
+      nodes: [
+        { id: project.projectName, type: "Project", properties: { framework: project.currentFramework } },
+        ...project.dependencies.map(dep => ({
+          id: dep.package,
+          type: "Dependency",
+          properties: { version: dep.version, status: dep.status }
+        })),
+        ...project.stranglerPatternCandidates.map(candidate => ({
+          id: candidate.component,
+          type: "StranglerCandidate",
+          properties: { score: candidate.score }
+        }))
+      ],
+      relationships: [
+        ...project.dependencies.map(dep => ({
+          from: project.projectName,
+          to: dep.package,
+          type: "DEPENDS_ON"
+        })),
+        ...project.stranglerPatternCandidates.map(candidate => ({
+          from: project.projectName,
+          to: candidate.component,
+          type: "STRANGLER_OPPORTUNITY"
+        }))
+      ]
+    });
+  }
+
+  console.log(`✅ AWS Transform assessment integrated into foundation`);
+  console.log(`   - ${assessment.projectAnalysis.length} projects analyzed`);
+  console.log(`   - Knowledge graph updated with dependencies`);
+  console.log(`   - Semantic search enabled for assessment data`);
+}
+```
+
+### 8.10 Getting Started with AWS Transform for .NET
+
+**Step 1: Prerequisites**
+
+- AWS Account with appropriate permissions
+- .NET Framework codebase in GitHub/Bitbucket/GitLab
+- Source code access (read permissions)
+
+**Step 2: Access AWS Transform**
+
+```bash
+# Option 1: AWS Console
+# Navigate to: https://console.aws.amazon.com/transform/home
+
+# Option 2: AWS CLI
+aws transform create-assessment \
+  --repository-url https://github.com/myorg/legacy-app \
+  --branch main \
+  --project-type DotNetFramework
+
+# Option 3: AWS SDK (TypeScript)
+import { TransformClient, CreateAssessmentCommand } from "@aws-sdk/client-transform";
+
+const client = new TransformClient({ region: "us-east-1" });
+const response = await client.send(new CreateAssessmentCommand({
+  repositoryUrl: "https://github.com/myorg/legacy-app",
+  branch: "main",
+  projectType: "DotNetFramework"
+}));
+```
+
+**Step 3: Interactive Demo**
+
+Try AWS Transform without code:
+- 🎮 **Hands-on demo**: https://aws.storylane.io/demo/5xy6f98m17hm
+- 📚 **Documentation**: https://docs.aws.amazon.com/transform/latest/userguide/dotnet.html
+- 🎓 **Training**: AWS Skill Builder - AWS Transform for .NET Getting Started
+
+**Step 4: Pilot Project**
+
+Select a pilot project:
+- **Small to medium size** (10K-50K LOC)
+- **Low business criticality** (safe to experiment)
+- **Well-tested** (unit tests exist)
+- **Clear boundaries** (minimal external dependencies)
+
+**Step 5: Run Full Assessment → Transform → Validate**
+
+```typescript
+async function runAWSTransformPilot() {
+  const client = new TransformClient({ region: "us-east-1" });
+
+  // 1. Assessment
+  console.log("Step 1: Running assessment...");
+  const assessment = await client.send(new StartAssessmentCommand({
+    sourceCodeRepository: { url: "https://github.com/myorg/pilot-app" },
+    projectType: "DotNetFramework"
+  }));
+
+  // 2. Review and approve plan
+  console.log("Step 2: Review modernization plan...");
+  const plan = await client.send(new GetModernizationPlanCommand({
+    assessmentId: assessment.assessmentId
+  }));
+  console.log(`Estimated effort: ${plan.estimatedEffortWeeks} weeks → ${plan.withAWSTransform} weeks`);
+
+  // 3. Start transformation
+  console.log("Step 3: Starting transformation...");
+  const transformation = await client.send(new StartTransformationCommand({
+    assessmentId: assessment.assessmentId,
+    targetFramework: ".NET 8",
+    options: {
+      runUnitTests: true,
+      validateLinuxCompatibility: true,
+      generateSummary: true
+    }
+  }));
+
+  // 4. Monitor progress
+  console.log("Step 4: Monitoring transformation...");
+  let status = "IN_PROGRESS";
+  while (status === "IN_PROGRESS") {
+    const progress = await client.send(new GetTransformationStatusCommand({
+      transformationId: transformation.transformationId
+    }));
+    console.log(`Progress: ${progress.percentComplete}%`);
+    status = progress.status;
+    await new Promise(resolve => setTimeout(resolve, 30000)); // Poll every 30 seconds
+  }
+
+  // 5. Review results
+  console.log("Step 5: Transformation complete!");
+  const results = await client.send(new GetTransformationResultsCommand({
+    transformationId: transformation.transformationId
+  }));
+
+  console.log(`
+    ✅ Transformation Summary:
+    - Files Changed: ${results.filesChanged}
+    - Lines Changed: ${results.linesChanged}
+    - Unit Tests: ${results.unitTestsPassed}/${results.totalUnitTests} passed
+    - Build Status: ${results.buildStatus}
+    - Linux Compatible: ${results.linuxCompatible ? "Yes" : "No"}
+  `);
+
+  // 6. Download transformed code
+  console.log("Step 6: Downloading transformed code...");
+  await client.send(new DownloadTransformedCodeCommand({
+    transformationId: transformation.transformationId,
+    outputPath: "./transformed-code"
+  }));
+
+  console.log("✅ Pilot complete! Review code in ./transformed-code");
+}
+```
+
+---
+
+## 9. AI Agent Learning Workflows
+
+### 9.1 End-to-End Assessment Orchestration
 
 Coordinate multiple AI agents to perform comprehensive assessment in parallel.
 
@@ -3124,7 +4092,7 @@ Return as JSON matching AssessmentFoundation interface.`
 }
 ```
 
-### 8.2 Large Codebase Assessment Strategy
+### 9.2 Large Codebase Assessment Strategy
 
 For codebases with thousands of files, use intelligent sampling and incremental analysis.
 
@@ -3219,7 +4187,7 @@ Return as JSON array of KnowledgeGap objects with:
 }
 ```
 
-### 8.3 Continuous Assessment
+### 9.3 Continuous Assessment
 
 Keep foundation up-to-date as code changes.
 
@@ -3289,9 +4257,9 @@ function inferTaskType(filePath: string): 'code' | 'requirements' | 'architectur
 
 ---
 
-## 9. From Assessment to Transformation
+## 10. From Assessment to Transformation
 
-### 9.1 Integration with Lens 1: Design & Architecture
+### 10.1 Integration with Lens 1: Design & Architecture
 
 Assessment foundation feeds directly into design decisions.
 
@@ -3356,7 +4324,7 @@ Return as JSON matching APISpec interface.`
 }
 ```
 
-### 9.2 Integration with Lens 4: Quality & Testing
+### 10.2 Integration with Lens 4: Quality & Testing
 
 Assessment foundation provides test scenarios and business rules.
 
@@ -3406,7 +4374,7 @@ Return as JSON with test code for each category.`
 }
 ```
 
-### 9.3 Integration with Lens 3: Platform & Cloud
+### 10.3 Integration with Lens 3: Platform & Cloud
 
 Assessment identifies cloud migration opportunities.
 
@@ -3453,7 +4421,7 @@ Return as JSON matching CloudMigrationPlan interface.`
 }
 ```
 
-### 9.4 Complete Workflow Example
+### 10.4 Complete Workflow Example
 
 **End-to-End: Assessment → Design → Test → Deploy**
 
@@ -3528,9 +4496,9 @@ completeModernizationWorkflow(
 
 ---
 
-## 10. Best Practices & Pitfalls
+## 11. Best Practices & Pitfalls
 
-### 10.1 Assessment Best Practices
+### 11.1 Assessment Best Practices
 
 **DO:**
 
@@ -3582,7 +4550,7 @@ completeModernizationWorkflow(
 - Security controls
 - Disaster recovery procedures
 
-### 10.2 Strangler Pattern Pitfalls
+### 11.2 Strangler Pattern Pitfalls
 
 **Common Mistakes:**
 
@@ -3616,7 +4584,7 @@ completeModernizationWorkflow(
 ✅ GOOD: Shadow traffic → Canary → Progressive rollout
 ```
 
-### 10.3 Team Collaboration
+### 11.3 Team Collaboration
 
 **Roles in Assessment & Modernization:**
 
@@ -3659,7 +4627,7 @@ meetings:
       - Business value delivered
 ```
 
-### 10.4 Timeline Expectations
+### 11.4 Timeline Expectations
 
 **Realistic Timelines:**
 
@@ -3677,7 +4645,7 @@ meetings:
 - **Team Experience**: Teams new to AI agents or cloud need learning time
 - **Organizational Change Management**: Cultural shift takes time
 
-### 10.5 Success Metrics
+### 11.5 Success Metrics
 
 **Track These Metrics:**
 
@@ -3704,7 +4672,7 @@ meetings:
 - ✅ Infrastructure cost savings
 - ✅ Technical debt reduction
 
-### 10.6 When NOT to Use Strangler Pattern
+### 11.6 When NOT to Use Strangler Pattern
 
 **Consider Full Rewrite If:**
 
@@ -3765,6 +4733,8 @@ Before applying AI-driven development tools (Claude Agentic SDK, GitHub Copilot 
 **Related Resources:**
 
 - [Main README](../../README.md) - Platform overview and phased transition
+- [AWS Transform for .NET](https://aws.amazon.com/transform/net/) - Agentic AI service for .NET modernization
+- [Amazon Bedrock - Anthropic Claude](https://aws.amazon.com/bedrock/anthropic/) - Foundation models powering AWS Transform
 - [Claude Agentic SDK Documentation](https://docs.anthropic.com/en/docs/agentic-sdk)
 - [GitHub Copilot Agent Mode](https://github.com/features/copilot)
 - [Amazon Q Developer](https://aws.amazon.com/q/developer/)
