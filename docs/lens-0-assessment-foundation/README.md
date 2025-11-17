@@ -39,9 +39,10 @@ Before applying AI-driven development with Claude Agentic SDK, GitHub Copilot Ag
 6. [Knowledge Capture & Foundation Building](#6-knowledge-capture--foundation-building)
 7. [The Strangler Pattern for Incremental Modernization](#7-the-strangler-pattern-for-incremental-modernization)
 8. [AWS Transform for .NET: Agentic AI for .NET Modernization](#8-aws-transform-for-net-agentic-ai-for-net-modernization)
-9. [AI Agent Learning Workflows](#9-ai-agent-learning-workflows)
-10. [From Assessment to Transformation](#10-from-assessment-to-transformation)
-11. [Best Practices & Pitfalls](#11-best-practices--pitfalls)
+9. [Amazon Q Developer: Transforming Java with Claude Sonnet 4.5](#9-amazon-q-developer-transforming-java-with-claude-sonnet-45)
+10. [AI Agent Learning Workflows](#10-ai-agent-learning-workflows)
+11. [From Assessment to Transformation](#11-from-assessment-to-transformation)
+12. [Best Practices & Pitfalls](#12-best-practices--pitfalls)
 
 ---
 
@@ -3879,9 +3880,1313 @@ async function runAWSTransformPilot() {
 
 ---
 
-## 9. AI Agent Learning Workflows
+## 9. Amazon Q Developer: Transforming Java with Claude Sonnet 4.5
 
-### 9.1 End-to-End Assessment Orchestration
+### 9.1 Overview: Assessment-First Java Transformation
+
+**Amazon Q Developer** is AWS's AI-powered coding assistant that transforms Java applications with an **assessment-first approach**. Unlike blind code transformation, Amazon Q Developer analyzes your entire Java codebase upfront, understands dependencies, identifies breaking changes, and creates a detailed modernization plan before making any changes.
+
+**Key Value Proposition:**
+
+| Capability | Traditional Manual | Amazon Q Developer |
+|-----------|-------------------|-------------------|
+| **Assessment Time** | 2-4 weeks manual code review | Minutes with AI analysis |
+| **Java Version Upgrade** | Days of manual refactoring | Automated Java 8 → 17 upgrade |
+| **SQL Conversion** | Months of manual rewriting | Automated Oracle → PostgreSQL |
+| **Breaking Change Detection** | Manual testing and debugging | Pre-transformation analysis |
+| **Dependency Management** | Manual pom.xml/build.gradle updates | Automated with compatibility checks |
+| **IDE Integration** | Context switching | Native VS Code/IntelliJ IDEA integration |
+
+**What Amazon Q Developer Does:**
+
+1. **Pre-Transformation Assessment** - Analyzes your Java codebase to identify:
+   - Current Java version and dependencies
+   - Breaking changes for target version (Java 11, 17, 21)
+   - Third-party library compatibility issues
+   - Custom code patterns requiring manual review
+   - Estimated transformation complexity
+
+2. **Automated Transformation** - Executes changes with:
+   - Java version upgrades (Java 8 → 11/17/21)
+   - Embedded SQL conversion (Oracle → PostgreSQL)
+   - Dependency updates with compatibility verification
+   - Code refactoring for deprecated APIs
+   - Build configuration updates (Maven/Gradle)
+
+3. **Integration with Claude Sonnet 4.5** - Leverages Amazon Bedrock for:
+   - Deep semantic code understanding
+   - Complex refactoring decisions
+   - Custom transformation rules
+   - Post-transformation code review
+   - Documentation generation
+
+**Why Amazon Q Developer + Claude Sonnet 4.5?**
+
+Amazon Q Developer uses Amazon Bedrock's Claude Sonnet 4.5 under the hood for advanced reasoning:
+
+- **Advanced Code Analysis**: Claude Sonnet 4.5's 200K token context window analyzes entire Java projects
+- **Intelligent Refactoring**: Understands business logic to preserve functionality
+- **Breaking Change Detection**: Predicts issues before transformation
+- **Dependency Resolution**: Suggests compatible library versions
+- **Custom Transformations**: Learns your coding patterns and standards
+
+---
+
+### 9.2 How Amazon Q Developer Works: The Assessment-First Workflow
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Phase 1: Repository Integration (1 minute)                 │
+├─────────────────────────────────────────────────────────────┤
+│  Connect Amazon Q to your Java project:                     │
+│  - VS Code/IntelliJ IDEA extension                          │
+│  - AWS CLI command line                                     │
+│  - AWS CodeCatalyst integration                             │
+│                                                              │
+│  Supports: GitHub, GitLab, Bitbucket, CodeCommit            │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Phase 2: Pre-Transformation Assessment (2-10 minutes)      │
+├─────────────────────────────────────────────────────────────┤
+│  Amazon Q analyzes your codebase:                           │
+│  ✓ Current Java version (8, 11, 17, 21)                    │
+│  ✓ Dependencies (Maven pom.xml, Gradle build.gradle)       │
+│  ✓ Breaking changes for target version                      │
+│  ✓ Third-party library compatibility                        │
+│  ✓ Custom code patterns requiring review                    │
+│  ✓ Estimated lines of code affected                         │
+│                                                              │
+│  Output: Detailed assessment report with recommendations    │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Phase 3: Transformation Planning (Interactive)             │
+├─────────────────────────────────────────────────────────────┤
+│  Review assessment with AI agent:                           │
+│  - Chat with Amazon Q about findings                        │
+│  - Ask "What breaking changes will affect my code?"         │
+│  - Request "Show me files that need manual review"          │
+│  - Confirm "Proceed with Java 17 upgrade"                   │
+│                                                              │
+│  Amazon Q creates step-by-step transformation plan          │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Phase 4: Automated Transformation (Minutes to Hours)       │
+├─────────────────────────────────────────────────────────────┤
+│  Amazon Q executes transformation:                          │
+│  ✓ Update Java version in build files                      │
+│  ✓ Replace deprecated APIs with modern equivalents          │
+│  ✓ Update dependencies to compatible versions               │
+│  ✓ Refactor code for new Java features                      │
+│  ✓ Convert embedded SQL (if applicable)                     │
+│  ✓ Generate migration notes                                 │
+│                                                              │
+│  Creates new branch with transformed code                   │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Phase 5: Validation & Testing                              │
+├─────────────────────────────────────────────────────────────┤
+│  Amazon Q helps validate changes:                           │
+│  - Run existing unit tests                                  │
+│  - Generate new tests for changed code                      │
+│  - Create PR with detailed change summary                   │
+│  - Provide rollback instructions                            │
+│                                                              │
+│  Human review required for manual changes                   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Natural Language Interaction Example:**
+
+```text
+Developer: "Assess my Java 8 project for upgrade to Java 17"
+
+Amazon Q: "I'll analyze your project. Starting assessment..."
+          [2 minutes later]
+          "✅ Assessment complete! Here's what I found:
+          
+          📊 Project Overview:
+          - Current: Java 8
+          - Target: Java 17
+          - Lines of Code: 45,000
+          - Dependencies: 23 libraries
+          
+          ⚠️ Breaking Changes Detected:
+          1. javax.xml.bind (JAXB) removed from JDK
+             → Affected files: 12 (DataMapper.java, XmlSerializer.java, ...)
+             → Fix: Add jaxb-api dependency
+          
+          2. Deprecated Date/Time APIs
+             → Affected files: 8 (DateUtils.java, ReportGenerator.java, ...)
+             → Fix: Migrate to java.time package
+          
+          3. Unsafe reflective access
+             → Affected files: 3 (ReflectionHelper.java, ...)
+             → Fix: Use MethodHandles or VarHandles
+          
+          📦 Dependency Updates:
+          - Spring Framework 4.3.x → 5.3.x (compatible)
+          - Hibernate 5.2.x → 5.6.x (compatible)
+          - Jackson 2.8.x → 2.13.x (compatible)
+          
+          ✅ Auto-fixable: 85% (38,250 lines)
+          ⚠️ Manual review: 15% (6,750 lines)
+          
+          Would you like to proceed with transformation?"
+
+Developer: "Yes, proceed with Java 17 upgrade"
+
+Amazon Q: "Starting transformation... I'll create a new branch 'amazonq/java17-upgrade'"
+          [Processing...]
+          "✅ Transformation complete!
+          
+          📝 Changes Summary:
+          - 156 files modified
+          - 2,340 lines changed
+          - 23 dependencies updated
+          - 12 manual review items flagged
+          
+          Next steps:
+          1. Review PR: https://github.com/yourorg/project/pull/1234
+          2. Run tests: mvn clean test
+          3. Review manual items in TRANSFORMATION_NOTES.md
+          
+          Would you like me to explain any specific change?"
+```
+
+---
+
+### 9.3 Supported Java Transformations
+
+Amazon Q Developer supports two primary transformation types:
+
+#### 9.3.1 Java Version Upgrades
+
+**Supported Upgrade Paths:**
+
+| Source Version | Target Versions | Typical Use Case |
+|---------------|-----------------|------------------|
+| Java 8 | Java 11, 17, 21 | Legacy modernization |
+| Java 11 | Java 17, 21 | Security & performance |
+| Java 17 | Java 21 | Latest LTS features |
+
+**What Gets Transformed:**
+
+1. **Language Features**
+   - Replace deprecated APIs (e.g., `Thread.stop()`, `Applet`)
+   - Update date/time handling (`Date` → `java.time.*`)
+   - Modernize concurrency (`synchronized` → `ReentrantLock`, `CompletableFuture`)
+   - Adopt newer language features (var, records, sealed classes)
+
+2. **Dependency Management**
+   - Update Maven/Gradle Java version
+   - Replace removed JDK modules (JAXB, JAX-WS, CORBA)
+   - Upgrade third-party libraries to compatible versions
+   - Add new dependencies for removed JDK features
+
+3. **Build Configuration**
+   - Update `pom.xml` or `build.gradle`
+   - Configure compiler flags for target version
+   - Update CI/CD pipeline Java version
+   - Add module-info.java for Java 9+ modules (if needed)
+
+4. **Code Quality Improvements**
+   - Replace verbose code with newer syntax
+   - Use try-with-resources for AutoCloseable
+   - Apply Stream API where appropriate
+   - Use Optional instead of null checks
+
+**Example Transformation:**
+
+**Before (Java 8):**
+```java
+// Old date handling
+import java.util.Date;
+import java.util.Calendar;
+
+public class OrderService {
+    public Date getOrderDeadline(Date orderDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(orderDate);
+        cal.add(Calendar.DAY_OF_MONTH, 30);
+        return cal.getTime();
+    }
+    
+    // JAXB for XML (removed from JDK 11+)
+    public String serializeOrder(Order order) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(Order.class);
+        Marshaller marshaller = context.createMarshaller();
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(order, writer);
+        return writer.toString();
+    }
+}
+```
+
+**After (Java 17):**
+```java
+// Modern date/time API
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import jakarta.xml.bind.*; // Moved to Jakarta EE
+
+public class OrderService {
+    public LocalDate getOrderDeadline(LocalDate orderDate) {
+        return orderDate.plusDays(30);
+    }
+    
+    // Updated JAXB with Jakarta namespace
+    public String serializeOrder(Order order) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(Order.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        
+        var writer = new StringWriter();
+        marshaller.marshal(order, writer);
+        return writer.toString();
+    }
+}
+```
+
+**Dependencies Updated:**
+```xml
+<!-- pom.xml changes -->
+<properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+</properties>
+
+<dependencies>
+    <!-- Add Jakarta XML Binding (JAXB was removed from JDK) -->
+    <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>3.0.1</version>
+    </dependency>
+    <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>3.0.2</version>
+    </dependency>
+</dependencies>
+```
+
+#### 9.3.2 Embedded SQL Conversion (Oracle → PostgreSQL)
+
+**What Amazon Q Transforms:**
+
+1. **SQL Syntax Differences**
+   - Oracle sequences → PostgreSQL SERIAL/IDENTITY
+   - Oracle DECODE → PostgreSQL CASE
+   - Oracle NVL → PostgreSQL COALESCE
+   - Oracle SYSDATE → PostgreSQL CURRENT_TIMESTAMP
+   - Oracle (+) outer joins → PostgreSQL LEFT/RIGHT JOIN
+   - Oracle ROWNUM → PostgreSQL LIMIT/OFFSET
+
+2. **PL/SQL to PL/pgSQL**
+   - Stored procedures
+   - Functions
+   - Triggers
+   - Packages → Schemas
+
+3. **JDBC Driver Updates**
+   - Replace Oracle JDBC driver with PostgreSQL
+   - Update connection strings
+   - Adjust connection pooling configuration
+
+**Example SQL Conversion:**
+
+**Before (Oracle embedded SQL):**
+```java
+public class UserRepository {
+    public List<User> getActiveUsers(int limit) {
+        String sql = """
+            SELECT user_id, username, email, created_date
+            FROM users
+            WHERE status = 'ACTIVE'
+              AND created_date >= SYSDATE - 30
+              AND ROWNUM <= ?
+            ORDER BY created_date DESC
+            """;
+        
+        return jdbcTemplate.query(sql, 
+            (rs, rowNum) -> new User(
+                rs.getLong("user_id"),
+                rs.getString("username"),
+                rs.getString("email"),
+                rs.getDate("created_date")
+            ),
+            limit
+        );
+    }
+    
+    public String getUserStatus(Long userId, String defaultStatus) {
+        String sql = """
+            SELECT NVL(status, ?) 
+            FROM users 
+            WHERE user_id = ?
+            """;
+        
+        return jdbcTemplate.queryForObject(sql, String.class, 
+            defaultStatus, userId);
+    }
+}
+```
+
+**After (PostgreSQL):**
+```java
+public class UserRepository {
+    public List<User> getActiveUsers(int limit) {
+        String sql = """
+            SELECT user_id, username, email, created_date
+            FROM users
+            WHERE status = 'ACTIVE'
+              AND created_date >= CURRENT_TIMESTAMP - INTERVAL '30 days'
+            ORDER BY created_date DESC
+            LIMIT ?
+            """;
+        
+        return jdbcTemplate.query(sql, 
+            (rs, rowNum) -> new User(
+                rs.getLong("user_id"),
+                rs.getString("username"),
+                rs.getString("email"),
+                rs.getDate("created_date")
+            ),
+            limit
+        );
+    }
+    
+    public String getUserStatus(Long userId, String defaultStatus) {
+        String sql = """
+            SELECT COALESCE(status, ?) 
+            FROM users 
+            WHERE user_id = ?
+            """;
+        
+        return jdbcTemplate.queryForObject(sql, String.class, 
+            defaultStatus, userId);
+    }
+}
+```
+
+**Database Configuration Updated:**
+```properties
+# Before (Oracle)
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:ORCL
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+
+# After (PostgreSQL)
+spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+spring.datasource.driver-class-name=org.postgresql.Driver
+```
+
+---
+
+### 9.4 Integration with Amazon Bedrock and Claude Sonnet 4.5
+
+Amazon Q Developer leverages **Amazon Bedrock** and **Claude Sonnet 4.5** for intelligent code transformation. Here's how they work together:
+
+**Why Claude Sonnet 4.5 for Java Transformation?**
+
+| Capability | Claude Sonnet 4.5 Advantage |
+|-----------|----------------------------|
+| **Context Window** | 200K tokens = ~50,000 lines of Java code analyzed at once |
+| **Code Understanding** | Deep semantic analysis of business logic and patterns |
+| **Breaking Change Detection** | Predicts issues across entire dependency graph |
+| **Refactoring Intelligence** | Suggests modern patterns while preserving functionality |
+| **Multi-File Reasoning** | Understands relationships across packages and modules |
+| **Custom Transformations** | Learns your coding standards and applies consistently |
+
+**How Amazon Q Uses Claude Sonnet 4.5:**
+
+```typescript
+// Amazon Q's internal workflow (conceptual)
+import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+
+async function analyzeJavaProject(projectPath: string): Promise<AssessmentReport> {
+  const bedrock = new BedrockRuntimeClient({ region: "us-east-1" });
+  
+  // Step 1: Read Java files and build configuration
+  const javaFiles = await readJavaFiles(projectPath);
+  const buildConfig = await readBuildConfig(projectPath); // pom.xml or build.gradle
+  
+  // Step 2: Use Claude Sonnet 4.5 for deep analysis
+  const prompt = `You are an expert Java architect analyzing a codebase for Java version upgrade.
+
+Project Details:
+- Current Java Version: ${buildConfig.javaVersion}
+- Target Java Version: 17
+- Total Files: ${javaFiles.length}
+- Dependencies: ${JSON.stringify(buildConfig.dependencies)}
+
+Analyze the following Java code and identify:
+1. Breaking changes for Java 17
+2. Deprecated API usage
+3. Third-party library compatibility issues
+4. Recommended refactoring opportunities
+5. Estimated transformation complexity
+
+Java Files:
+${javaFiles.map(f => `File: ${f.path}\n${f.content}`).join('\n\n')}
+
+Provide a detailed assessment report in JSON format.`;
+
+  const response = await bedrock.send(new InvokeModelCommand({
+    modelId: "anthropic.claude-sonnet-4-5-v2:0",
+    contentType: "application/json",
+    accept: "application/json",
+    body: JSON.stringify({
+      anthropic_version: "bedrock-2023-05-31",
+      max_tokens: 100000,
+      messages: [{
+        role: "user",
+        content: prompt
+      }],
+      temperature: 0.2 // Low temperature for consistent analysis
+    })
+  }));
+
+  const result = JSON.parse(new TextDecoder().decode(response.body));
+  return JSON.parse(result.content[0].text);
+}
+
+// Step 3: Use Claude for transformation execution
+async function transformJavaCode(
+  sourceCode: string, 
+  transformationRules: TransformationRule[]
+): Promise<string> {
+  const bedrock = new BedrockRuntimeClient({ region: "us-east-1" });
+  
+  const prompt = `Transform the following Java 8 code to Java 17.
+
+Transformation Rules:
+${transformationRules.map(r => `- ${r.description}: ${r.pattern}`).join('\n')}
+
+Original Code:
+${sourceCode}
+
+Requirements:
+1. Apply all transformation rules
+2. Preserve business logic exactly
+3. Add comments explaining major changes
+4. Use modern Java 17 features where appropriate
+5. Maintain code formatting and style
+
+Return only the transformed Java code.`;
+
+  const response = await bedrock.send(new InvokeModelCommand({
+    modelId: "anthropic.claude-sonnet-4-5-v2:0",
+    contentType: "application/json",
+    accept: "application/json",
+    body: JSON.stringify({
+      anthropic_version: "bedrock-2023-05-31",
+      max_tokens: 50000,
+      messages: [{
+        role: "user",
+        content: prompt
+      }],
+      temperature: 0.1 // Very low for deterministic code generation
+    })
+  }));
+
+  const result = JSON.parse(new TextDecoder().decode(response.body));
+  return result.content[0].text;
+}
+```
+
+**Claude Opus 4 for Complex Refactoring:**
+
+For large enterprise Java applications with complex architecture, Amazon Q can use **Claude Opus 4** with **extended thinking** mode:
+
+```typescript
+// Use Claude Opus 4 for complex architectural decisions
+async function analyzeComplexMigration(project: JavaProject): Promise<MigrationStrategy> {
+  const bedrock = new BedrockRuntimeClient({ region: "us-east-1" });
+  
+  const prompt = `You are architecting a complex Java migration for an enterprise application.
+
+<thinking>
+Analyze this multi-module Maven project with 500K lines of code:
+- 50+ Maven modules
+- Spring Framework 4.x → 5.x → 6.x path
+- Java 8 → Java 17 upgrade
+- Oracle → PostgreSQL database migration
+- Embedded Tomcat → Cloud-native deployment
+
+Consider:
+1. Module dependency graph
+2. Breaking changes across all layers
+3. Database schema migration strategy
+4. Test coverage impact
+5. Zero-downtime deployment approach
+6. Risk mitigation strategies
+
+Provide a comprehensive migration strategy with:
+- Phased rollout plan
+- Module-by-module transformation order
+- Critical path analysis
+- Rollback procedures
+- Estimated timeline
+</thinking>
+
+Project Structure:
+${JSON.stringify(project, null, 2)}
+
+Create a detailed migration strategy document.`;
+
+  const response = await bedrock.send(new InvokeModelCommand({
+    modelId: "anthropic.claude-opus-4-20250514:0",
+    contentType: "application/json",
+    accept: "application/json",
+    body: JSON.stringify({
+      anthropic_version: "bedrock-2023-05-31",
+      max_tokens: 200000,
+      messages: [{
+        role: "user",
+        content: prompt
+      }],
+      temperature: 0.3,
+      // Enable extended thinking for complex analysis
+      thinking: {
+        type: "enabled",
+        budget_tokens: 50000
+      }
+    })
+  }));
+
+  return JSON.parse(response.content[0].text);
+}
+```
+
+---
+
+### 9.5 Using Amazon Q Developer in Assessment Phase
+
+**Integration with Lens 0 Workflow:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Lens 0: Assessment & Foundation Phase                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  Traditional Assessment:                                     │
+│  ├─ Claude Sonnet 4.5 SDK: General code analysis           │
+│  ├─ GitHub Copilot: Multi-language support                  │
+│  └─ AWS Transform: .NET modernization                       │
+│                                                              │
+│  ⭐ Amazon Q Developer: Java-Specific Assessment            │
+│  ├─ Java version compatibility analysis                     │
+│  ├─ Dependency conflict detection                           │
+│  ├─ Breaking change identification                          │
+│  ├─ SQL dialect conversion planning                         │
+│  ├─ Spring Framework upgrade assessment                     │
+│  └─ Cloud readiness evaluation                              │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Lens 1-5: AI-Assisted Transformation                       │
+├─────────────────────────────────────────────────────────────┤
+│  Use Amazon Q's assessment to guide modernization           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Step-by-Step: Using Amazon Q for Java Assessment**
+
+**Step 1: Install Amazon Q Developer**
+
+```bash
+# VS Code
+code --install-extension amazonwebservices.amazon-q-vscode
+
+# IntelliJ IDEA
+# Install via JetBrains Marketplace: "AWS Toolkit"
+
+# AWS CLI
+aws configure # Ensure AWS credentials are set
+pip install amazon-q-developer-cli
+```
+
+**Step 2: Connect to Your Java Project**
+
+```bash
+# Open your Java project in VS Code/IntelliJ
+cd /path/to/java-project
+
+# Ensure project has Maven or Gradle
+ls pom.xml         # Maven project
+ls build.gradle    # Gradle project
+```
+
+**Step 3: Run Pre-Transformation Assessment**
+
+**Via IDE (VS Code/IntelliJ):**
+1. Open Command Palette (Cmd+Shift+P / Ctrl+Shift+P)
+2. Type "Amazon Q: Transform"
+3. Select "Java Version Upgrade" or "SQL Conversion"
+4. Choose target version (Java 11/17/21)
+5. Amazon Q starts assessment
+
+**Via AWS CLI:**
+
+```bash
+# Start Java version assessment
+aws q-developer start-transformation \
+  --source-language JAVA_8 \
+  --target-language JAVA_17 \
+  --source-location ./src \
+  --transformation-type JAVA_VERSION_UPGRADE
+
+# Start SQL conversion assessment
+aws q-developer start-transformation \
+  --source-language JAVA_8 \
+  --target-language JAVA_17 \
+  --source-location ./src \
+  --transformation-type SQL_CONVERSION \
+  --sql-dialect ORACLE_TO_POSTGRESQL
+```
+
+**Step 4: Review Assessment Report**
+
+Amazon Q generates a comprehensive assessment:
+
+```json
+{
+  "assessmentId": "aqt-java-2024-001",
+  "projectName": "enterprise-banking-app",
+  "assessmentDate": "2024-01-15T10:00:00Z",
+  "currentState": {
+    "javaVersion": "1.8.0_291",
+    "buildTool": "maven",
+    "totalFiles": 1247,
+    "linesOfCode": 185000,
+    "dependencies": {
+      "total": 45,
+      "direct": 23,
+      "transitive": 22
+    }
+  },
+  "targetState": {
+    "javaVersion": "17.0.6",
+    "recommendedDependencyUpdates": 18
+  },
+  "breakingChanges": [
+    {
+      "type": "REMOVED_API",
+      "severity": "HIGH",
+      "description": "javax.xml.bind (JAXB) removed from JDK",
+      "affectedFiles": [
+        "src/main/java/com/bank/xml/XmlMapper.java",
+        "src/main/java/com/bank/reports/ReportGenerator.java"
+      ],
+      "occurrences": 47,
+      "recommendation": "Add jakarta.xml.bind-api:3.0.1 dependency",
+      "autoFixable": true
+    },
+    {
+      "type": "DEPRECATED_API",
+      "severity": "MEDIUM",
+      "description": "Date and Calendar APIs deprecated",
+      "affectedFiles": [
+        "src/main/java/com/bank/utils/DateUtils.java",
+        "src/main/java/com/bank/transaction/TransactionService.java"
+      ],
+      "occurrences": 134,
+      "recommendation": "Migrate to java.time package",
+      "autoFixable": true
+    },
+    {
+      "type": "SECURITY_MANAGER",
+      "severity": "MEDIUM",
+      "description": "SecurityManager deprecated for removal",
+      "affectedFiles": [
+        "src/main/java/com/bank/security/AppSecurityManager.java"
+      ],
+      "occurrences": 8,
+      "recommendation": "Use OS-level security or remove",
+      "autoFixable": false,
+      "requiresManualReview": true
+    }
+  ],
+  "dependencyUpdates": [
+    {
+      "name": "org.springframework:spring-context",
+      "currentVersion": "4.3.25.RELEASE",
+      "targetVersion": "5.3.23",
+      "reason": "Java 17 compatibility",
+      "breakingChanges": [
+        "Package restructuring in Spring 5.x",
+        "Removed deprecated methods"
+      ]
+    },
+    {
+      "name": "org.hibernate:hibernate-core",
+      "currentVersion": "5.2.17.Final",
+      "targetVersion": "5.6.14.Final",
+      "reason": "Java 17 compatibility"
+    }
+  ],
+  "transformationComplexity": {
+    "overall": "MEDIUM",
+    "autoFixablePercentage": 82,
+    "manualReviewRequired": 18,
+    "estimatedEffort": {
+      "automated": "2 hours",
+      "manual": "3 days",
+      "testing": "1 week"
+    }
+  },
+  "recommendations": [
+    "Start with dependency updates before code transformation",
+    "Test JAXB changes thoroughly (47 occurrences)",
+    "Review SecurityManager usage (requires manual refactoring)",
+    "Update CI/CD pipeline to use Java 17",
+    "Plan for extended testing period (Date/Time API changes)"
+  ],
+  "stranglerCandidates": [
+    {
+      "module": "legacy-xml-processing",
+      "reason": "Heavy JAXB usage, good candidate for gradual migration",
+      "recommendation": "Create new module with modern XML processing, route new traffic there"
+    }
+  ]
+}
+```
+
+**Step 5: Chat with Amazon Q About Findings**
+
+```text
+Developer: "What's the risk with the SecurityManager deprecation?"
+
+Amazon Q: "The SecurityManager deprecation in AppSecurityManager.java is MEDIUM risk:
+
+1. Current Usage:
+   - You're using SecurityManager.checkPermission() for file access control
+   - 8 occurrences across security layer
+   
+2. Why It's Deprecated:
+   - SecurityManager rarely used correctly
+   - OS-level security more effective
+   - Performance overhead
+   
+3. Recommended Approach:
+   - Option A: Remove if not critical (preferred)
+   - Option B: Use Java SecurityManager alternative in Java 17 (temporary)
+   - Option C: Implement OS-level permissions (most secure)
+   
+4. Migration Steps:
+   - Audit all checkPermission() calls
+   - Determine if security checks are still needed
+   - Replace with modern alternatives or remove
+   
+Would you like me to show you how to replace these with modern patterns?"
+
+Developer: "Yes, show me the replacement pattern"
+
+Amazon Q: "Here's how to modernize your security checks:
+
+[Shows code diff with java.nio.file.Files permission checks 
+ or Spring Security method-level authorization]
+"
+```
+
+**Step 6: Execute Transformation**
+
+```bash
+# After reviewing assessment, start transformation
+aws q-developer execute-transformation \
+  --assessment-id aqt-java-2024-001 \
+  --create-branch amazonq-java17-upgrade \
+  --auto-commit true
+```
+
+**Transformation Progress:**
+
+```text
+Amazon Q: Starting transformation...
+
+✅ Phase 1: Dependency Updates (2 minutes)
+   - Updated pom.xml with Java 17 compatibility
+   - Upgraded 18 dependencies
+   - Resolved 3 dependency conflicts
+
+✅ Phase 2: Code Transformation (15 minutes)
+   - Transformed 1,247 files
+   - Fixed 47 JAXB references
+   - Migrated 134 Date/Time API calls
+   - Updated 23 deprecated API usages
+   - Applied 89 modern Java patterns
+
+⚠️  Phase 3: Manual Review Required (pending)
+   - 8 SecurityManager calls need review
+   - 3 custom reflection patterns flagged
+   - See TRANSFORMATION_NOTES.md for details
+
+✅ Phase 4: Build Verification
+   - Maven build: SUCCESSFUL
+   - Compilation: 0 errors, 0 warnings
+   - Checkstyle: PASSED
+
+📝 Summary:
+   - Total changes: 2,847 lines
+   - Auto-fixed: 82%
+   - Manual review: 18%
+   - Branch: amazonq-java17-upgrade
+   - PR: https://github.com/yourorg/banking-app/pull/456
+
+Next steps:
+1. Review TRANSFORMATION_NOTES.md
+2. Address manual review items
+3. Run full test suite: mvn clean test
+4. Merge PR after validation
+```
+
+---
+
+### 9.6 Best Practices for Java Transformation with Amazon Q
+
+**DO:**
+
+- ✅ **Start with Assessment** - Always run pre-transformation assessment first
+- ✅ **Review Breaking Changes** - Read assessment report thoroughly before proceeding
+- ✅ **Update Dependencies First** - Ensure all libraries are compatible with target Java version
+- ✅ **Test Incrementally** - Run tests after each transformation phase
+- ✅ **Use Strangler Pattern** - For large apps, transform modules incrementally
+- ✅ **Preserve Tests** - Keep existing tests to verify behavior preservation
+- ✅ **Review Manual Items** - Don't skip items flagged for manual review
+- ✅ **Use Version Control** - Amazon Q creates branches, review diffs carefully
+- ✅ **Chat with Amazon Q** - Ask questions about findings and recommendations
+- ✅ **Document Changes** - Keep TRANSFORMATION_NOTES.md for team reference
+
+**DON'T:**
+
+- ❌ **Skip Assessment** - Don't blindly transform without understanding impact
+- ❌ **Ignore Warnings** - Manual review items exist for a reason
+- ❌ **Transform Production Directly** - Always use branches and staging environments
+- ❌ **Overlook Test Failures** - Fix test issues immediately, they indicate problems
+- ❌ **Forget CI/CD Updates** - Update pipeline Java version alongside code
+- ❌ **Neglect Performance Testing** - New Java versions may have different performance characteristics
+- ❌ **Skip Code Review** - Even automated transformations need human review
+- ❌ **Ignore Dependency Conflicts** - Resolve all dependency issues before deployment
+
+**Assessment-First Anti-Patterns:**
+
+```text
+❌ ANTI-PATTERN: Blind Transformation
+Developer: "Amazon Q, upgrade my Java project to Java 17"
+Amazon Q: Executes transformation without assessment
+Result: Broken build, runtime errors, data corruption
+
+✅ CORRECT PATTERN: Assessment-First
+Developer: "Amazon Q, assess my project for Java 17 upgrade"
+Amazon Q: Runs comprehensive analysis
+Developer: Reviews findings, asks questions
+Developer: "Proceed with transformation based on assessment"
+Amazon Q: Executes with full context
+Result: Successful transformation with predictable issues
+```
+
+---
+
+### 9.7 Pricing and Quotas
+
+**Amazon Q Developer Pricing:**
+
+| Tier | Monthly Cost | Included Features |
+|------|-------------|-------------------|
+| **Free Tier** | $0 | - 2,000 lines of code per month<br>- 100 transformation jobs per month<br>- Basic IDE integration<br>- Assessment reports |
+| **Pro Tier** | $19/user/month | - Unlimited code transformations<br>- 1,000 transformation jobs per month<br>- Advanced chat with Amazon Q<br>- Priority support<br>- Team collaboration features |
+
+**Quotas (Free Tier):**
+
+- Lines of code per transformation job: 1,000 lines
+- Lines of code per month: 2,000 lines
+- Concurrent transformation jobs: 1 job per user, 25 jobs per AWS account
+- Transformation jobs per month: 100 jobs
+
+**Quotas (Pro Tier):**
+
+- Lines of code per transformation job: Unlimited
+- Lines of code per month: Unlimited
+- Concurrent transformation jobs: 1 job per user, 100 jobs per AWS account
+- Transformation jobs per month: 1,000 jobs
+
+**Cost Estimation:**
+
+```typescript
+function estimateAmazonQCost(
+  linesOfCode: number,
+  numberOfJobs: number,
+  teamSize: number
+): { freeTier: string; proTier: string; recommendation: string } {
+  
+  const FREE_TIER_LINES = 2000;
+  const FREE_TIER_JOBS = 100;
+  const PRO_TIER_COST = 19; // per user per month
+  
+  // Check if free tier is sufficient
+  const totalLinesPerMonth = linesOfCode * numberOfJobs;
+  const canUseFree = totalLinesPerMonth <= FREE_TIER_LINES && 
+                     numberOfJobs <= FREE_TIER_JOBS;
+  
+  const freeTierCost = "$0 (within quota)";
+  const proTierCost = `$${PRO_TIER_COST * teamSize}/month`;
+  
+  let recommendation = "";
+  if (canUseFree) {
+    recommendation = "Free tier is sufficient for your usage";
+  } else {
+    const monthsSaved = Math.ceil(totalLinesPerMonth / FREE_TIER_LINES);
+    const manualCost = (linesOfCode / 1000) * 40 * numberOfJobs; // $40/1K LOC manual
+    const savings = manualCost - (PRO_TIER_COST * teamSize);
+    
+    recommendation = `Pro tier recommended. Saves $${savings.toLocaleString()} 
+                      (${monthsSaved}x free tier quota)`;
+  }
+  
+  return {
+    freeTier: freeTierCost,
+    proTier: proTierCost,
+    recommendation
+  };
+}
+
+// Example: 50K LOC Java 8 → Java 17 project
+const estimate = estimateAmazonQCost(50000, 1, 5);
+console.log(estimate);
+// {
+//   freeTier: "$0 (within quota)",
+//   proTier: "$95/month",
+//   recommendation: "Pro tier recommended. Saves $1,905 (25x free tier quota)"
+// }
+```
+
+**ROI Calculation:**
+
+| Project Size | Manual Cost | Amazon Q Pro | Savings | ROI |
+|-------------|-------------|--------------|---------|-----|
+| 10K LOC | $400 (1 week) | $19/user | $381 | 2,005% |
+| 50K LOC | $2,000 (1 month) | $95 (5 users) | $1,905 | 2,005% |
+| 200K LOC | $8,000 (3 months) | $95 (5 users) | $7,905 | 8,321% |
+| 1M LOC | $40,000 (1 year) | $95 (5 users) | $39,905 | 42,005% |
+
+*Assumptions: Manual transformation costs $40/1K LOC (senior developer time)*
+
+---
+
+### 9.8 When to Use Amazon Q vs Other Tools
+
+**Decision Matrix:**
+
+| Scenario | Recommended Tool | Reason |
+|---------|-----------------|--------|
+| **Java 8 → 17 upgrade** | Amazon Q Developer | Purpose-built for Java transformations |
+| **.NET Framework → .NET 8** | AWS Transform for .NET | Specialized .NET agentic AI |
+| **Python modernization** | GitHub Copilot + Claude SDK | Multi-language flexibility |
+| **Oracle → PostgreSQL SQL** | Amazon Q Developer | Built-in SQL dialect conversion |
+| **Multi-language project** | GitHub Copilot Agent Mode | Cross-language support |
+| **Spring Framework upgrade** | Amazon Q Developer | Deep Spring ecosystem knowledge |
+| **Custom Java refactoring** | Claude Sonnet 4.5 SDK | Maximum flexibility |
+| **Enterprise Java assessment** | Amazon Q + Claude Opus 4 | Combined assessment power |
+
+**Use Amazon Q Developer When:**
+
+- ✅ Primary language is Java
+- ✅ Need Java version upgrade (8/11 → 17/21)
+- ✅ Migrating from Oracle to PostgreSQL
+- ✅ Using Spring, Hibernate, or other Java frameworks
+- ✅ Want pre-transformation assessment
+- ✅ Need IDE-integrated transformation
+- ✅ Have Maven or Gradle projects
+- ✅ Require automated dependency updates
+
+**Use Claude Sonnet 4.5 SDK When:**
+
+- ✅ Need custom transformation logic
+- ✅ Multi-language codebase (Java + Python + JavaScript)
+- ✅ Complex architectural changes
+- ✅ Custom coding patterns
+- ✅ Non-standard build tools
+- ✅ Require programmatic control
+- ✅ Building custom assessment tools
+
+**Hybrid Approach: Amazon Q + Claude SDK**
+
+Best practice for large enterprise Java projects:
+
+```text
+1. Use Amazon Q Developer for:
+   ✓ Initial assessment and breaking change detection
+   ✓ Standard Java version upgrade
+   ✓ Dependency updates
+   ✓ Common refactoring patterns
+
+2. Use Claude Sonnet 4.5 SDK for:
+   ✓ Custom business logic transformation
+   ✓ Architecture-specific patterns
+   ✓ Multi-module orchestration
+   ✓ Documentation generation
+   ✓ Test case generation
+
+3. Result: 80% automated with Amazon Q + 20% custom with Claude
+```
+
+---
+
+### 9.9 Integration with Other Lens 0 Tools
+
+**Multi-Language Assessment Strategy:**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Lens 0: Comprehensive Assessment                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────────────────────────────────────────┐           │
+│  │  Java Projects                                │           │
+│  │  └─→ Amazon Q Developer                      │           │
+│  │      ├─ Java version assessment              │           │
+│  │      ├─ Spring Framework analysis             │           │
+│  │      ├─ SQL conversion planning               │           │
+│  │      └─ Dependency conflict detection         │           │
+│  └──────────────────────────────────────────────┘           │
+│                                                              │
+│  ┌──────────────────────────────────────────────┐           │
+│  │  .NET Projects                                │           │
+│  │  └─→ AWS Transform for .NET                  │           │
+│  │      ├─ .NET Framework → .NET 8              │           │
+│  │      ├─ Windows → Linux migration            │           │
+│  │      └─ Legacy code transformation            │           │
+│  └──────────────────────────────────────────────┘           │
+│                                                              │
+│  ┌──────────────────────────────────────────────┐           │
+│  │  Python/JavaScript/Other                      │           │
+│  │  └─→ Claude Sonnet 4.5 SDK                   │           │
+│  │      ├─ Multi-language analysis              │           │
+│  │      ├─ Custom transformation rules           │           │
+│  │      └─ Architecture discovery                │           │
+│  └──────────────────────────────────────────────┘           │
+│                                                              │
+│  ┌──────────────────────────────────────────────┐           │
+│  │  All Projects                                 │           │
+│  │  └─→ FoundationStorage (Section 6)           │           │
+│  │      ├─ Store assessment results              │           │
+│  │      ├─ Create knowledge embeddings           │           │
+│  │      └─ Build dependency graphs               │           │
+│  └──────────────────────────────────────────────┘           │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Example: Storing Amazon Q Assessment in Foundation:**
+
+```typescript
+import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { PineconeClient } from "@pinecone-database/pinecone";
+import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+
+async function storeJavaAssessmentInFoundation(
+  assessmentReport: AmazonQAssessment
+): Promise<void> {
+  
+  // Step 1: Store structured data in DynamoDB
+  const dynamodb = new DynamoDBClient({ region: "us-east-1" });
+  await dynamodb.send(new PutItemCommand({
+    TableName: "FoundationAssessments",
+    Item: {
+      projectId: { S: assessmentReport.projectName },
+      assessmentType: { S: "AMAZON_Q_JAVA" },
+      timestamp: { S: new Date().toISOString() },
+      javaVersion: { S: assessmentReport.currentState.javaVersion },
+      targetVersion: { S: assessmentReport.targetState.javaVersion },
+      linesOfCode: { N: assessmentReport.currentState.linesOfCode.toString() },
+      breakingChanges: { S: JSON.stringify(assessmentReport.breakingChanges) },
+      complexity: { S: assessmentReport.transformationComplexity.overall },
+      autoFixablePercentage: { N: assessmentReport.transformationComplexity.autoFixablePercentage.toString() }
+    }
+  }));
+  
+  // Step 2: Generate embeddings for semantic search
+  const bedrock = new BedrockRuntimeClient({ region: "us-east-1" });
+  
+  // Create searchable text from assessment
+  const assessmentText = `
+    Java Project Assessment: ${assessmentReport.projectName}
+    Current Version: ${assessmentReport.currentState.javaVersion}
+    Target Version: ${assessmentReport.targetState.javaVersion}
+    Lines of Code: ${assessmentReport.currentState.linesOfCode}
+    
+    Breaking Changes:
+    ${assessmentReport.breakingChanges.map(bc => 
+      `- ${bc.type}: ${bc.description} (${bc.severity} severity, ${bc.occurrences} occurrences)`
+    ).join('\n')}
+    
+    Recommendations:
+    ${assessmentReport.recommendations.join('\n')}
+    
+    Strangler Candidates:
+    ${assessmentReport.stranglerCandidates.map(sc => 
+      `- ${sc.module}: ${sc.reason}`
+    ).join('\n')}
+  `;
+  
+  // Generate embedding with Claude
+  const embeddingResponse = await bedrock.send(new InvokeModelCommand({
+    modelId: "amazon.titan-embed-text-v1",
+    contentType: "application/json",
+    accept: "application/json",
+    body: JSON.stringify({
+      inputText: assessmentText
+    })
+  }));
+  
+  const embedding = JSON.parse(new TextDecoder().decode(embeddingResponse.body)).embedding;
+  
+  // Step 3: Store in Pinecone for semantic search
+  const pinecone = new PineconeClient();
+  await pinecone.init({ 
+    environment: "us-east-1-aws",
+    apiKey: process.env.PINECONE_API_KEY 
+  });
+  
+  const index = pinecone.Index("foundation-assessments");
+  await index.upsert({
+    upsertRequest: {
+      vectors: [{
+        id: `amazon-q-${assessmentReport.projectName}-${Date.now()}`,
+        values: embedding,
+        metadata: {
+          projectName: assessmentReport.projectName,
+          assessmentType: "AMAZON_Q_JAVA",
+          javaVersion: assessmentReport.currentState.javaVersion,
+          targetVersion: assessmentReport.targetState.javaVersion,
+          complexity: assessmentReport.transformationComplexity.overall,
+          breakingChangeCount: assessmentReport.breakingChanges.length,
+          text: assessmentText
+        }
+      }]
+    }
+  });
+  
+  console.log(`✅ Amazon Q assessment stored in foundation for ${assessmentReport.projectName}`);
+}
+
+// Later: Query similar Java projects
+async function findSimilarJavaProjects(currentProject: string): Promise<AmazonQAssessment[]> {
+  const pinecone = new PineconeClient();
+  await pinecone.init({ 
+    environment: "us-east-1-aws",
+    apiKey: process.env.PINECONE_API_KEY 
+  });
+  
+  const index = pinecone.Index("foundation-assessments");
+  
+  // Generate embedding for current project query
+  const queryEmbedding = await generateEmbedding(`Java project: ${currentProject}`);
+  
+  // Find similar assessments
+  const results = await index.query({
+    queryRequest: {
+      vector: queryEmbedding,
+      topK: 5,
+      includeMetadata: true,
+      filter: {
+        assessmentType: { "$eq": "AMAZON_Q_JAVA" }
+      }
+    }
+  });
+  
+  return results.matches.map(match => ({
+    projectName: match.metadata.projectName,
+    similarity: match.score,
+    breakingChanges: match.metadata.breakingChangeCount,
+    complexity: match.metadata.complexity
+  }));
+}
+```
+
+---
+
+### 9.10 Getting Started with Amazon Q Developer
+
+**Prerequisites:**
+
+- ✅ AWS Account with appropriate IAM permissions
+- ✅ Java project (Maven or Gradle)
+- ✅ VS Code or IntelliJ IDEA installed
+- ✅ Git for version control
+
+**Quick Start (5 Minutes):**
+
+1. **Install Amazon Q Extension:**
+
+```bash
+# VS Code
+code --install-extension amazonwebservices.amazon-q-vscode
+
+# Or via VS Code Marketplace: Search "Amazon Q"
+```
+
+2. **Configure AWS Credentials:**
+
+```bash
+aws configure
+# Enter your AWS Access Key ID
+# Enter your AWS Secret Access Key
+# Enter default region: us-east-1
+```
+
+3. **Open Your Java Project:**
+
+```bash
+cd /path/to/your-java-project
+code .  # Opens in VS Code
+```
+
+4. **Start Assessment:**
+
+- Press `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux)
+- Type "Amazon Q: Transform"
+- Select "Java Version Upgrade"
+- Choose target version (Java 17)
+- Review assessment report
+
+5. **Execute Transformation:**
+
+- After reviewing assessment, click "Proceed"
+- Amazon Q creates new branch with transformed code
+- Review PR and merge when ready
+
+**Full Implementation Timeline:**
+
+| Week | Activity | Deliverables |
+|------|---------|-------------|
+| **Week 1** | Assessment & Planning | - Amazon Q assessment report<br>- Breaking change inventory<br>- Transformation strategy doc |
+| **Week 2** | Pilot Transformation | - Transform 1-2 small modules<br>- Validate build and tests<br>- Document lessons learned |
+| **Week 3-4** | Bulk Transformation | - Transform remaining modules<br>- Fix manual review items<br>- Update CI/CD pipeline |
+| **Week 5** | Testing & Validation | - Full regression testing<br>- Performance testing<br>- Security review |
+| **Week 6** | Staging Deployment | - Deploy to staging environment<br>- User acceptance testing<br>- Monitor for issues |
+| **Week 7** | Production Rollout | - Gradual production deployment<br>- Monitor metrics<br>- Document final state |
+| **Week 8** | Retrospective | - Team retrospective<br>- Update runbooks<br>- Knowledge transfer |
+
+**Resources:**
+
+- **Documentation**: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/transform-java.html
+- **Amazon Q Developer Guide**: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/
+- **Claude in Amazon Bedrock**: https://aws.amazon.com/bedrock/anthropic/
+- **Java Migration Best Practices**: https://docs.aws.amazon.com/prescriptive-guidance/latest/migration-java/
+- **AWS Training**: https://aws.amazon.com/training/learn-about/developer-tools/
+- **Community Forum**: https://repost.aws/tags/TALmcXzmfeRaKOzrBowJ9cJQ
+
+---
+
+## 10. AI Agent Learning Workflows
+
+### 10.1 End-to-End Assessment Orchestration
 
 Coordinate multiple AI agents to perform comprehensive assessment in parallel.
 
@@ -4092,7 +5397,7 @@ Return as JSON matching AssessmentFoundation interface.`
 }
 ```
 
-### 9.2 Large Codebase Assessment Strategy
+### 10.2 Large Codebase Assessment Strategy
 
 For codebases with thousands of files, use intelligent sampling and incremental analysis.
 
@@ -4187,7 +5492,7 @@ Return as JSON array of KnowledgeGap objects with:
 }
 ```
 
-### 9.3 Continuous Assessment
+### 10.3 Continuous Assessment
 
 Keep foundation up-to-date as code changes.
 
@@ -4257,9 +5562,9 @@ function inferTaskType(filePath: string): 'code' | 'requirements' | 'architectur
 
 ---
 
-## 10. From Assessment to Transformation
+## 11. From Assessment to Transformation
 
-### 10.1 Integration with Lens 1: Design & Architecture
+### 11.1 Integration with Lens 1: Design & Architecture
 
 Assessment foundation feeds directly into design decisions.
 
@@ -4324,7 +5629,7 @@ Return as JSON matching APISpec interface.`
 }
 ```
 
-### 10.2 Integration with Lens 4: Quality & Testing
+### 11.2 Integration with Lens 4: Quality & Testing
 
 Assessment foundation provides test scenarios and business rules.
 
@@ -4374,7 +5679,7 @@ Return as JSON with test code for each category.`
 }
 ```
 
-### 10.3 Integration with Lens 3: Platform & Cloud
+### 11.3 Integration with Lens 3: Platform & Cloud
 
 Assessment identifies cloud migration opportunities.
 
@@ -4421,7 +5726,7 @@ Return as JSON matching CloudMigrationPlan interface.`
 }
 ```
 
-### 10.4 Complete Workflow Example
+### 11.4 Complete Workflow Example
 
 **End-to-End: Assessment → Design → Test → Deploy**
 
@@ -4496,9 +5801,9 @@ completeModernizationWorkflow(
 
 ---
 
-## 11. Best Practices & Pitfalls
+## 12. Best Practices & Pitfalls
 
-### 11.1 Assessment Best Practices
+### 12.1 Assessment Best Practices
 
 **DO:**
 
@@ -4550,7 +5855,7 @@ completeModernizationWorkflow(
 - Security controls
 - Disaster recovery procedures
 
-### 11.2 Strangler Pattern Pitfalls
+### 12.2 Strangler Pattern Pitfalls
 
 **Common Mistakes:**
 
@@ -4584,7 +5889,7 @@ completeModernizationWorkflow(
 ✅ GOOD: Shadow traffic → Canary → Progressive rollout
 ```
 
-### 11.3 Team Collaboration
+### 12.3 Team Collaboration
 
 **Roles in Assessment & Modernization:**
 
@@ -4627,7 +5932,7 @@ meetings:
       - Business value delivered
 ```
 
-### 11.4 Timeline Expectations
+### 12.4 Timeline Expectations
 
 **Realistic Timelines:**
 
@@ -4645,7 +5950,7 @@ meetings:
 - **Team Experience**: Teams new to AI agents or cloud need learning time
 - **Organizational Change Management**: Cultural shift takes time
 
-### 11.5 Success Metrics
+### 12.5 Success Metrics
 
 **Track These Metrics:**
 
@@ -4672,7 +5977,7 @@ meetings:
 - ✅ Infrastructure cost savings
 - ✅ Technical debt reduction
 
-### 11.6 When NOT to Use Strangler Pattern
+### 12.6 When NOT to Use Strangler Pattern
 
 **Consider Full Rewrite If:**
 
@@ -4734,7 +6039,8 @@ Before applying AI-driven development tools (Claude Agentic SDK, GitHub Copilot 
 
 - [Main README](../../README.md) - Platform overview and phased transition
 - [AWS Transform for .NET](https://aws.amazon.com/transform/net/) - Agentic AI service for .NET modernization
-- [Amazon Bedrock - Anthropic Claude](https://aws.amazon.com/bedrock/anthropic/) - Foundation models powering AWS Transform
+- [Amazon Q Developer - Java Transformation](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/transform-java.html) - Assessment-first Java transformation
+- [Amazon Bedrock - Anthropic Claude](https://aws.amazon.com/bedrock/anthropic/) - Foundation models powering AWS Transform and Amazon Q
 - [Claude Agentic SDK Documentation](https://docs.anthropic.com/en/docs/agentic-sdk)
 - [GitHub Copilot Agent Mode](https://github.com/features/copilot)
 - [Amazon Q Developer](https://aws.amazon.com/q/developer/)
