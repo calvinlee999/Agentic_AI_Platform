@@ -67,6 +67,529 @@ Spec (SDD) → Design (Figma MCP) → Code (VS Code + Agents) → Test (Auto) �
                                      Q Dev)
 ```
 
+---
+
+## 1.1 Phased Transition Strategy: Traditional → Agentic
+
+### Overview: Risk-Mitigated Transformation
+
+Organizations should **not** transition from traditional to fully agentic workflows overnight. This phased approach enables incremental adoption, measurement, and optimization while maintaining business continuity.
+
+**Transition Philosophy:**
+
+- **Start with Low-Risk, High-Value areas** (Test automation, then deployment automation)
+- **Measure and validate** each phase before proceeding to next
+- **Build confidence incrementally** through demonstrable ROI
+- **Preserve human oversight** at critical control points
+
+### Phase 0: Baseline (Traditional Development Stack)
+
+```text
+PHASE 0: TRADITIONAL DEVELOPMENT (100% Human-Driven)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Requirements → Design → Architect → Code → Test → Deploy
+     ↓           ↓          ↓         ↓       ↓       ↓
+   Human      Human      Human     Human   Human   Human
+  (PM/BA)  (Designer) (Architect) (Dev)   (QA)   (DevOps)
+
+Timeline: 4-6 weeks per feature
+Bottlenecks:
+• Manual test case creation (2-3 days)
+• Manual test execution (1-2 days per sprint)
+• Manual deployment steps (4-8 hours)
+• Human error in repetitive tasks
+• Limited test coverage due to time constraints
+
+Risk Profile: LOW (Established processes, predictable)
+Velocity: BASELINE (100%)
+Quality: BASELINE (Human-dependent)
+```
+
+**Phase 0 Metrics (Baseline):**
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **Time to Production** | 4-6 weeks | From requirements to deployment |
+| **Test Coverage** | 40-60% | Limited by manual effort |
+| **Test Execution Time** | 1-2 days | Per sprint cycle |
+| **Deployment Time** | 4-8 hours | Manual steps, approvals |
+| **Defect Escape Rate** | 15-25% | Bugs found in production |
+| **Deployment Failures** | 10-15% | Rollback rate |
+| **Team Satisfaction** | Baseline | Measure before transition |
+
+---
+
+### Phase 1: Automated Testing with AI Agents
+
+**Focus:** Automate the QA function while keeping everything else human-driven
+
+**Rationale:** Testing is **low-risk, high-impact** - perfect first step for AI adoption
+
+```text
+PHASE 1: AI-AUGMENTED TESTING (Test Automation First)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Requirements → Design → Architect → Code → Test (AUTO) → Deploy
+     ↓           ↓          ↓         ↓         ↓             ↓
+   Human      Human      Human     Human   AI Agents      Human
+  (PM/BA)  (Designer) (Architect) (Dev)   (Q Dev,       (DevOps)
+                                           Selenium)
+
+AI Agent Responsibilities:
+┌──────────────────────────────────────────────────────────────┐
+│  TEST AUTOMATION AI AGENTS                                   │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  1. Test Case Generation                                     │
+│     • Read requirements.md (SDD)                             │
+│     • Generate BDD scenarios (Gherkin)                       │
+│     • Create unit test suites                                │
+│                                                               │
+│  2. Test Script Implementation                               │
+│     • Q Developer: Generate Selenium/Playwright scripts      │
+│     • Claude Code: Complex test logic and edge cases         │
+│     • Copilot Agent Mode: Multi-file test refactoring        │
+│                                                               │
+│  3. Test Execution & Reporting                               │
+│     • Selenium MCP: Browser automation                       │
+│     • Playwright MCP: Modern web testing                     │
+│     • Auto-generate test reports with screenshots            │
+│                                                               │
+│  4. Visual Regression Testing                                │
+│     • Figma MCP: Extract design specs                        │
+│     • Compare rendered UI vs design                          │
+│     • Flag visual inconsistencies                            │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
+
+Timeline: 2-4 weeks per feature (25% reduction)
+Key Improvements:
+• Automated test generation from specs (saves 2-3 days)
+• Parallel test execution (saves 1-2 days)
+• 80%+ test coverage (up from 40-60%)
+• Immediate regression detection
+• Visual regression testing included
+
+Risk Profile: LOW-MEDIUM (Testing is safeguarded by human review)
+Expected Velocity: 125% of baseline
+Expected Quality: 150% of baseline (fewer escaped defects)
+```
+
+**Phase 1 Implementation Steps:**
+
+1. **Week 1-2: Tool Setup**
+   - Install Q Developer in VS Code
+   - Configure Selenium MCP / Playwright MCP
+   - Set up SDD framework (requirements.md, design.md)
+   - Train team on agent prompting
+
+2. **Week 3-4: Pilot Project**
+   - Select low-risk feature for pilot
+   - Generate tests from requirements using Q Developer
+   - Run automated test suite
+   - Measure: time saved, coverage increase, defect detection
+
+3. **Week 5-8: Scale to Team**
+   - Roll out to 3-5 features
+   - Establish best practices
+   - Create test generation templates
+   - Collect metrics and feedback
+
+4. **Week 9-12: Full Adoption**
+   - All new features use AI-generated tests
+   - Backfill tests for existing features
+   - Optimize test execution speed
+   - Prepare for Phase 2 evaluation
+
+**Phase 1 Success Criteria (Go/No-Go for Phase 2):**
+
+| Metric | Target | Measured Result | Status |
+|--------|--------|-----------------|--------|
+| **Test Coverage Increase** | +30% (60% → 90%) | ________% | ☐ Pass ☐ Fail |
+| **Test Execution Time** | -50% (2 days → 4 hours) | ________ hours | ☐ Pass ☐ Fail |
+| **Defect Escape Rate** | -40% (20% → 12%) | ________% | ☐ Pass ☐ Fail |
+| **Time to Test** | -60% (3 days → 1.2 days) | ________ days | ☐ Pass ☐ Fail |
+| **False Positive Rate** | <5% | ________% | ☐ Pass ☐ Fail |
+| **Team Satisfaction** | +20% vs baseline | ________% | ☐ Pass ☐ Fail |
+
+**Decision Point:** If ≥5 of 6 metrics pass, proceed to Phase 2. Otherwise, optimize Phase 1 for another 8-12 weeks.
+
+---
+
+### Phase 2: Automated Deployment with AI Agents
+
+**Focus:** Automate DevOps/SRE functions after testing is proven
+
+**Rationale:** Deployment automation delivers **speed + reliability** gains with manageable risk
+
+```text
+PHASE 2: AI-AUGMENTED DEPLOYMENT (Deploy Automation Second)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Requirements → Design → Architect → Code → Test (AUTO) → Deploy (AUTO)
+     ↓           ↓          ↓         ↓         ↓               ↓
+   Human      Human      Human     Human   AI Agents       AI Agents
+  (PM/BA)  (Designer) (Architect) (Dev)   (Q Dev,         (Q Dev,
+                                           Selenium)       AWS)
+
+AI Agent Responsibilities:
+┌──────────────────────────────────────────────────────────────┐
+│  DEPLOYMENT AUTOMATION AI AGENTS                             │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  1. Infrastructure as Code (IaC)                             │
+│     • Q Developer: Generate CloudFormation/Terraform         │
+│     • Auto-create AWS resources (Lambda, API Gateway, etc.)  │
+│     • Version control all infrastructure changes             │
+│                                                               │
+│  2. CI/CD Pipeline Generation                                │
+│     • GitHub Actions workflows auto-generated                │
+│     • AWS CodePipeline configuration                         │
+│     • Automated build, test, deploy stages                   │
+│                                                               │
+│  3. Deployment Execution                                     │
+│     • Q Developer + AWS MCP: Execute deployments             │
+│     • Blue-green deployments (zero downtime)                 │
+│     • Automatic rollback on failure                          │
+│     • Health checks and smoke tests                          │
+│                                                               │
+│  4. Post-Deployment Monitoring                               │
+│     • CloudWatch integration                                 │
+│     • Automated alerting on anomalies                        │
+│     • Performance baseline comparison                        │
+│     • Incident detection and escalation                      │
+│                                                               │
+│  5. Security & Compliance                                    │
+│     • Automated security scans (OWASP, CVE)                  │
+│     • IAM policy generation (least privilege)                │
+│     • Compliance validation (SOC 2, PCI-DSS)                 │
+│     • Audit trail generation                                 │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
+
+Timeline: 1.5-3 weeks per feature (50% reduction from baseline)
+Key Improvements:
+• Zero-touch deployments (saves 4-8 hours)
+• Automated rollback on failures
+• Consistent infrastructure (no config drift)
+• Continuous security scanning
+• Deployment frequency: 10x increase
+
+Risk Profile: MEDIUM (Mitigated by automated rollback + monitoring)
+Expected Velocity: 175% of baseline
+Expected Quality: 200% of baseline (consistent deployments)
+```
+
+**Phase 2 Implementation Steps:**
+
+1. **Week 1-2: Infrastructure Setup**
+   - Configure Q Developer with AWS access
+   - Set up AWS MCP servers
+   - Create CloudWatch dashboards
+   - Establish rollback procedures
+
+2. **Week 3-4: CI/CD Pipeline Generation**
+   - Use Q Developer to generate GitHub Actions workflows
+   - Create staging → production pipelines
+   - Implement blue-green deployment strategy
+   - Add automated health checks
+
+3. **Week 5-8: Pilot Deployments**
+   - Deploy 3-5 low-risk features using AI automation
+   - Monitor deployment success rates
+   - Test rollback mechanisms
+   - Measure deployment time and reliability
+
+4. **Week 9-12: Production Scale**
+   - All new deployments use AI automation
+   - Backfill infrastructure-as-code for existing services
+   - Optimize deployment speed
+   - Prepare for Phase 2 evaluation
+
+**Phase 2 Success Criteria (Go/No-Go for Phase 3):**
+
+| Metric | Target | Measured Result | Status |
+|--------|--------|-----------------|--------|
+| **Deployment Time** | -80% (6 hours → 1.2 hours) | ________ hours | ☐ Pass ☐ Fail |
+| **Deployment Failure Rate** | -60% (15% → 6%) | ________% | ☐ Pass ☐ Fail |
+| **Rollback Time** | -90% (2 hours → 12 min) | ________ min | ☐ Pass ☐ Fail |
+| **Deployment Frequency** | +500% (2/week → 10/week) | ________ /week | ☐ Pass ☐ Fail |
+| **Security Scan Coverage** | 100% (all deployments) | ________% | ☐ Pass ☐ Fail |
+| **MTTR (Mean Time to Recovery)** | -70% (4 hours → 1.2 hours) | ________ hours | ☐ Pass ☐ Fail |
+
+**Decision Point:** If ≥5 of 6 metrics pass, proceed to Phase 3. Otherwise, optimize Phase 2 for another 8-12 weeks.
+
+---
+
+### Phase 3: Full Agentic Development (Code Generation)
+
+**Focus:** Automate code generation after testing and deployment are proven
+
+**Rationale:** Code generation is **highest risk** - only proceed after confidence from Phases 1-2
+
+```text
+PHASE 3: FULL AGENTIC DEVELOPMENT (End-to-End AI Automation)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Spec (SDD) → Design (Figma MCP) → Code (AUTO) → Test (AUTO) → Deploy (AUTO)
+     ↓            ↓                     ↓             ↓              ↓
+   Human        Human              AI Agents     AI Agents      AI Agents
+  (PM/BA)    (Designer)           (Copilot      (Q Dev,        (Q Dev,
+                                  Agent Mode,   Selenium)      AWS)
+                                  Claude 4.5,
+                                  Q Dev)
+
+AI Agent Responsibilities:
+┌──────────────────────────────────────────────────────────────┐
+│  CODE GENERATION AI AGENTS                                   │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  1. Specification Analysis                                   │
+│     • Read requirements.md, design.md (SDD)                  │
+│     • Extract Figma design via MCP                           │
+│     • Understand acceptance criteria (EARS format)           │
+│                                                               │
+│  2. Multi-File Code Generation                               │
+│     • Copilot Agent Mode: Multi-file edits across workspace  │
+│     • Claude Code: Complex refactoring and architecture      │
+│     • Q Developer: AWS-native implementations                │
+│                                                               │
+│  3. Design System Compliance                                 │
+│     • Figma MCP Code Connect: Map design → code components   │
+│     • Enforce design system patterns automatically           │
+│     • Generate accessible UI (WCAG 2.1 AA)                   │
+│                                                               │
+│  4. Test-Driven Development                                  │
+│     • Generate tests BEFORE code (from requirements)         │
+│     • Implement code to pass tests                           │
+│     • Iterate until 100% test pass rate                      │
+│                                                               │
+│  5. Pull Request Creation                                    │
+│     • Auto-generate PR with full traceability                │
+│     • Link requirements → design → code → tests              │
+│     • Include compliance scan results                        │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
+
+Timeline: 3-5 days per feature (80% reduction from baseline)
+Key Improvements:
+• End-to-end automation (requirements → production)
+• Complete traceability (audit trail built-in)
+• Design system compliance enforced automatically
+• Zero manual coding for standard features
+• Developer focus on architecture and complex logic
+
+Risk Profile: MEDIUM-HIGH (Mitigated by extensive automated testing)
+Expected Velocity: 500% of baseline (5x faster)
+Expected Quality: 300% of baseline (fewer human errors)
+```
+
+**Phase 3 Implementation Steps:**
+
+1. **Week 1-4: Agent Training & Calibration**
+   - Fine-tune agents with your codebase patterns
+   - Create SDD templates (requirements.md, design.md, tasks.md)
+   - Establish Code Connect mappings (Figma → code)
+   - Build agent prompt library
+
+2. **Week 5-8: Pilot Features**
+   - Select 2-3 well-specified features
+   - Use Copilot Agent Mode for code generation
+   - Measure: code quality, test coverage, time to PR
+   - Collect developer feedback
+
+3. **Week 9-16: Incremental Rollout**
+   - New features: 25% AI-generated (weeks 9-10)
+   - New features: 50% AI-generated (weeks 11-12)
+   - New features: 75% AI-generated (weeks 13-14)
+   - New features: 90% AI-generated (weeks 15-16)
+
+4. **Week 17+: Optimization & Scale**
+   - All standard features AI-generated
+   - Human developers focus on:
+     - Complex business logic
+     - Architecture decisions
+     - Code reviews and quality gates
+     - Agent prompt engineering
+
+**Phase 3 Success Criteria (Steady State):**
+
+| Metric | Target | Measured Result | Status |
+|--------|--------|-----------------|--------|
+| **Time to Production** | -80% (5 weeks → 1 week) | ________ weeks | ☐ Pass ☐ Fail |
+| **Code Quality Score** | +30% (baseline → 130%) | ________% | ☐ Pass ☐ Fail |
+| **Test Coverage** | 95%+ | ________% | ☐ Pass ☐ Fail |
+| **Defect Density** | -70% (20/KLOC → 6/KLOC) | ________ /KLOC | ☐ Pass ☐ Fail |
+| **Developer Productivity** | +400% (5x velocity) | ________x | ☐ Pass ☐ Fail |
+| **Developer Satisfaction** | +50% vs baseline | ________% | ☐ Pass ☐ Fail |
+
+---
+
+## 1.2 Phased Transition Decision Framework
+
+### Evaluation Process Between Phases
+
+After completing each phase, conduct a **comprehensive evaluation** before proceeding:
+
+```text
+PHASE EVALUATION & DECISION FRAMEWORK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  EVALUATION CYCLE (After Each Phase)                                │
+└─────────────────────────────────────────────────────────────────────┘
+
+Week 1-2: Data Collection
+┌──────────────────────────────────────────────────────────────┐
+│ • Gather metrics from tracking systems                       │
+│ • Survey team members (developers, QA, DevOps, PM)           │
+│ • Collect stakeholder feedback                               │
+│ • Document incidents and challenges                          │
+│ • Analyze cost savings and ROI                               │
+└──────────────────────────────────────────────────────────────┘
+                          ↓
+Week 3: Analysis & Scoring
+┌──────────────────────────────────────────────────────────────┐
+│ • Calculate metric achievement (vs targets)                  │
+│ • Assign Pass/Fail to each success criteria                  │
+│ • Identify root causes for failed metrics                    │
+│ • Calculate overall phase success score                      │
+└──────────────────────────────────────────────────────────────┘
+                          ↓
+Week 4: Decision Making
+┌──────────────────────────────────────────────────────────────┐
+│ Score ≥ 5/6 Pass? → PROCEED to next phase                    │
+│ Score = 4/6 Pass? → OPTIMIZE current phase (4-8 weeks)       │
+│ Score ≤ 3/6 Pass? → PAUSE and reassess approach              │
+└──────────────────────────────────────────────────────────────┘
+                          ↓
+                    ┌─────────┴─────────┐
+                    │                   │
+              PROCEED              OPTIMIZE/PAUSE
+                    │                   │
+              Next Phase          Extended Pilot
+              Planning            + Root Cause Fix
+```
+
+### Decision Criteria Summary
+
+**PROCEED to Next Phase if:**
+
+1. ✅ **Metrics:** ≥5 of 6 success criteria met
+2. ✅ **Confidence:** Team confidence score ≥7/10
+3. ✅ **ROI:** Demonstrable cost savings or velocity gains
+4. ✅ **Stability:** No critical production incidents attributable to AI agents
+5. ✅ **Adoption:** ≥80% team adoption and satisfaction
+
+**OPTIMIZE Current Phase if:**
+
+1. ⚠️ **Metrics:** 4 of 6 success criteria met
+2. ⚠️ **Confidence:** Team confidence score 5-6/10
+3. ⚠️ **Challenges:** Specific issues identified with clear solutions
+4. ⚠️ **Timeline:** Delay acceptable to business
+
+**PAUSE and Reassess if:**
+
+1. ❌ **Metrics:** ≤3 of 6 success criteria met
+2. ❌ **Confidence:** Team confidence score <5/10
+3. ❌ **Quality:** Regression in quality or stability
+4. ❌ **Resistance:** Strong team resistance or low morale
+5. ❌ **Incidents:** Critical production incidents
+
+### Alternative Paths After Phase 2
+
+```text
+ALTERNATIVE TRANSITION PATHS (Post-Phase 2)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+After Phase 2 (Test + Deploy Automated), you have 3 options:
+
+┌────────────────────────────────────────────────────────────────┐
+│ OPTION A: Proceed to Phase 3 (Full Code Generation)           │
+├────────────────────────────────────────────────────────────────┤
+│ Best if:                                                       │
+│ • Phase 1 + 2 exceeded expectations                            │
+│ • Team highly confident in AI agents                           │
+│ • Business demands maximum velocity                            │
+│                                                                 │
+│ Risk: Medium-High                                              │
+│ ROI: Very High (5x velocity gains)                             │
+└────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────────┐
+│ OPTION B: Add Phase 2.5 (Design Automation with Figma MCP)    │
+├────────────────────────────────────────────────────────────────┤
+│ Best if:                                                       │
+│ • Design → Code gap is major bottleneck                        │
+│ • Design system well-established                               │
+│ • Want to automate incrementally                               │
+│                                                                 │
+│ Focus: Automate Design (Figma MCP) before Code                │
+│ Risk: Low-Medium                                               │
+│ ROI: High (3x velocity in frontend features)                   │
+└────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────────┐
+│ OPTION C: Add Phase 2.5 (Architecture Automation)             │
+├────────────────────────────────────────────────────────────────┤
+│ Best if:                                                       │
+│ • Architecture decisions are bottleneck                        │
+│ • Team has strong architecture standards                       │
+│ • Want AI to help with design decisions                        │
+│                                                                 │
+│ Focus: Automate Architect role (design.md generation)         │
+│ Risk: Medium                                                   │
+│ ROI: High (2-3x velocity in architecture design)               │
+└────────────────────────────────────────────────────────────────┘
+
+Recommendation: Most FSI organizations choose Option A or B
+```
+
+### Timeline Summary: Phased Transition
+
+```text
+TYPICAL TIMELINE FOR FULL TRANSITION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Month 1-3: Phase 1 (Test Automation)
+├─ Weeks 1-2: Setup
+├─ Weeks 3-4: Pilot
+├─ Weeks 5-8: Scale
+└─ Weeks 9-12: Evaluate
+                ↓ (Decision Point)
+
+Month 4-6: Phase 2 (Deploy Automation)
+├─ Weeks 13-14: Setup
+├─ Weeks 15-16: CI/CD
+├─ Weeks 17-20: Pilot
+└─ Weeks 21-24: Evaluate
+                ↓ (Decision Point)
+
+Month 7-10: Phase 3 (Code Generation)
+├─ Weeks 25-28: Agent Training
+├─ Weeks 29-32: Pilot
+├─ Weeks 33-40: Incremental Rollout
+└─ Week 41+: Optimization
+
+Total Timeline: 9-12 months to full agentic development
+Conservative Timeline: 12-18 months (with extended pilots)
+Aggressive Timeline: 6-9 months (for mature teams)
+```
+
+**Best Practices for Phased Transition:**
+
+1. **Start with Non-Critical Systems**: Pilot on internal tools or non-customer-facing apps
+2. **Measure Everything**: Establish baseline metrics in Phase 0 before any changes
+3. **Communicate Transparently**: Share metrics and results with entire organization
+4. **Celebrate Quick Wins**: Publicize successes from Phase 1 to build momentum
+5. **Budget for Iteration**: Plan for 2-3 optimization cycles per phase
+6. **Maintain Human Oversight**: Keep human approval gates at critical junctures
+7. **Train Continuously**: Invest in team training on AI agent prompting and collaboration
+8. **Document Learnings**: Create runbooks and best practices after each phase
+
+---
+
 ### Reference Architecture: Enterprise Agentic Development Platform
 
 This reference architecture shows the complete enterprise agentic development platform with VS Code as the primary interface:
