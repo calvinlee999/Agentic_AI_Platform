@@ -1,696 +1,374 @@
-# Agentic AI Platform
+# The Agentic AI Platform: Enterprise Guide
 
-## Implementation Blueprints for Claude on Enterprise Cloud Platforms
-
-> *Transforming Financial Services from AI Inference to AI Agency*
+## A Comprehensive Framework for AI-Driven Development in Financial Services
 
 ---
 
-## Table of Contents
+## 🎯 Overview
 
-- [Executive Summary](#executive-summary)
-- [The Three Pillars](#the-three-pillars)
-- [Key Executive Findings](#key-executive-findings)
-- [Use Cases: From Inference to Agency](#use-cases-from-inference-to-agency)
-- [Multi-Platform Implementation](#multi-platform-implementation)
-- [Agentic Spec-Driven Development (SDD)](#agentic-spec-driven-development-sdd)
-- [Strategic Recommendations](#strategic-recommendations)
-- [Implementation Roadmap](#implementation-roadmap)
-- [Getting Started](#getting-started)
+This platform provides a complete, modular guide to implementing **agentic AI development** in enterprise environments, specifically tailored for **Financial Services Institutions (FSI)**.
+
+The framework leverages cutting-edge technologies to enable **autonomous software development**, from design through deployment, with **compliance, observability, and governance** built-in from day one.
 
 ---
 
-## 📚 Additional Guides
+## 🏗️ Core Technology Stack
 
-- **[Agentic AI for Financial Services Industry (FSI)](AGENTIC_BANK_FSI.md)** - Detailed guide on implementing agentic AI in banking, capital markets, and insurance with key characteristics, use cases, and benefits
-- **[The Agentic Workflow in Practice: Design, Test, and Execution](AGENTIC_WORKFLOW_PRACTICE.md)** - Complete guide to design-first, spec-driven development with Figma MCP, automated test generation, and AI-powered code execution
+### **Foundation Technologies**
+
+| Technology | Purpose | Role in Platform |
+|-----------|---------|------------------|
+| **Claude Agentic SDK** | AI model orchestration | Enables Claude-powered agents with tool use, multi-step reasoning, and context management |
+| **LangChain** | Agent framework & orchestration | Coordinates multi-agent workflows, manages chains, and handles agent-to-agent communication |
+| **Spec-Driven Development (SDD)** | Methodology | Provides logical contract layer - specifications as executable, version-controlled artifacts |
+| **Model Context Protocol (MCP)** | Integration standard | Universal "USB-C for AI" - standardizes agent-tool communication across enterprise systems |
+| **MCP Marketplace** | Ecosystem | Discovery and plug-and-play integration with 30+ enterprise tools (AWS, Salesforce, GitHub, etc.) |
+
+### **Architecture Layers**
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  Enterprise Agentic AI Platform Architecture                │
+└─────────────────────────────────────────────────────────────┘
+
+Layer 5: Product & Governance
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Product Management (Design Thinking + SDD)
+Enterprise Lenses (5 specialized views)
+
+Layer 4: Orchestration & Intelligence
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Claude Agentic SDK, LangChain, crewAI, AutoGen
+Multi-agent coordination, reasoning, planning
+
+Layer 3: Integration & Interoperability
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Model Context Protocol (MCP)
+Agent-to-Agent (A2A) Communication
+
+Layer 2: MCP Marketplace & Tools
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AWS MCP Servers, Figma MCP, Selenium MCP, Playwright MCP
+GitHub, Jira, Salesforce, PostgreSQL, Kafka, Databricks, Snowflake
+
+Layer 1: Infrastructure & Data
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AWS Cloud, Kubernetes, Data Lakehouse, Observability
+```
 
 ---
 
-## Executive Summary
+## 📚 Platform Modules
 
-### The New Paradigm: From AI Inference to AI Agency
+### **🎨 [Product Management](docs/product-management/README.md)**
 
-For the past decade, artificial intelligence (AI) in the financial services industry (FSI) has been synonymous with machine learning (ML) inference—passive models trained on vast datasets to make predictions. While valuable, these applications were fundamentally **reactive**.
+**Focus:** Design Thinking, Product Strategy, and Technology Selection
 
-The introduction of high-capability generative AI (GenAI) models, particularly **Anthropic's Claude 3.x and Sonnet series**, represents a profound paradigm shift: the move from **passive prediction to active participation**.
+**Technologies:**
 
-### The Frontier Firm
+- Design Thinking frameworks
+- Figma MCP (visual specifications)
+- Angular/React (frontend frameworks)
+- Java/.NET (backend frameworks)
+- SDD methodology integration
 
-We are transitioning from AI as a discrete analytical tool to AI as an integrated, **agentic orchestrator** of complex business processes. This new model is best encapsulated by the concept of the **"Frontier Firm"**—an enterprise that fundamentally re-architects itself around intelligence.
+**Key Topics:**
 
-In this model:
-- AI agents are treated as **"digital colleagues"**
-- Human employees become **"agent bosses"** who manage and delegate tasks
-- Systems are **AI-operated but remain human-led**
+- Design-first product development
+- From user stories to visual specifications
+- Tech stack selection for FSI
+- Agentic product roadmapping
+- Compliance-by-design principles
 
-This is the **era of agentic AI**: a blend of machine intelligence and human judgment.
-
----
-
-## The Three Pillars
-
-This repository provides a comprehensive architectural and strategic blueprint for financial institutions seeking to become "Frontier Firms" by leveraging Claude and its agentic capabilities. The analysis is structured around three foundational pillars:
-
-### 1. **The Use Cases (The "Why")**
-
-Three high-value banking applications progressing in complexity:
-
-- **Advanced AI Inference** - Risk & Fraud Detection
-- **Agentic Business Automation** - Customer Onboarding & Internal Operations
-- **Agentic Product Development** - Using AI to Build AI
-
-### 2. **The Platforms (The "Where")**
-
-Deep-dive analysis of five primary enterprise ecosystems:
-
-- **Amazon Web Services (AWS)** - Bedrock, Amazon Q, Kiro
-- **Microsoft Azure** - AI Foundry, Copilot, Model Context Protocol (MCP)
-- **Databricks** - Mosaic AI, Agent Bricks, LSEG Partnership
-- **Snowflake** - Intelligence, Cortex Analyst
-- **NVIDIA AI Foundry** - Custom Model Development
-
-### 3. **The Methodology (The "How")**
-
-Investigation into **Agentic Spec-Driven Development (SDD)** and critical tools:
-
-- AWS Kiro
-- GitHub Spec Kit
-- Agent OS
-- Claude Agent SDK
+[→ Explore Product Management Module](docs/product-management/README.md)
 
 ---
 
-## Key Executive Findings
+### **🏛️ Lens 1: [Product Development & Architecture](docs/lens-1-product-dev-architecture/README.md)**
 
-### 1. Platform Divergence Defines Strategy
+**Focus:** Design-to-Code Automation with AI Agents
 
-The choice of a primary AI platform is a **profound strategic commitment** that extends far beyond model access. Each platform embodies a distinct architectural philosophy:
+**Technologies:**
 
-| Platform | Philosophy | Best For |
-|----------|-----------|----------|
-| **AWS** | Deep vertical integration | Broad, integrated applications |
-| **Azure** | Horizontal, protocol-driven ecosystem (MCP) | M365/Internal productivity |
-| **Databricks** | Data-centric, lakehouse-native "on-data" | Real-time analytics & risk |
-| **Snowflake** | Warehouse-centric, SQL-native "in-data" | BI & data democratization |
+- **Figma MCP** - Visual design as structured context
+- **Amazon Q Developer** - AWS-native AI coding assistant
+- **Spec-Driven Development (SDD)** - GitHub Spec Kit, Kiro, Agent OS
+- **AWS MCP Marketplace** - Plug-and-play tool integration
+- **Claude Agentic SDK** - Advanced reasoning and tool use
+- **LangChain** - Multi-agent orchestration
 
-### 2. The "Tool" is the Differentiator, Not the Model
+**Key Topics:**
 
-The most critical component in agentic architecture is **not the LLM itself** (which is becoming commoditized), but the **"plumbing"** that connects the model's reasoning to:
+- Figma → Spec → Test → Code workflow
+- Agent-driven architecture design
+- SDD framework comparison (Kiro, GitHub Spec Kit, Agent OS)
+- AWS MCP server integration
+- Multi-agent development teams
 
-- The bank's proprietary data
-- Secure systems
-- Business logic
-
-**Critical Enablers:**
-- **Claude Agent SDK** - Provides standardized, secure, extensible tool-calling capabilities
-- **Model Context Protocol (MCP)** - Microsoft's open standard for tool integration
-
-### 3. Development as an Auditable Specification
-
-For highly regulated industries like banking, **Agentic Spec-Driven Development (SDD)** is non-negotiable.
-
-Traditional AI development has been criticized as "vibe-driven" and opaque. SDD transforms this by:
-
-- Requiring **human-in-the-loop approval** of structured, version-controlled specification files
-- Creating a **persistent, transparent, end-to-end audit trail**
-- Making the entire SDLC (Software Development Lifecycle) **compliant by design**
-
-**Key Artifacts:**
-- `requirements.md` - What to build
-- `design.md` - How to build it  
-- `tasks.md` - Step-by-step implementation plan
+[→ Explore Lens 1: Product Development & Architecture](docs/lens-1-product-dev-architecture/README.md)
 
 ---
 
-## Use Cases: From Inference to Agency
+### **📊 Lens 2: [Data & Lakehouse](docs/lens-2-data-lakehouse/README.md)**
 
-The deployment of Claude models in banking spans a **maturity curve**, beginning with enhancement of existing ML tasks and progressing to fully autonomous agentic systems.
+**Focus:** Agent-Driven Data Engineering and Analytics
 
-### Use Case 1: Advanced AI Inference (Risk & Fraud)
+**Technologies:**
 
-**The Classic Problem:**  
-Traditional ML models analyze structured transaction data to produce risk scores or fraud flags.
+- **AWS Data Services** - S3, Glue, Athena, EMR
+- **Kafka/Amazon MSK** - Real-time streaming
+- **Databricks** - Unified analytics platform
+- **Snowflake** - Cloud data warehouse
+- **MCP for Data** - Standardized data access protocols
 
-**Claude's Differentiator:**  
-The ability to **reason on unstructured data** with large context windows.
+**Key Topics:**
 
-**Blueprint: The Analyst Co-pilot for Risk**
+- Agentic data pipeline orchestration
+- Lakehouse architecture with Delta Lake
+- Real-time streaming with Kafka MCP
+- Agent-driven ETL/ELT workflows
+- Data governance and compliance (FSI regulations)
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  Alert: Anomalous high-value transaction detected      │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│  Claude-Powered Agent (Amazon Q)                        │
-│  • Pulls multi-modal data (structured + unstructured)  │
-│  • Analyzes complete context                           │
-│  • Cross-references fraud patterns                     │
-│  • Generates plain-English summary with citations      │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│  Human Analyst receives recommendation + context        │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Key Value:**
-- Synthesizes structured transaction history, unstructured chat logs, PDF documents, and external news
-- Combats "model drift" by identifying new fraud patterns
-- Provides citations and clear recommendations
-
-### Use Case 2: Agentic Business Automation
-
-**Beyond Inference:**  
-Multi-step, stateful, orchestrated workflows where the agent **executes** business processes by calling a series of tools.
-
-**Example Blueprint: Secure Customer Onboarding**
-
-```
-Platform: Claude 3.5 Sonnet on Amazon Bedrock + LangChain Agent
-
-Workflow (Tool-Calling):
-1. Email Validation Tool → API Gateway → DynamoDB
-2. ID Verification Tool → Amazon Textract  
-3. Selfie Verification Tool → Amazon Rekognition (facial comparison)
-4. Save Data Tool → DynamoDB (create new account)
-```
-
-**Key Value:**
-- Reduces onboarding time from **days to minutes**
-- Automates complex, high-friction, compliance-heavy processes
-- Fully auditable workflow
-
-**Example Blueprint: Internal Analyst Agent**
-
-Personal agents (Microsoft Copilot) that act as "virtual data scientists":
-- Transform raw internal data into forecasts
-- Generate customer behavior visualizations
-- Create automated reports for risk and compliance
-- Empower employees as "agent bosses"
-
-### Use Case 3: Agentic Product Development & Testing
-
-**The Meta-Use Case: Using AI to Build AI**
-
-AI agents transition from **users** of bank systems to **builders and maintainers** of those systems.
-
-**The Problem:**  
-Bank technology departments constrained by technical debt and overhead. National Australia Bank (NAB) case study: 3,000 developers spending only **2.7 days per week actively coding**.
-
-**The Solution:**  
-Amazon Q Developer to "automate repetitive coding tasks, update older code, and conduct compliance checks."
-
-**The Methodology: SDD as a Compliance Tool**
-
-```
-Human-Approved Spec (requirements.md, design.md)
-          ↓
-   AI Agent (Claude Code / Amazon Q / Copilot)
-          ↓
-Generated Code + Tests + Documentation
-          ↓
-Transparent, Auditable Trail (version-controlled)
-```
-
-**Key Value for Banking:**
-- **Speed:** 55% faster task completion
-- **Developer Experience:** Better flow state maintenance
-- **Compliance & Auditability:** Clear trail from requirement → design → implementation
+[→ Explore Lens 2: Data & Lakehouse](docs/lens-2-data-lakehouse/README.md)
 
 ---
 
-## Multi-Platform Implementation
+### **☁️ Lens 3: [Platform, Cloud & SRE](docs/lens-3-platform-cloud-sre/README.md)**
 
-### Platform Comparison Matrix
+**Focus:** Autonomous Operations and Self-Healing Infrastructure
 
-| Feature | AWS | Azure | Databricks | Snowflake |
-|---------|-----|-------|------------|-----------|
-| **Native Claude 3.x Access** | ✅ First-Party | ⚠️ Catalog/BYO | ⚠️ BYO | ✅ Managed |
-| **Primary Agentic Framework** | Amazon Q / Bedrock Agents | Copilot / Agent Service | Agent Bricks | Cortex Agents |
-| **Data Proximity** | PaaS (Near-Data) | PaaS (Near-Data) | Lakehouse-Native (On-Data) | Warehouse-Native (In-Data) |
-| **Key FSI Differentiator** | AWS Kiro (SDD IDE) | MCP (Standardized Tooling) | LSEG Partnership | Cortex Analyst (Text-to-SQL) |
-| **Primary Use Case Fit** | Broad, Integrated Apps | M365/Internal Productivity | Real-Time Analytics/Risk | BI & Data Democratization |
+**Technologies:**
 
-### AWS: The Integrated Claude Ecosystem
+- **AWS Cloud Platform** - EC2, EKS, Lambda, CloudFormation
+- **Kubernetes** - Container orchestration
+- **Agentic CI/CD** - Autonomous deployment pipelines
+- **CloudWatch Observability** - Metrics, logs, traces
+- **MCP for Operations** - Infrastructure-as-Code agents
 
-**Core Services:**
-- **Amazon Bedrock** - Secure, private, first-party API access to Claude 3.5 Sonnet
-- **Bedrock Agents** - Fully managed orchestration with built-in Computer, Text Editor, and Bash tools
-- **Amazon Q Business** - RAG-powered agent for enterprise knowledge
-- **Amazon Q Developer** - IDE-integrated agent for building, testing, and modernizing code
+**Key Topics:**
 
-**Implementation Pattern:**
-```
-Amazon Bedrock (Claude) 
-  → Bedrock Agents (Orchestration) 
-  → AWS Lambda (Tools) 
-  → AWS Services (Textract, Rekognition, DynamoDB)
-```
+- Autonomous incident detection and remediation
+- Agent-driven CI/CD pipelines
+- Self-healing infrastructure
+- Three pillars of agentic observability (MEL for Agents)
+- Platform engineering with AI agents
 
-**SDD Environment:**  
-**AWS Kiro** - Purpose-built "agentic AI IDE" for spec-driven development
-
-### Azure: The Copilot-Centric, Open-Model Ecosystem
-
-**Core Services:**
-- **Azure AI Foundry** - Unified PaaS with 11,000+ models catalog (GPT, Llama, Mistral, DeepSeek)
-- **AI Foundry Agent Service** - Managed runtime for orchestration, governance, and RBAC
-
-**The Key Enabler: Model Context Protocol (MCP)**
-
-The most strategically important component—an **open, standardized protocol** for secure tool discovery and interaction.
-
-```
-Front-end (Copilot) 
-  → Agent (FastAPI app) 
-  → MCP Client 
-  → MCP Server (Azure MCP Server - 35+ Azure services)
-  → Azure Resource Manager (with RBAC)
-```
-
-**Key Value:**
-- Natural language interaction with entire Azure subscription
-- "Show me all my resource groups"
-- "Query my log analytics workspace for errors"
-
-**Agentic Layer:**
-- **Microsoft Copilot** (M365) - User-facing agents
-- **Copilot Studio** - Low-code customization for internal agents
-
-**Multi-Cloud Architecture:**  
-Azure applications can use Claude Agent SDK to securely call Claude models on Amazon Bedrock (private, non-public-internet)
-
-### Clarifying "AI Foundry": Azure vs. NVIDIA
-
-⚠️ **Critical Distinction:**
-
-| | Azure AI Foundry | NVIDIA AI Foundry |
-|---|------------------|-------------------|
-| **Type** | PaaS | Custom Model Service |
-| **Purpose** | Deploy & orchestrate pre-built models | Build new, custom, proprietary models |
-| **User** | Bank's IT department | Bank's quantitative trading desk |
-| **Output** | Deployed agent using catalog model | Custom-trained model (NVIDIA NIM) |
-| **Example** | Compliance reporting agent using GPT-5 | Proprietary "Trading-Llama-v1" model |
-
-**Recommendation:** These are **complementary**, not competitive.
-
-### Databricks: The Data-Centric AI Platform
-
-**Core Strategy:**  
-**Data proximity** - AI platform lives **on the data** within Databricks Lakehouse (eliminates costly data movement).
-
-**Agentic Layer: Agent Bricks**
-
-Three primary agent types:
-1. **Information Extraction Agent** - Converts unstructured documents to structured lakehouse tables
-2. **Knowledge Assistant Agent** - RAG agent for enterprise data queries
-3. **Multi-Agent Supervisor** - Coordinates multiple specialized agents
-
-**Strategic Enabler: LSEG Partnership**
-
-LSEG (London Stock Exchange Group) datasets natively available via Delta Sharing:
-- Lipper Fund Data
-- Cross Asset Analytics
-- Pricing data and tick history
-
-**Implementation Blueprint:**
-```
-Agent Bricks 
-  → Unified Query (LSEG market data + bank's proprietary data)
-  → No data silos or ETL pipelines
-```
-
-**Resulting Use Cases:**
-- Real-time investment analytics
-- AI-driven backtesting and portfolio optimization
-- Trade analytics with predictive forecasting
-- Unified risk management (market, credit, counterparty)
-
-### Snowflake: The In-Database AI Engine
-
-**Core Strategy:**  
-"In-database" AI for **democratizing data access** for business users, not just data scientists.
-
-**Core Service: Snowflake Intelligence**
-
-Powered by **Snowflake Cortex AI** suite.
-
-**Implementation Pattern:**
-
-```
-Business User: "What coverages does this insurance company provide?"
-          ↓
-Snowflake Intelligence (routes to appropriate agent)
-          ↓
-Cortex Analyst (text-to-SQL agent)
-          ↓
-Dynamically generates SQL query
-          ↓
-Executes securely within governance framework
-          ↓
-Returns natural language answer
-```
-
-**Claude Integration:**
-- Fully managed access to Claude 4.0 and Claude 4.5 Sonnet
-- Example: Dataiku agent on Snowflake using Claude 4.5 Sonnet with three tools:
-  1. Dataset lookup in Snowflake
-  2. Custom ML model (default risk predictor)
-  3. Cortex Search (RAG for policy documents)
-
-**LLM-as-a-Judge:**  
-Uses Claude 3 to automatically evaluate SQL quality generated by Cortex Analyst.
+[→ Explore Lens 3: Platform, Cloud & SRE](docs/lens-3-platform-cloud-sre/README.md)
 
 ---
 
-## Agentic Spec-Driven Development (SDD)
+### **✅ Lens 4: [Quality & Testing](docs/lens-4-quality-testing/README.md)**
 
-### The Core Philosophy: From "Vibe" to "Spec"
+**Focus:** Agent-Driven Test Automation and Quality Assurance
 
-**The Problem:**  
-"Vibe coding" or "prompting in circles"—giving AI vague, unstructured prompts—fails at scale because:
-- LLMs are "exceptional at pattern completion, but not at mind reading"
-- Vague requests force the model to guess at thousands of unstated requirements
-- Results are inconsistent, unscalable, and often incorrect
+**Technologies:**
 
-**The Solution:**  
-**Agentic Spec-Driven Development (SDD)** introduces a formal, multi-step process with **human-in-the-loop** as architect and reviewer.
+- **Figma MCP** - Design-driven test generation
+- **BDD (Behavior-Driven Development)** - Gherkin, Cucumber
+- **TDD (Test-Driven Development)** - Agent-generated unit tests
+- **Selenium MCP** - Browser automation for E2E testing
+- **Playwright MCP** - Modern web testing framework
 
-### Key Principles
+**Key Topics:**
 
-1. **Specification as Single Source of Truth**  
-   - Human-created and approved
-   - Version-controlled (requirements.md, design.md, tasks.md)
-   - Acts as agent's long-term memory
+- Design → Test workflow (Figma MCP as origin point)
+- Agent-generated test suites (unit, integration, E2E)
+- Visual regression testing with AI
+- Chaos engineering with agents
+- Security testing automation
 
-2. **Business Value for FSI**
-   - **Productivity:** 55% faster task completion
-   - **Developer Experience:** Better flow state
-   - **Compliance & Auditability:** Transparent, end-to-end audit trail
-
-### SDD Tooling Comparison
-
-| Methodology | AWS Kiro | GitHub Spec Kit | Agent OS |
-|-------------|----------|-----------------|----------|
-| **Type** | Integrated Product (IDE) | Open-Source Toolkit (CLI) | Agnostic Framework |
-| **Core Philosophy** | Spec as single source of truth | Structured multi-step refinement | 3-Layer Context |
-| **Key Artifacts** | requirements.md, design.md, tasks.md | constitution.md, specify.md, plan.md | Standards/, Product/, Specs/ |
-| **Workflow** | 3-phase spec generation | 5-step CLI commands | 6-phase workflow |
-| **Best For** | AWS-native teams | GitHub-native teams | Multi-cloud, mature teams |
-
-### AWS Kiro: The Integrated IDE Approach
-
-**Features:**
-- Supports Claude Sonnet 4.0 and 3.7
-- Transforms high-level prompt → formal spec → trackable tasks
-
-**Three Critical Specification Files:**
-
-```
-requirements.md
-  ├─ What needs to be built
-  ├─ User stories
-  └─ Acceptance criteria (EARS format)
-
-design.md
-  ├─ Technical architecture
-  ├─ Components
-  ├─ Data models
-  └─ Interfaces
-
-tasks.md
-  └─ Step-by-step implementation checklist
-```
-
-**Case Study:**  
-Kiro team "used the tool to build the tool"—turned multi-week feature into a **two-day task**.
-
-### GitHub Spec Kit: The Open-Source Toolkit Approach
-
-**Philosophy:**  
-CLI-based toolkit for structured, multi-step refinement.
-
-**Core Workflow (Slash Commands):**
-
-```bash
-/speckit.constitution  # Define project principles & guidelines
-/speckit.specify       # Define what to build (requirements)
-/speckit.plan          # Define how to build (tech stack, architecture)
-/speckit.tasks         # Generate actionable task list
-/speckit.implement     # Execute all tasks and build feature
-```
-
-### Agent OS: The Tool-Agnostic Framework Approach
-
-**Philosophy:**  
-"Operating system for spec-driven development"—works with any AI coding tool (Claude Code, Cursor, Gemini, etc.)
-
-**3-Layer Context System:**
-
-```
-1. Standards/     ← How your team builds (coding standards, patterns)
-2. Product/       ← Why you are building (mission, vision, roadmap)
-3. Specs/         ← What you are building next (feature specifications)
-```
-
-**Six-Phase Workflow:**
-1. plan-product
-2. shape-spec
-3. write-spec
-4. create-tasks
-5. implement-tasks
-6. orchestrate-tasks
-
-**Key Advantage:**  
-Most flexible for mature enterprises—explicitly captures the bank's unique coding standards as executable specifications.
-
-### The Foundational SDK: Claude Agent SDK
-
-**Purpose:**  
-The "plumbing" that connects Claude models to the real world.
-
-**Key Features:**
-
-- **Multi-Language SDKs:** Python (data science) and TypeScript (web/Node.js)
-- **Built-in Tooling:** File operations, code execution, web search
-- **Extensibility:** Connection to external tools via Model Context Protocol (MCP)
-- **Permissions:** Fine-grained capability controls (allow/deny, policy modes)
-- **Context Management:** Automatic compaction to prevent context overflow
-- **Production Essentials:** Error handling, session management, monitoring
-
-**Critical Architectural Insight: Multi-Cloud Authentication**
-
-```bash
-# Amazon Bedrock
-CLAUDE_CODE_USE_BEDROCK=1
-
-# Google Vertex AI
-CLAUDE_CODE_USE_VERTEX=1
-```
-
-**Why This Matters:**  
-Enables secure, multi-cloud architecture where:
-- Application deployed in Azure virtual network
-- Makes private, secure call to Claude 3.5 Sonnet in private Amazon Bedrock VPC
-- Solves data residency, privacy, and security concerns
+[→ Explore Lens 4: Quality & Testing](docs/lens-4-quality-testing/README.md)
 
 ---
 
-## Strategic Recommendations
+### **🤖 Lens 5: [AI, Inference & Agentic Automation](docs/lens-5-ai-inference-automation/README.md)**
 
-### 1. Platform Selection is Driven by Your "Center of Gravity"
+**Focus:** AI Model Selection, Agent Orchestration, and Automation Workflows
 
-Choose your AI platform as an extension of your existing data and application strategy:
+**Technologies:**
 
-#### ☁️ AWS-Native Shop
-- **Adopt:** Vertically integrated stack
-- **Use:** Amazon Bedrock (private Claude), Amazon Q (pre-built agents), AWS Kiro (SDD IDE)
+- **Claude 3.5 Sonnet** - Advanced reasoning and coding
+- **GPT-4** - General-purpose AI
+- **Amazon Q Developer** - AWS-specific assistance
+- **Claude Agentic SDK** - Tool use and multi-step workflows
+- **LangChain/LangGraph** - Agent framework and state management
+- **crewAI, AutoGen** - Multi-agent collaboration
 
-#### 🔷 Azure-Native (M365) Shop  
-- **Focus:** Internal productivity and integration
-- **Use:** Copilot + MCP ecosystem, Azure AI Foundry (orchestration/governance)
-- **Model Strategy:** Treat models as plug-and-play commodities (including Claude from Bedrock)
+**Key Topics:**
 
-#### 🏗️ Databricks Lakehouse-Centric
-- **Differentiator:** LSEG partnership
-- **Use:** Agent Bricks for data-native agents
-- **Applications:** Real-time risk, trade, investment analytics (LSEG + enterprise data in-situ)
+- Agent "personas" and market segmentation
+- Multi-agent orchestration patterns
+- MCP marketplace ecosystem
+- Agent-to-Agent (A2A) communication
+- Inference optimization and cost management
 
-#### ❄️ BI & Business User Democratization
-- **Focus:** Fastest path to value
-- **Use:** Snowflake Intelligence + Cortex Analyst (text-to-SQL)
-- **Value:** Empower non-technical users to query governed data with natural language
+[→ Explore Lens 5: AI, Inference & Agentic Automation](docs/lens-5-ai-inference-automation/README.md)
 
-### 2. Standardize Your "Tools" Before Your "Agents"
+---
 
-**Key Insight:**  
-Long-term value is in **tools**, not the LLM. The model is interchangeable; your proprietary business logic is not.
+## 🚀 Quick Start
 
-**Action:**  
-Launch internal, **API-first initiative**:
+### **1. Understand the Foundation**
 
+Start with the foundational concepts:
+
+- Read [Product Management](docs/product-management/README.md) to understand the design-first approach
+- Review [Lens 1: Product Development](docs/lens-1-product-dev-architecture/README.md) for the core workflow
+
+### **2. Choose Your Entry Point**
+
+Depending on your role, choose your primary lens:
+
+| Role | Recommended Starting Lens |
+|------|---------------------------|
+| **Product Manager / Designer** | [Product Management](docs/product-management/README.md) |
+| **Software Architect / Developer** | [Lens 1: Product Development](docs/lens-1-product-dev-architecture/README.md) |
+| **Data Engineer / Analyst** | [Lens 2: Data & Lakehouse](docs/lens-2-data-lakehouse/README.md) |
+| **DevOps / SRE / Platform Engineer** | [Lens 3: Platform & SRE](docs/lens-3-platform-cloud-sre/README.md) |
+| **QA Engineer / Test Automation** | [Lens 4: Quality & Testing](docs/lens-4-quality-testing/README.md) |
+| **AI/ML Engineer / Automation Specialist** | [Lens 5: AI & Automation](docs/lens-5-ai-inference-automation/README.md) |
+
+### **3. Implement Incrementally**
+
+Follow the maturity model:
+
+```text
+Phase 1: Pilot (Months 1-3)
+├─ Adopt SDD (GitHub Spec Kit)
+├─ Integrate 2-3 MCP servers (Figma, GitHub, PostgreSQL)
+├─ Deploy first agent (Amazon Q or Claude)
+└─ Success: 50% reduction in design-to-code time
+
+Phase 2: Expansion (Months 4-9)
+├─ Multi-agent workflows (LangChain orchestration)
+├─ CI/CD automation with agents
+├─ Expand MCP ecosystem (10+ servers)
+└─ Success: 80% of projects use agent-driven development
+
+Phase 3: Enterprise Scale (Months 10-18)
+├─ Agent OS for standards enforcement
+├─ Self-healing infrastructure
+├─ Agent marketplace integration
+└─ Success: Autonomous development at scale
+
+Phase 4: Optimization (Months 19+)
+├─ Multi-vendor agent orchestration
+├─ Agentic observability platform
+├─ Custom agent development
+└─ Success: 90% reduction in manual coding
 ```
-Define core banking functions as secure, stateless, well-documented APIs:
-  ├─ CheckKYC
-  ├─ RunCreditRiskModel
-  ├─ GetPortfolioHoldings
-  └─ VerifyIdentity
+
+---
+
+## 🎯 Strategic Value for FSI
+
+### **Compliance by Design**
+
+- ✅ **Audit Trails**: Every spec, test, and code change tracked in Git
+- ✅ **Verifiable Intent**: SDD ensures alignment between requirements and implementation
+- ✅ **Automated Compliance**: Agents enforce regulatory requirements (SOX, SOC2, PCI-DSS)
+
+### **Accelerated Time-to-Market**
+
+- ⚡ **10x Faster Development**: From design to production in weeks, not months
+- ⚡ **Rapid Prototyping**: Figma → Working code in hours
+- ⚡ **Autonomous Testing**: Comprehensive test suites generated automatically
+
+### **Reduced Technical Debt**
+
+- 🔧 **Consistent Code Quality**: Agents follow established patterns and standards
+- 🔧 **Living Documentation**: Specs evolve with code, never outdated
+- 🔧 **Automated Refactoring**: Agents continuously improve codebases
+
+### **Enterprise-Grade Reliability**
+
+- 🛡️ **Self-Healing Systems**: Autonomous incident detection and remediation
+- 🛡️ **Observability**: Three pillars (MEL) for both apps and agents
+- 🛡️ **Vendor Flexibility**: MCP enables multi-model, multi-vendor strategy
+
+---
+
+## 📖 Documentation Structure
+
+```text
+agentic_ai_platform/
+├── README.md (this file - modular navigation hub)
+├── README_ORIGINAL.md (original executive summary and platform overview)
+├── AGENTIC_WORKFLOW_PRACTICE.md (comprehensive guide - 9,027 lines)
+├── AGENTIC_BANK_FSI.md (FSI-specific implementations)
+└── docs/
+    ├── product-management/
+    │   └── README.md (Design Thinking, Figma MCP, Angular/React, Java/.NET)
+    ├── lens-1-product-dev-architecture/
+    │   └── README.md (Figma MCP, Amazon Q, SDD, AWS MCP Marketplace)
+    ├── lens-2-data-lakehouse/
+    │   └── README.md (AWS, Kafka/MSK, Databricks, Snowflake)
+    ├── lens-3-platform-cloud-sre/
+    │   └── README.md (Cloud, Kubernetes, CI/CD, Observability)
+    ├── lens-4-quality-testing/
+    │   └── README.md (Figma MCP, BDD, TDD, Selenium, Playwright)
+    └── lens-5-ai-inference-automation/
+        └── README.md (Claude SDK, LangChain, MCP Marketplace, A2A)
 ```
 
-**Benefits:**
-- APIs become "tools" that any agent (on any platform) can call
-- Commoditizes the LLM
-- Prevents vendor lock-in
+---
 
-### 3. Adopt Spec-Driven Development (SDD) for Compliance
+## 📚 Reference Documents
 
-**Mandate:**  
-Do not allow "vibe coding" or unstructured AI development.
+### **Comprehensive Guides**
 
-**Action:**  
-Mandate SDD methodology for all AI-assisted development.
+- **[AGENTIC_WORKFLOW_PRACTICE.md](AGENTIC_WORKFLOW_PRACTICE.md)** - The complete 9,027-line guide covering all aspects of agentic development (Design, Test, Execution, CI/CD, SRE, Observability, Marketplace)
 
-**Recommended Starting Point:**  
-**Agent OS framework** (most flexible and tool-agnostic)
+- **[AGENTIC_BANK_FSI.md](AGENTIC_BANK_FSI.md)** - Financial Services Industry-specific guide with use cases for banking, capital markets, and insurance
 
-**Implementation:**
-```
-Use Standards/ layer to codify:
-  ├─ Bank's coding standards
-  ├─ Security requirements
-  └─ Compliance rules
-```
-
-**Result:**  
-Executable "constitution" that all AI agents must follow → fully auditable and compliant-by-design SDLC
+- **[README_ORIGINAL.md](README_ORIGINAL.md)** - Original executive summary on AI inference to AI agency transformation
 
 ---
 
-## Implementation Roadmap
+## 🤝 Contributing
 
-### Phase 1: Govern (Months 0-6)
-**Focus:** Build the "Tools"
-
-**Actions:**
-- Internal API-first initiative
-- Expose core banking functions as secure, well-documented APIs
-- Establish private, secure connection to Claude 3.5 Sonnet on Amazon Bedrock
-
-**Deliverables:**
-- API documentation
-- Security & governance framework
-- Private Claude endpoint
+This platform is continuously evolving as the agentic AI ecosystem matures. Contributions, feedback, and real-world FSI implementation stories are welcome.
 
 ---
 
-### Phase 2: Automate (Months 6-12)
-**Focus:** Demonstrate value with contained business automation (Use Case 2)
+## 📚 Additional Resources
 
-**Actions:**
-- Build one internal-facing agent (e.g., compliance report summarization)
-- OR build one external-facing agent (e.g., customer onboarding workflow)
-- Use Claude Agent SDK on Bedrock to orchestrate Phase 1 "tools"
+### **Official Documentation**
 
-**Deliverables:**
-- Production agent
-- Metrics (time savings, accuracy, user satisfaction)
-- Lessons learned documentation
+- [Anthropic Claude API](https://docs.anthropic.com/)
+- [LangChain Documentation](https://python.langchain.com/)
+- [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
+- [AWS MCP Servers](https://github.com/aws/mcp-servers)
 
----
+### **SDD Frameworks**
 
-### Phase 3: Develop (Months 12-18)
-**Focus:** Scale developer productivity and codify compliance (Use Case 3)
+- [GitHub Spec Kit](https://github.com/github/spec-kit)
+- [Kiro IDE](https://www.kiro.ai/)
+- [Agent OS](https://agentos.org/)
 
-**Actions:**
-- Roll out chosen SDD framework (Agent OS) to internal development teams
-- Target legacy code modernization or test generation as first objectives
+### **Agent Platforms**
 
-**Deliverables:**
-- SDD methodology documentation
-- Developer training program
-- First AI-assisted development projects
+- [Amazon Q Developer](https://aws.amazon.com/q/developer/)
+- [GitHub Copilot](https://github.com/features/copilot)
+- [Cursor IDE](https://cursor.sh/)
+- [Windsurf IDE](https://codeium.com/windsurf)
 
 ---
 
-### Phase 4: Revolutionize (Months 18+)
-**Focus:** Build next-generation, data-native FSI applications (Use Case 1)
+## 📞 Support
 
-**Actions:**
-- With agent-built applications, standardized tools, and unified data platforms (Databricks/Snowflake)
-- Build next-generation, real-time risk and fraud models
-- Fully integrated, auditable, and data-native
-
-**Deliverables:**
-- Advanced AI inference systems
-- Competitive differentiation
-- Measurable business outcomes
+For FSI-specific implementation guidance, architecture reviews, or custom agent development, please refer to the individual lens documentation or contact your enterprise AI enablement team.
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-- Access to one or more enterprise cloud platforms (AWS, Azure, Databricks, Snowflake)
-- Claude API access (via Anthropic, Amazon Bedrock, or platform-specific integration)
-- Internal APIs for core banking functions (or roadmap to build them)
-
-### Quick Start
-
-1. **Assess Your Current State**
-   - Identify your "center of gravity" (AWS, Azure, Databricks, or Snowflake)
-   - Inventory existing ML models and applications
-   - Evaluate data governance and security posture
-
-2. **Choose Your Platform Strategy**
-   - Review [Multi-Platform Implementation](#multi-platform-implementation)
-   - Select primary platform based on recommendations
-   - Plan for multi-cloud if needed (e.g., Azure + Bedrock)
-
-3. **Start with Phase 1: Govern**
-   - Define 3-5 core banking APIs
-   - Establish secure Claude endpoint
-   - Create governance framework
-
-4. **Pilot Use Case 2: Automate**
-   - Select high-value, contained workflow
-   - Build proof-of-concept agent
-   - Measure and iterate
-
-### Resources
-
-- **AWS:** [Amazon Bedrock Documentation](https://aws.amazon.com/bedrock/)
-- **Azure:** [Azure AI Foundry](https://azure.microsoft.com/en-us/products/ai-studio/)
-- **Databricks:** [Mosaic AI Documentation](https://www.databricks.com/product/machine-learning)
-- **Snowflake:** [Snowflake Intelligence](https://www.snowflake.com/en/data-cloud/cortex/)
-- **Anthropic:** [Claude Documentation](https://docs.anthropic.com/)
+**Last Updated:** November 17, 2025  
+**Version:** 2.0.0 (Modular Structure)  
+**License:** Internal Use - Financial Services Institutions
 
 ---
 
-## Contributing
+## 🌟 The Future is Agentic
 
-We welcome contributions to improve this implementation blueprint. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+> *"The specification is the source of truth. The MCP is the physical layer. The agent is the executor. Together, they form the autonomous enterprise."*
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## Acknowledgments
-
-- Anthropic for Claude models and Agent SDK
-- AWS, Microsoft, Databricks, and Snowflake for enterprise AI platforms
-- The financial services community for use case validation and feedback
-
----
-
-**Contact:** For questions or collaboration opportunities, please open an issue or reach out to the maintainers.
-
----
-
-*Last Updated: November 16, 2025*
+**Welcome to the era of AI-driven development.** 🚀
